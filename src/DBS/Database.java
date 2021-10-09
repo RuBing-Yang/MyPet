@@ -1,6 +1,8 @@
 package DBS;
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
@@ -49,18 +51,54 @@ public class Database {
     }
 
     public void createDb(String username, Connection connection, String sql) {
-
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException se) {
+            se.printStackTrace();
+        }
+        catch (Exception e) {
+            // 处理 Class.forName 错误
+            System.out.println("Class.forName Error");
+            e.printStackTrace();
+        }
     }
 
     public void deleteDb(String username,Connection connection, String sql) {
-
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException se) {
+            se.printStackTrace();
+        }
+        catch (Exception e) {
+            // 处理 Class.forName 错误
+            System.out.println("Class.forName Error");
+            e.printStackTrace();
+        }
     }
 
     public void updateDb(String username, Statement statement, String sql) {
 
     }
 
-    public String retrieveDb(String username, Statement statement, String sql) {
-        return "";
+    public ResultSet retrieveDb(String username, Statement statement, String sql) {
+        ResultSet rs = null;
+        try {
+            rs = statement.executeQuery(sql);
+        }
+        catch (SQLException se) {
+            se.printStackTrace();
+        }
+        catch (Exception e) {
+            // 处理 Class.forName 错误
+            System.out.println("Class.forName Error");
+            e.printStackTrace();
+        } finally {
+            System.out.println(rs);
+        }
+        return rs;
     }
 }

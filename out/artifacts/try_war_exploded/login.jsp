@@ -58,7 +58,7 @@
                     <form class="form-signin">
                         <h2 class="form-signin-heading">请先登录</h2>
                         <label for="inputUsername" class="sr-only">用户名</label>
-                        <input type="email" id="inputUsername" class="form-control" placeholder="用户名" required autofocus>
+                        <input type="text" id="inputUsername" class="form-control" placeholder="用户名" required autofocus>
                         <label for="inputPassword" class="sr-only">密码</label>
                         <input type="password" id="inputPassword" class="form-control" placeholder="密码" required>
                         <div class="checkbox">
