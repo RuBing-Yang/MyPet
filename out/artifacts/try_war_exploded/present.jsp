@@ -6,7 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%! static String USERNAME = "yrb";%>
+<%! static String PHONE_NUMBER = "";%>
+<%! static String USERNAME = "";%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -35,6 +36,15 @@
 </head>
 <body>
 
+<%
+    String phoneNumber = request.getParameter("PHONE_NUMBER");
+    String username = request.getParameter("USERNAME");
+    if (phoneNumber != null) {
+        PHONE_NUMBER = phoneNumber;
+        USERNAME = username;
+    }
+%>
+
     <div class="navbar-wrapper">
         <div class="container">
 
@@ -47,32 +57,30 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="index.jsp">首页</a>
+                        <a class="navbar-brand" href=<%="index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>首页</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="#">赠送</a></li>
-                            <li><a href="adopt.jsp">收养</a></li>
-                            <li><a href="rescue.jsp">救助</a></li>
+                            <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>收养</a></li>
+                            <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>救助</a></li>
+                            <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
+                            <li><a href="login.jsp">登录</a></li>
+                            <% } else { %>
                             <li class="dropdown">
-                                <a href=<%=USERNAME.equals("")?"login.jsp":"home.jsp"%> class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <%=USERNAME.equals("")?"登录":USERNAME%>
-                                    <% if (!USERNAME.equals("")) { %>
+                                <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>
+                                           class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <%= USERNAME%>
                                     <span class="caret"></span>
-                                    <% } %>
                                 </a>
-                                <% if (!USERNAME.equals("")) { %>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Action</a></li>
-                                        <li><a href="#">Another action</a></li>
-                                        <li><a href="#">Something else here</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li class="dropdown-header">Nav header</li>
-                                        <li><a href="#">Separated link</a></li>
-                                        <li><a href="#">One more separated link</a></li>
-                                    </ul>
-                                <% } %>
+                                <ul class="dropdown-menu">
+                                    <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>个人主页</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li class="dropdown-header">Nav header</li>
+                                    <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=">退出登录</a></li>
+                                </ul>
                             </li>
+                            <% } %>
                         </ul>
                     </div>
                 </div>

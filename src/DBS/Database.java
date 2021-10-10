@@ -23,7 +23,8 @@ public class Database {
         return connection;
     }
 
-    public static void connectDb(String username, String password) {
+    public static boolean connectDb(String username, String password) {
+        boolean suc = false;
         try {
             // 注册 JDBC 驱动
             Class.forName(JDBC_DRIVER);
@@ -34,6 +35,7 @@ public class Database {
             System.out.println("实例化Statement对象...");
             statement = connection.createStatement();
             statement.executeQuery("USE DBS;\n");
+            suc = true;
         }
         catch (SQLException se) {
             // 处理 JDBC 错误
@@ -46,14 +48,18 @@ public class Database {
             e.printStackTrace();
         }
         finally {
-            System.out.println("Welcome");
+            if (suc) System.out.println("Welcome!");
+            else System.out.println("Failed to connect to db!");
         }
+        return suc;
     }
 
-    public void createDb(String username, Connection connection, String sql) {
+    public static boolean createDb(String sql) {
+        boolean suc = false;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate();
+            suc = true;
         }
         catch (SQLException se) {
             se.printStackTrace();
@@ -63,12 +69,18 @@ public class Database {
             System.out.println("Class.forName Error");
             e.printStackTrace();
         }
+        finally {
+            if (suc) System.out.println("【成功】" + sql);
+        }
+        return suc;
     }
 
-    public void deleteDb(String username,Connection connection, String sql) {
+    public static boolean deleteDb(String sql) {
+        boolean suc = false;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate();
+            suc = true;
         }
         catch (SQLException se) {
             se.printStackTrace();
@@ -78,13 +90,34 @@ public class Database {
             System.out.println("Class.forName Error");
             e.printStackTrace();
         }
+        finally {
+            if (suc) System.out.println("【成功】" + sql);
+        }
+        return suc;
     }
 
-    public void updateDb(String username, Statement statement, String sql) {
-
+    public static boolean updateDb(String sql) {
+        boolean suc = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            suc = true;
+        }
+        catch (SQLException se) {
+            se.printStackTrace();
+        }
+        catch (Exception e) {
+            // 处理 Class.forName 错误
+            System.out.println("Class.forName Error");
+            e.printStackTrace();
+        }
+        finally {
+            if (suc) System.out.println("【成功】" + sql);
+        }
+        return suc;
     }
 
-    public ResultSet retrieveDb(String username, Statement statement, String sql) {
+    public static ResultSet retrieveDb(String sql) {
         ResultSet rs = null;
         try {
             rs = statement.executeQuery(sql);
@@ -96,8 +129,6 @@ public class Database {
             // 处理 Class.forName 错误
             System.out.println("Class.forName Error");
             e.printStackTrace();
-        } finally {
-            System.out.println(rs);
         }
         return rs;
     }

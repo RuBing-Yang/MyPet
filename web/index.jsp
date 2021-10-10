@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ page import="DBS.Database" %>
+<%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <html>
   <head>
@@ -46,6 +47,14 @@
     <%--
       Database.connectDb("test", "q1w2e3r4_");
     --%>
+  <%
+    String phoneNumber = request.getParameter("PHONE_NUMBER");
+    String username = request.getParameter("USERNAME");
+    if (phoneNumber != null) {
+      PHONE_NUMBER = phoneNumber;
+      USERNAME = username;
+    }
+  %>
 
     <div class="site-wrapper">
 
@@ -59,10 +68,13 @@
               <nav>
                 <ul class="nav masthead-nav">
                   <li class="active"><a href="#">首页</a></li>
-                  <li><a href="present.jsp">赠送</a></li>
-                  <li><a href="adopt.jsp">收养</a></li>
-                  <li><a href="rescue.jsp">救助</a></li>
-                  <li><a href=<%=USERNAME.equals("")?"login.jsp":"home.jsp"%>><%=USERNAME.equals("")?"登录":USERNAME%></a></li>
+                  <li><a href=<%="present.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>赠送</a></li>
+                  <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>收养</a></li>
+                  <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>救助</a></li>
+                  <li><a href=<%=USERNAME.equals("") ? "login.jsp" :
+                          "home.jsp ? PHONE_NUMBER=" + PHONE_NUMBER + "; USERNAME=" + USERNAME%>>
+                    <%=USERNAME.equals("")?"登录":USERNAME%>
+                  </a></li>
                 </ul>
               </nav>
             </div>
@@ -70,10 +82,14 @@
 
           <div class="inner cover">
             <h1 class="cover-heading">领养代替购买</h1>
-            <p class="lead">"领养代替购买，让爱不再流浪。"</br>若你选择去爱上一只猫或一只狗，请把目光投向它的身后。</br>不去光顾这种生意，能为它和世界增添一点美好的希望</p>
-            <p class="lead">
-              <a href="login.jsp" class="btn btn-lg btn-default">成为用户</a>
-            </p>
+            <p class="lead">"领养代替购买，让爱不再流浪。"</br>
+              若你选择去爱上一只猫或一只狗，请把目光投向它的身后。</br>
+              不去光顾这种生意，能为它和世界增添一点美好的希望</p>
+            <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
+              <p class="lead">
+                <a href="login.jsp" class="btn btn-lg btn-default">成为用户</a>
+              </p>
+            <% }%>
           </div>
 
           <div class="mastfoot">

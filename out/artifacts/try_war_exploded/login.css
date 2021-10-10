@@ -194,7 +194,33 @@ body {
     border-bottom-left-radius: 0;
 }
 .form-signin input[type="password"] {
-    margin-bottom: 10px;
+    margin-bottom: -1px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+.form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="tel"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+
+.has-success .help-block {
+    color: #00cc00;
+}
+.has-warning .help-block {
+    color: #ffff00;
+}
+.has-error .help-block {
+    color: #aa0000;
+}
+
+.help-block {
+    color: #FFFFFF;
+    font-size: larger;
 }
