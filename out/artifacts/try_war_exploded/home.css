@@ -116,11 +116,6 @@ body {
 .cover {
     padding: 0 20px;
 }
-.cover .btn-lg {
-    padding: 10px 20px;
-    font-weight: 700;
-}
-
 
 /*
  * Footer
@@ -292,4 +287,9 @@ body {
 
 .panel-body {
     color: #0f0f0f;
+}
+
+.btn-lg {
+    padding: 10px 20px;
+    font-weight: 700;
 }

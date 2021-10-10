@@ -46,36 +46,58 @@
 <%
     String phoneNumber = request.getParameter("PHONE_NUMBER");
     String username = request.getParameter("USERNAME");
-    if (phoneNumber != null) {
-        PHONE_NUMBER = phoneNumber;
-        USERNAME = username;
-    }
-    if (phoneNumber != null && !phoneNumber.equals("")) {
-        PHONE_NUMBER = phoneNumber;
-        USERNAME = username;
-        String sql = "SELECT gender,address,birthday FROM user WHERE phone_number='" + PHONE_NUMBER + "';";
+    if (PHONE_NUMBER!=null && !PHONE_NUMBER.equals("") && request.getParameter("address")!=null) {
+        address = request.getParameter("address");
+        birthday = request.getParameter("birthday");
+        gender = request.getParameter("gender");
+        String sql = "UPDATE user SET address='" + address + "'";
+        sql += ",gender=" + ((gender==null || gender.equals("")) ? "null" : ("'" + gender + "'"));
+        sql += ",birthday=" + ((birthday==null || birthday.equals("")) ? "null" : ("'" + birthday + "'"));
+        sql += " WHERE PHONE_NUMBER='" + PHONE_NUMBER + "';";
         System.out.println(sql);
-        ResultSet rs = Database.retrieveDb(sql);
-        if (rs!=null && rs.next()) {
-            gender = rs.getString("gender");
-            if (gender==null || gender.equals("")) gender="";
-            else if (gender.equals("f")) gender="女";
-            else if (gender.equals("m")) gender="男";
-            address = rs.getString("address");
-            birthday = rs.getString("birthday");
+        Database.updateDb(sql);
+    } else if (PHONE_NUMBER!=null && !PHONE_NUMBER.equals("") && request.getParameter("petname")!=null) {
+        String sql = "INSERT INTO pet (pet_name,presenter_phone) VALUES ('" + request.getParameter("petname")
+                + "','" + PHONE_NUMBER + "');";
+        System.out.println(sql);
+        Database.createDb(sql);
+        if (petnames == null || petnames.equals("")) {
+            petnames = request.getParameter("petname");
+        } else {
+            petnames += ", " + request.getParameter("petname");
         }
-        sql = "SELECT pet_name FROM pet WHERE presenter_phone='" + PHONE_NUMBER + "';";
-        System.out.println(sql);
-        rs = Database.retrieveDb(sql);
-        petnames = "";
-        if (rs!=null) {
-            while (rs.next()) {
-                System.out.println("petname: " + rs.getString("pet_name"));
-                if (rs.getString("pet_name")==null || rs.getString("pet_name").equals("")) continue;
-                if (petnames==null || petnames.equals("")) {
-                    petnames = rs.getString("pet_name");
-                } else {
-                    petnames += ", " + rs.getString("pet_name");
+    } else {
+        if (phoneNumber != null) {
+            PHONE_NUMBER = phoneNumber;
+            USERNAME = username;
+        }
+        if (phoneNumber != null && !phoneNumber.equals("")) {
+            PHONE_NUMBER = phoneNumber;
+            USERNAME = username;
+            String sql = "SELECT gender,address,birthday FROM user WHERE phone_number='" + PHONE_NUMBER + "';";
+            System.out.println(sql);
+            ResultSet rs = Database.retrieveDb(sql);
+            if (rs != null && rs.next()) {
+                gender = rs.getString("gender");
+                if (gender == null || gender.equals("")) gender = "";
+                else if (gender.equals("f")) gender = "女";
+                else if (gender.equals("m")) gender = "男";
+                address = rs.getString("address");
+                birthday = rs.getString("birthday");
+            }
+            sql = "SELECT pet_name FROM pet WHERE presenter_phone='" + PHONE_NUMBER + "';";
+            System.out.println(sql);
+            rs = Database.retrieveDb(sql);
+            petnames = "";
+            if (rs != null) {
+                while (rs.next()) {
+                    System.out.println("petname: " + rs.getString("pet_name"));
+                    if (rs.getString("pet_name") == null || rs.getString("pet_name").equals("")) continue;
+                    if (petnames == null || petnames.equals("")) {
+                        petnames = rs.getString("pet_name");
+                    } else {
+                        petnames += ", " + rs.getString("pet_name");
+                    }
                 }
             }
         }
@@ -177,6 +199,18 @@
                         </div>
                     </div><!-- /.col-sm-4 -->
                 </div>
+                <br>
+                <button class="btn btn-default btn-lg btn-primary">
+                    <a href=<%= "editInform.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME %>>
+                        <font color="black">编辑个人信息</font>
+                    </a>
+                </button>
+                <br><br>
+                <button class="btn btn-default btn-lg btn-primary">
+                    <a href=<%= "addPet.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME %>>
+                        <font color="black">增添宠物信息</font>
+                    </a>
+                </button>
 
                 <% } %>
             </div>

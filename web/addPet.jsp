@@ -23,7 +23,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>编辑个人信息</title>
+    <title>增添宠物信息</title>
     <link rel="icon" href="img/icon.png">
     <!-- Bootstrap core CSS -->
     <link href="bootstrap-3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -91,24 +91,9 @@
                 <form class="form-signin" action="home.jsp" method="GET" role="form" data-toggle="validator" novalidate>
                     <h2 class="form-signin-heading">个人信息填写</h2>
                     <div class="form-group">
-                        <label for="inputAddress" class="sr-only">家庭住址</label>
+                        <label for="inputPetName" class="sr-only">宠物名字</label>
                         <div class="input-group">
-                            <input type="text" id="inputAddress" class="form-control" placeholder="家庭住址" name="address" autofocus>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputBirthday" class="sr-only">生日</label>
-                        <div class="input-group">
-                            <input type="date" id="inputBirthday" class="form-control" placeholder="生日" name="birthday" autofocus>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="gender" value="m">男<br>
-                                <input type="radio" name="gender" value="f">女
-                            </label>
+                            <input type="text" id="inputPetName" class="form-control" placeholder="宠物名字" name="petname" autofocus>
                         </div>
                     </div>
                     <div class="form-group">

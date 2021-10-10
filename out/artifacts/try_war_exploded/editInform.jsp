@@ -2,13 +2,19 @@
   Created by IntelliJ IDEA.
   User: 16096
   Date: 2021/9/26
-  Time: 21:29
+  Time: 21:30
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="DBS.Database" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.sql.ResultSet" %>
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
+<%! static String gender = "";%>
+<%! static String address = "";%>
+<%! static String birthday = "";%>
+<%! static String petnames = "";%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -17,19 +23,15 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>登录</title>
+    <title>编辑个人信息</title>
     <link rel="icon" href="img/icon.png">
     <!-- Bootstrap core CSS -->
     <link href="bootstrap-3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="bootstrap-3.4.1/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="login.css" rel="stylesheet">
-
-    <!-- bootstrap Form Validator -->
-    <%--    <link href="bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" />--%>
-    <%--    <script src="bootstrapvalidator/dist/js/bootstrapValidator.min.js"></script>--%>
-
+    <link href="editInform.css" rel="stylesheet">
+    <%--<link href="bootstrap-3.4.1/docs/examples/cover/cover.css" rel="stylesheet">--%>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="bootstrap-3.4.1/docs/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="bootstrap-3.4.1/docs/assets/js/ie-emulation-modes-warning.js"></script>
@@ -38,73 +40,91 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 <body>
 
+<%
+    String phoneNumber = request.getParameter("PHONE_NUMBER");
+    String username = request.getParameter("USERNAME");
+    if (phoneNumber != null) {
+        PHONE_NUMBER = phoneNumber;
+        USERNAME = username;
+    }
+%>
+
 <div class="site-wrapper">
-
     <div class="site-wrapper-inner">
-
         <div class="cover-container">
 
-            <div class="masthead clearfix">
-                <div class="inner">
-                    <h3 class="masthead-brand">递爱宠物屋</h3>
-                    <nav>
-                        <ul class="nav masthead-nav">
-                            <li><a href="index.jsp">首页</a></li>
-                            <li><a href="present.jsp">赠送</a></li>
-                            <li><a href="adopt.jsp">收养</a></li>
-                            <li><a href="rescue.jsp">救助</a></li>
-                            <li class="active"><a href="#">登录</a></li>
-                        </ul>
+            <div class="navbar-wrapper">
+                <div class="container">
+                    <nav class="navbar navbar-inverse navbar-static-top">
+                        <div class="container">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href=<%="index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>首页</a>
+                            </div>
+                            <div id="navbar" class="navbar-collapse collapse">
+                                <ul class="nav navbar-nav">
+                                    <li><a href=<%="present.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>赠送</a></li>
+                                    <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>收养</a></li>
+                                    <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>救助</a></li>
+                                    <li class="active"><a href="#">个人主页</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </nav>
                 </div>
             </div>
 
             <div class="inner cover">
-                <form class="form-signin" action="loginResult.jsp" method="GET" role="form" data-toggle="validator" novalidate>
-                    <h2 class="form-signin-heading">请先登录</h2>
-                    <div class="form-group has-feedback">
-                        <label for="inputPhoneNumber" class="sr-only">电话号码</label>
+                <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
+                <div class="alert alert-danger" role="alert">
+                    <strong>请先登录！</strong>
+                </div>
+                <% } else {%>
+                <form class="form-signin" action="home.jsp" method="GET" role="form" data-toggle="validator" novalidate>
+                    <h2 class="form-signin-heading">个人信息填写</h2>
+                    <div class="form-group">
+                        <label for="inputAddress" class="sr-only">家庭住址</label>
                         <div class="input-group">
-                            <span class="input-group-addon">+86</span>
-                            <input type="tel" id="inputPhoneNumber" class="form-control" placeholder="电话号码"  name="phoneNumber"
-                                   pattern="^[0-9]{11}$" maxlength="11"  required autofocus>
+                            <input type="text" id="inputAddress" class="form-control" placeholder="家庭住址" name="address" autofocus>
                         </div>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                        <div class="help-block">请输入11位手机号</div>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <label for="inputUsername" class="sr-only">用户名</label>
-                        <input type="text" id="inputUsername" class="form-control" placeholder="用户名" name="username"
-                               pattern="^[a-zA-Z0-9]{1,}$" maxlength="15" required autofocus>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                        <div class="help-block">请输入1-15位数字或字母</div>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <label for="inputPassword" class="sr-only">密码</label>
-                        <input type="password" id="inputPassword" class="form-control" placeholder="密码" name="password"
-                               pattern="^[a-zA-Z0-9]{8,}$" maxlength="15" required autofocus>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                        <div class="help-block">请输入8-15位数字或字母</div>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+                        <label for="inputBirthday" class="sr-only">生日</label>
+                        <div class="input-group">
+                            <input type="date" id="inputBirthday" class="form-control" placeholder="生日" name="birthday" autofocus>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="gender" value="m">男<br>
+                                <input type="radio" name="gender" value="f">女
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
                     </div>
                 </form>
-                <form class="form-signin" novalidate action="register.jsp">
-                    <button class="btn btn-default btn-lg btn-primary btn-block" onclick="window.location='register.jsp'">注册</button>
-                </form>
-
+                <% } %>
             </div>
 
         </div>
-
     </div>
-
 </div>
+
+
+</div><!-- /.container -->
+
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -114,8 +134,5 @@
 <script src="bootstrap-3.4.1/docs/dist/js/bootstrap.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="bootstrap-3.4.1/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
-
-
 </body>
 </html>
