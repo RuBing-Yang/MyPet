@@ -76,8 +76,15 @@
                                 <ul class="dropdown-menu">
                                     <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>个人主页</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li class="dropdown-header">Nav header</li>
+                                    <li class="dropdown-header">离开</li>
                                     <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=">退出登录</a></li>
+                                    <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true"%>>注销账号</a></li>
+                                    <script type="text/javascript">
+                                        function confirmDel()
+                                        {
+                                            return window.confirm("您确定要注销您的账号吗？\n注销账号后，个人数据无法恢复！");
+                                        }
+                                    </script>
                                 </ul>
                             </li>
                             <% } %>

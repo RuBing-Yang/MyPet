@@ -89,12 +89,12 @@
                 </div>
                 <% } else {%>
                 <form class="form-signin" action="home.jsp" method="GET" role="form" data-toggle="validator" novalidate>
-                    <h2 class="form-signin-heading">个人信息填写</h2>
-                    <div class="form-group">
+                    <h2 class="form-signin-heading">宠物信息填写</h2>
+                    <div class="form-group has-feedback">
                         <label for="inputPetName" class="sr-only">宠物名字</label>
-                        <div class="input-group">
-                            <input type="text" id="inputPetName" class="form-control" placeholder="宠物名字" name="petname" autofocus>
-                        </div>
+                        <input type="text" id="inputPetName" class="form-control" placeholder="宠物名字"
+                               name="petname" maxlength="10" required autofocus>
+                        <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
@@ -119,5 +119,6 @@
 <script src="bootstrap-3.4.1/docs/dist/js/bootstrap.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="bootstrap-3.4.1/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 </body>
 </html>

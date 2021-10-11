@@ -10,7 +10,8 @@ import java.sql.Connection;
 public class Database {
 
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://bj-cynosdbmysql-grp-6pt17ydw.sql.tencentcdb.com:25522/users?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    static final String DB_URL = "jdbc:mysql://bj-cynosdbmysql-grp-6pt17ydw.sql.tencentcdb.com:25522/users?" +
+            "useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true";
 
     private static Connection connection = null;
     private static Statement statement = null;

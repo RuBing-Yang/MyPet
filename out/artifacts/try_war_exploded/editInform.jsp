@@ -88,32 +88,21 @@
                     <strong>请先登录！</strong>
                 </div>
                 <% } else {%>
-                <form class="form-signin" action="home.jsp" method="GET" role="form" data-toggle="validator" novalidate>
+                <form class="form-signin" action="home.jsp" method="GET" novalidate>
                     <h2 class="form-signin-heading">个人信息填写</h2>
-                    <div class="form-group">
-                        <label for="inputAddress" class="sr-only">家庭住址</label>
-                        <div class="input-group">
-                            <input type="text" id="inputAddress" class="form-control" placeholder="家庭住址" name="address" autofocus>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputBirthday" class="sr-only">生日</label>
-                        <div class="input-group">
-                            <input type="date" id="inputBirthday" class="form-control" placeholder="生日" name="birthday" autofocus>
-                        </div>
-                    </div>
+                    <label for="inputAddress" class="sr-only">家庭住址</label>
+                    <input type="text" id="inputAddress" class="form-control" name="address" placeholder="家庭住址" autofocus>
+                    <label for="inputBirthday" class="sr-only">生日</label>
+                    <input type="date" id="inputBirthday" class="form-control" name="birthday" placeholder="生日" autofocus>
                     <br>
-                    <div class="form-group">
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="gender" value="m">男<br>
-                                <input type="radio" name="gender" value="f">女
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
-                    </div>
+                    <label class="radio-inline">
+                        <input type="radio" name="gender" value="m">男
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="gender" value="f">女
+                    </label>
+                    <br><br>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
                 </form>
                 <% } %>
             </div>

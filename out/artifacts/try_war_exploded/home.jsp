@@ -56,15 +56,24 @@
         sql += " WHERE PHONE_NUMBER='" + PHONE_NUMBER + "';";
         System.out.println(sql);
         Database.updateDb(sql);
+        if (gender == null || gender.equals("")) gender = "";
+        else if (gender.equals("f")) gender = "女";
+        else if (gender.equals("m")) gender = "男";
     } else if (PHONE_NUMBER!=null && !PHONE_NUMBER.equals("") && request.getParameter("petname")!=null) {
-        String sql = "INSERT INTO pet (pet_name,presenter_phone) VALUES ('" + request.getParameter("petname")
-                + "','" + PHONE_NUMBER + "');";
+        String sql = "SELECT pet_id FROM pet WHERE pet_name='" + request.getParameter("petname")
+                + "' AND presenter_phone='" + PHONE_NUMBER + "';";
         System.out.println(sql);
-        Database.createDb(sql);
-        if (petnames == null || petnames.equals("")) {
-            petnames = request.getParameter("petname");
-        } else {
-            petnames += ", " + request.getParameter("petname");
+        ResultSet rs = Database.retrieveDb(sql);
+        if (rs==null || !rs.next()) {
+            sql = "INSERT INTO pet (pet_name,presenter_phone) VALUES ('" + request.getParameter("petname")
+                    + "','" + PHONE_NUMBER + "');";
+            System.out.println(sql);
+            Database.createDb(sql);
+            if (petnames == null || petnames.equals("")) {
+                petnames = request.getParameter("petname");
+            } else {
+                petnames += ", " + request.getParameter("petname");
+            }
         }
     } else {
         if (phoneNumber != null) {
