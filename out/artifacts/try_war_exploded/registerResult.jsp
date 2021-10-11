@@ -10,8 +10,8 @@
 <%@ page import="java.sql.ResultSet" %>
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
-<%! String hint = "";%>
-<%! boolean suc = false;%>
+<%! static String hint = "";%>
+<%! static boolean suc = false;%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -45,15 +45,23 @@
     String username = request.getParameter("username");
     String password = request.getParameter("password");
     System.out.println("phonenumber:" + phoneNumber + ", username:" + username + ", password:" + password);
+    System.out.println("has succeed before:" + suc);
     if (Database.connectDb("test", "q1w2e3r4_")) {
         String sql = "SELECT password FROM user WHERE phone_number='" + phoneNumber + "';";
         System.out.println(sql);
         ResultSet rs = Database.retrieveDb(sql);
-        if (rs != null && rs.next() && rs.getString("password")!=null) {
-            suc = false;
-            hint = "用户名已存在，请直接登录!";
-            USERNAME = "";
-            PHONE_NUMBER = "";
+        if (rs!=null && rs.next() && rs.getString("password")!=null) {
+            if (suc && rs.getString("password").equals(password)) {
+                suc = true;
+                USERNAME = username;
+                PHONE_NUMBER = phoneNumber;
+                hint = "";
+            } else {
+                suc = false;
+                hint = "用户名已存在，请直接登录!";
+                USERNAME = "";
+                PHONE_NUMBER = "";
+            }
         }
         else {
             sql = "INSERT INTO user (phone_number,user_name,password) VALUES ("
