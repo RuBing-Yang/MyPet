@@ -89,7 +89,7 @@
                 </div>
                 <% } else {%>
                 <form class="form-signin" action="home.jsp" method="GET" role="form" data-toggle="validator" novalidate>
-                    <h2 class="form-signin-heading">个人信息填写</h2>
+                    <h2 class="form-signin-heading">宠物信息填写</h2>
                     <div class="form-group">
                         <label for="inputPetName" class="sr-only">宠物名字</label>
                         <div class="input-group">
