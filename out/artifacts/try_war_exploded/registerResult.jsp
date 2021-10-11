@@ -57,7 +57,7 @@
         }
         else {
             sql = "INSERT INTO user (phone_number,user_name,password) VALUES ("
-                    + phoneNumber + "," + username + "," + password + ");";
+                    + phoneNumber + ",'" + username + "'," + password + ");";
             System.out.println(sql);
             if (Database.createDb(sql)) {
                 suc = true;
