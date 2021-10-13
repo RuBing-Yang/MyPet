@@ -58,7 +58,7 @@
                 hint = "";
             } else {
                 suc = false;
-                hint = "用户名已存在，请直接登录!";
+                hint = "手机号已绑定账号，请直接登录!";
                 USERNAME = "";
                 PHONE_NUMBER = "";
             }
