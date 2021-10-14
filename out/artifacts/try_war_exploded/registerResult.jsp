@@ -112,7 +112,11 @@
                                     <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>救助</a></li>
 
                                     <% if (!suc) { %>
-                                    <li class="active"><a href="register.jsp">重试注册</a></li>
+                                        <% if (hint.equals("手机号已绑定账号，请直接登录!")) { %>
+                                            <li class="active"><a href="login.jsp">直接登录</a></li>
+                                        <% } else { %>
+                                            <li class="active"><a href="register.jsp">重试注册</a></li>
+                                        <% }%>
                                     <% } else { %>
                                     <li class="dropdown active">
                                         <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>
