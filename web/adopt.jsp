@@ -59,7 +59,13 @@
     ResultSet rs = Database.retrieveDb(sql);
     if (rs != null) {
         while (rs.next()) {
-            postList.add(new Post(rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_context"), rs.getString("post_place"), rs.getInt("post_likes_number"), rs.getInt("post_person_id")));
+            postList.add(
+                    new Post(
+                            rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_intro"),
+                            rs.getString("post_context"), rs.getString("post_place"),
+                            rs.getInt("post_likes_number"), rs.getInt("post_person_id")
+                    )
+            );
         }
     }
 %>
@@ -83,6 +89,8 @@
                         <li><a href=<%="present.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>赠送</a></li>
                         <li class="active"><a href="#">收养</a></li>
                         <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>救助</a></li>
+                        <li><a href=<%="doctor.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>医生</a></li>
+                        <li><a href=<%="product.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>商品</a></li>
 
                         <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
                         <li><a href="login.jsp">登录</a></li>
@@ -115,6 +123,10 @@
         </nav>
 
     </div>
+
+
+
+
 </div>
 
 
@@ -185,13 +197,24 @@
 
             <div class="col-sm-8 blog-main">
 
-                <div class="blog-post">
-                    <h2 class="blog-post-title"><%= postList.get(i).getPostTitle()%></h2>
-                    <p class="blog-post-meta">January 1, 2014 by <a href="#"><%= postList.get(i).getPostPersonId()%>  <%= postList.get(i).getPostPlace()%></a></p>
-                    <p>查看详情</p>
+<%--                <div class="blog-post">--%>
+<%--                    <h2 class="blog-post-title"><%= postList.get(i).getPostTitle()%></h2>--%>
+<%--                    <p class="blog-post-meta">January 1, 2014 by <a href="#"><%= postList.get(i).getPostPersonId()%>  <%= postList.get(i).getPostPlace()%></a></p>--%>
+<%--                    <p>查看详情</p>--%>
+<%--                    <hr>--%>
+<%--                    <p>占位</p>--%>
+<%--                </div><!-- /.blog-post -->--%>
+                <div class="jumbotron">
+                    <h2><%= postList.get(i).getPostTitle()%></h2>
+                    <p><%= postList.get(i).getPostIntro()%></p>
+                    <p class="blog-post-meta">January 1, 2014 by
+                        <a href="#"><%= postList.get(i).getPostPersonId()%>     <%= postList.get(i).getPostPlace()%></a></p>
+                    <p>
+                        <a class="btn btn-lg btn-primary" href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
+                        "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + postList.get(i).getPostId()%> role="button">查看详情</a>
+                    </p>
                     <hr>
-                    <p>占位</p>
-                </div><!-- /.blog-post -->
+                </div>
             </div><!-- /.blog-main -->
 
         </div><!-- /.row -->

@@ -58,6 +58,8 @@
                                 <li><a href="present.jsp">赠送</a></li>
                                 <li><a href="adopt.jsp">收养</a></li>
                                 <li><a href="rescue.jsp">救助</a></li>
+                                <li><a href="doctor.jsp">医生</a></li>
+                                <li><a href="product.jsp">商品</a></li>
                                 <li class="active"><a href="#">登录</a></li>
                             </ul>
                         </nav>

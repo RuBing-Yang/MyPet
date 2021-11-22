@@ -3,14 +3,16 @@ package Utils;
 public class Post {
     int postId;
     String postTitle;
+    String postIntro;
     String postContext;
     String postPlace;
     int postLikesNum;
     int postPersonId;
 
-    public Post(int postId, String postTitle, String postContext, String postPlace, int postLikesNum, int postPersonId) {
+    public Post(int postId, String postTitle, String postIntro, String postContext, String postPlace, int postLikesNum, int postPersonId) {
         this.postId = postId;
         this.postTitle = postTitle;
+        this.postIntro = postIntro;
         this.postContext = postContext;
         this.postPlace = postPlace;
         this.postLikesNum = postLikesNum;
@@ -39,5 +41,9 @@ public class Post {
 
     public int getPostPersonId() {
         return postPersonId;
+    }
+
+    public String getPostIntro() {
+        return postIntro;
     }
 }

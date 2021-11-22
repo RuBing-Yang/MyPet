@@ -16,6 +16,7 @@
 <%! String postTitle = "";%>
 <%! String postContext = "";%>
 <%! String postPlace = "";%>
+<%! String postIntro = "";%>
 
 <html>
 <head>
@@ -55,10 +56,11 @@
         USER_ID = userId;
     }
     System.out.println(has_submit);
-    if (!has_submit) {
-        postTitle = request.getParameter("postTitle");
-        postContext = request.getParameter("postContext");
-        postPlace = request.getParameter("postPlace");
+    if (!has_submit && request.getParameter("postTitle")!=null) {
+        postTitle = new String((request.getParameter("postTitle")).getBytes("ISO-8859-1"),"UTF-8");
+        postContext = new String((request.getParameter("postContext")).getBytes("ISO-8859-1"),"UTF-8");
+        postPlace = new String((request.getParameter("postPlace")).getBytes("ISO-8859-1"),"UTF-8");
+        postIntro = new String((request.getParameter("postIntro")).getBytes("ISO-8859-1"),"UTF-8");
         System.out.println(postTitle + " " + postContext + " " + postPlace);
         String sql = "";
         if (postTitle != null && postContext != null && postPlace != null) {
@@ -95,6 +97,8 @@
                             <li class="active"><a href="#">赠送</a></li>
                             <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>收养</a></li>
                             <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>救助</a></li>
+                            <li><a href=<%="doctor.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>医生</a></li>
+                            <li><a href=<%="product.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>商品</a></li>
                             <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
                             <li><a href="login.jsp">登录</a></li>
                             <% } else { %>
@@ -124,104 +128,64 @@
                 </div>
             </nav>
 
+            <%
+                if (!has_submit) {
+            %>
+
+            <div class="inner cover">
+                <form class="form-signin" action="present.jsp" method="POST" role="form" data-toggle="validator" novalidate>
+                    <h2>发一个帖子，为您的宠物找一个新家</h2>
+                    <div class="form-group has-feedback">
+                        <label for="inputPostTitle" class="sr-only">帖子标题</label>
+                        <input type="text" id="inputPostTitle" class="form-control" placeholder="标题"
+                               name="postTitle" required autofocus>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <div class="help-block with-errors">请填写帖子标题</div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <label for="inputPostIntro" class="sr-only">帖子简介</label>
+                        <input type="text" id="inputPostIntro" class="form-control"
+                               placeholder="简介" name="postIntro" required autofocus>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <div class="help-block with-errors">请填写帖子简介</div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <label for="inputPostContext" class="sr-only">帖子内容</label>
+                        <textarea type="text" id="inputPostContext" class="form-control" placeholder="内容"
+                                  name="postContext" rows="10" required autofocus></textarea>
+                        <div class="help-block with-errors">请填写帖子内容</div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <label for="inputPostPlace" class="sr-only">发帖地点</label>
+                        <input type="text" id="inputPostPlace"  class="form-control" placeholder="地点"
+                               name="postPlace" required autofocus>
+                        <div class="help-block with-errors">请填写发帖地点</div>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">提交帖子</button>
+                    </div>
+                </form>
+
+            </div>
+
+            <%
+            }
+            else {
+            %>
+            <div class="inner cover">
+                <h1 class="cover-heading"><%= postTitle%></h1>
+                <p class="lead">
+                    <%= postContext%>
+                </p>
+            </div>
+            <%
+                }
+            %>
+
         </div>
     </div>
 
 
-    <!-- Carousel
-    ================================================== -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img class="first-slide" src="img/slide1.png" alt="First slide">
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>Example headline.</h1>
-                        <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-                        <p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Sign up today</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <img class="second-slide" src="img/slide2.png" alt="Second slide">
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>Another example headline.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Learn more</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <img class="third-slide" src="img/slide3.png" alt="Third slide">
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>One more for good measure.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Browse gallery</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div><!-- /.carousel -->
-
-    <%
-        if (!has_submit) {
-    %>
-    <div>
-        <form class="form-signin" action="present.jsp" method="GET" role="form" data-toggle="validator" novalidate>
-            <h2>发一个帖子，为您的宠物找一个新家</h2>
-            <div>
-                <label for="inputPostTitle">帖子标题</label>
-                <input type="text" id="inputPostTitle" placeholder="请填写帖子标题"
-                       name="postTitle" required autofocus>
-                <div class="help-block with-errors"></div>
-            </div>
-            <div>
-                <label for="inputPostContext">帖子内容</label>
-                <input type="text" id="inputPostContext" placeholder="请填写帖子内容"
-                       name="postContext" required autofocus>
-                <div class="help-block with-errors"></div>
-            </div>
-            <div>
-                <label for="inputPostPlace">发帖地点</label>
-                <input type="text" id="inputPostPlace" placeholder="请填写发帖地点"
-                       name="postPlace" required autofocus>
-                <div class="help-block with-errors"></div>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
-            </div>
-        </form>
-    </div>
-
-    <%
-        }
-        else {
-    %>
-        <div class="inner cover">
-            <h1 class="cover-heading"><%= postTitle%></h1>
-            <p class="lead">
-                <%= postContext%>
-            </p>
-        </div>
-    <%
-        }
-    %>
 
 
 
@@ -233,5 +197,6 @@
     <script src="bootstrap-3.4.1/docs/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="bootstrap-3.4.1/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 </body>
 </html>
