@@ -54,7 +54,7 @@
         USERNAME = "";
         USER_ID = -1;
         if (request.getParameter("PHONE_NUMBER")!=null && !request.getParameter("PHONE_NUMBER").equals("")) {
-          String sql = "DELETE FROM user WHERE phone_number='" + request.getParameter("USER_ID") + "';";
+          String sql = "DELETE FROM user WHERE user_id=" + request.getParameter("USER_ID") + ";";
           System.out.println(sql);
           Database.deleteDb(sql);
         }
@@ -62,10 +62,11 @@
       String phoneNumber = request.getParameter("PHONE_NUMBER");
       String username = request.getParameter("USERNAME");
       if (phoneNumber != null) {
-        int userId = Integer.parseInt(request.getParameter("USER_ID"));
+        String useId = request.getParameter("USER_ID");
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
-        USER_ID = userId;
+        if (useId == null || useId.equals("")) USER_ID = -1;
+        else USER_ID = Integer.parseInt(useId);
       }
     }
   %>
@@ -99,7 +100,7 @@
                       <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
                       <li role="separator" class="divider"></li>
                       <li class="dropdown-header">离开</li>
-                      <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=">退出登录</a></li>
+                      <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=&USER_ID=">退出登录</a></li>
                       <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true" + "&USER_ID=" + USER_ID%>>注销账号</a></li>
                       <script type="text/javascript">
                         function confirmDel()

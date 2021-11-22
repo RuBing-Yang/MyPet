@@ -104,7 +104,7 @@
                                     <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li class="dropdown-header">离开</li>
-                                    <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=">退出登录</a></li>
+                                    <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=&USER_ID=">退出登录</a></li>
                                     <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true" + "&USER_ID=" + USER_ID%>>注销账号</a></li>
                                     <script type="text/javascript">
                                         function confirmDel()

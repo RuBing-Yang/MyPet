@@ -57,12 +57,11 @@
                 suc = true;
                 USERNAME = username;
                 PHONE_NUMBER = phoneNumber;
+                hint = "";
                 sql = "SELECT user_id FROM user WHERE phone_number='" + phoneNumber + "';";
                 System.out.println(sql);
                 rs = Database.retrieveDb(sql);
-                int user_id = rs.getInt("user_id");
-                if (rs != null) USER_ID = user_id;
-                hint = "";
+                if (rs != null && rs.next()) USER_ID = rs.getInt("user_id");
             } else {
                 suc = false;
                 hint = "手机号已绑定账号，请直接登录!";
@@ -79,6 +78,10 @@
                 USERNAME = username;
                 PHONE_NUMBER = phoneNumber;
                 hint = "";
+                sql = "SELECT user_id FROM user WHERE phone_number='" + phoneNumber + "';";
+                System.out.println(sql);
+                rs = Database.retrieveDb(sql);
+                if (rs != null && rs.next()) USER_ID = rs.getInt("user_id");
             } else {
                 suc = false;
                 hint = "创建账户失败，请重试!";
@@ -135,7 +138,7 @@
                                             <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
                                             <li role="separator" class="divider"></li>
                                             <li class="dropdown-header">离开</li>
-                                            <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=">退出登录</a></li>
+                                            <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=&USER_ID=">退出登录</a></li>
                                             <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true" + "&USER_ID=" + USER_ID%>>注销账号</a></li>
                                             <script type="text/javascript">
                                                 function confirmDel()
