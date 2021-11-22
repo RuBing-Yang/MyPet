@@ -6,8 +6,17 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="DBS.Database" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
+<%! static int USER_ID = -1;%>
+<%! static Boolean has_submit = false;%>
+<%! String postTitle = "";%>
+<%! String postContext = "";%>
+<%! String postPlace = "";%>
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -40,8 +49,26 @@
     String phoneNumber = request.getParameter("PHONE_NUMBER");
     String username = request.getParameter("USERNAME");
     if (phoneNumber != null) {
+        int userId = Integer.parseInt(request.getParameter("USER_ID"));
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
+        USER_ID = userId;
+    }
+    if (!has_submit) {
+        postTitle = request.getParameter("postTitle");
+        postContext = request.getParameter("postContext");
+        postPlace = request.getParameter("postPlace");
+        String sql = "";
+        if (postTitle != null) {
+            sql = "INSERT INTO post (post_person_id, post_title, post_context, post_place) VALUES ("
+                    + USER_ID + ",'" + postTitle + "','" + postContext + "','" + postPlace + "');";
+            System.out.println(sql);
+            if (Database.createDb(sql)) {
+                has_submit = true;
+            } else {
+                has_submit = false;
+            }
+        }
     }
 %>
 
@@ -57,28 +84,28 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href=<%="index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>首页</a>
+                        <a class="navbar-brand" href=<%="index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>首页</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="#">赠送</a></li>
-                            <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>收养</a></li>
-                            <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>救助</a></li>
+                            <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>收养</a></li>
+                            <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>救助</a></li>
                             <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
                             <li><a href="login.jsp">登录</a></li>
                             <% } else { %>
                             <li class="dropdown">
-                                <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>
+                                <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
                                            class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                     <%= USERNAME%>
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>个人主页</a></li>
+                                    <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li class="dropdown-header">离开</li>
                                     <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=">退出登录</a></li>
-                                    <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true"%>>注销账号</a></li>
+                                    <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true" + "&USER_ID=" + USER_ID%>>注销账号</a></li>
                                     <script type="text/javascript">
                                         function confirmDel()
                                         {
@@ -148,12 +175,56 @@
         </a>
     </div><!-- /.carousel -->
 
+    <%
+        if (!has_submit) {
+    %>
+    <div>
+        <form class="form-signin" action="present.jsp" method="GET" role="form" data-toggle="validator" novalidate>
+            <h2>发一个帖子，为您的宠物找一个新家</h2>
+            <div>
+                <label for="inputPostTitle">帖子标题</label>
+                <input type="text" id="inputPostTitle" placeholder="请填写帖子标题"
+                       name="postTitle" required autofocus>
+                <div class="help-block with-errors"></div>
+            </div>
+            <div>
+                <label for="inputPostContext">帖子内容</label>
+                <input type="text" id="inputPostContext" placeholder="请填写帖子内容"
+                       name="postContext" required autofocus>
+                <div class="help-block with-errors"></div>
+            </div>
+            <div>
+                <label for="inputPostPlace">发帖地点</label>
+                <input type="text" id="inputPostPlace" placeholder="请填写发帖地点"
+                       name="postPlace" required autofocus>
+                <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+            </div>
+        </form>
+    </div>
+
+    <%
+        }
+        else {
+    %>
+        <div class="inner cover">
+            <h1 class="cover-heading"><%= postTitle%></h1>
+            <p class="lead">
+                <%= postContext%>
+            </p>
+        </div>
+    <%
+        }
+    %>
 
     <!-- Marketing messaging and featurettes
     ================================================== -->
     <!-- Wrap the rest of the page in another container to center all the content. -->
 
     <div class="container marketing">
+
 
         <!-- Three columns of text below the carousel -->
         <div class="row">

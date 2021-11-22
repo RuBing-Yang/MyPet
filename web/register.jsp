@@ -9,6 +9,7 @@
 <%@ page import="DBS.Database" %>
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
+<%! static int USER_ID = -1;%>
 <html>
 <head>
     <meta charset="utf-8">

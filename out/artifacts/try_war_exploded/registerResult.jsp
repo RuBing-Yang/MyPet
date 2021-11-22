@@ -10,6 +10,7 @@
 <%@ page import="java.sql.ResultSet" %>
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
+<%! static int USER_ID = -1;%>
 <%! static String hint = "";%>
 <%! static boolean suc = false;%>
 <html>
@@ -44,6 +45,7 @@
     String phoneNumber = request.getParameter("phoneNumber");
     String username = request.getParameter("username");
     String password = request.getParameter("password");
+    USER_ID = -1;
     System.out.println("phonenumber:" + phoneNumber + ", username:" + username + ", password:" + password);
     System.out.println("has succeed before:" + suc);
     if (Database.connectDb("test", "q1w2e3r4_")) {
@@ -55,6 +57,11 @@
                 suc = true;
                 USERNAME = username;
                 PHONE_NUMBER = phoneNumber;
+                sql = "SELECT user_id FROM user WHERE phone_number='" + phoneNumber + "';";
+                System.out.println(sql);
+                rs = Database.retrieveDb(sql);
+                int user_id = rs.getInt("user_id");
+                if (rs != null) USER_ID = user_id;
                 hint = "";
             } else {
                 suc = false;
@@ -103,13 +110,13 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand" href=<%="index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>首页</a>
+                                <a class="navbar-brand" href=<%="index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>首页</a>
                             </div>
                             <div id="navbar" class="navbar-collapse collapse">
                                 <ul class="nav navbar-nav">
-                                    <li><a href=<%="present.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>赠送</a></li>
-                                    <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>收养</a></li>
-                                    <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>救助</a></li>
+                                    <li><a href=<%="present.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>赠送</a></li>
+                                    <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>收养</a></li>
+                                    <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>救助</a></li>
 
                                     <% if (!suc) { %>
                                         <% if (hint.equals("手机号已绑定账号，请直接登录!")) { %>
@@ -119,17 +126,17 @@
                                         <% }%>
                                     <% } else { %>
                                     <li class="dropdown active">
-                                        <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>
+                                        <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
                                                    class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                             <%= USERNAME%>
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>个人主页</a></li>
+                                            <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
                                             <li role="separator" class="divider"></li>
                                             <li class="dropdown-header">离开</li>
                                             <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=">退出登录</a></li>
-                                            <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true"%>>注销账号</a></li>
+                                            <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true" + "&USER_ID=" + USER_ID%>>注销账号</a></li>
                                             <script type="text/javascript">
                                                 function confirmDel()
                                                 {
