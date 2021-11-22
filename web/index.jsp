@@ -49,6 +49,7 @@
       Database.connectDb("test", "q1w2e3r4_");
     --%>
   <%
+    Database.connectDb("test", "q1w2e3r4_");
     if (request.getParameter("delete")!=null) {
         PHONE_NUMBER = "";
         USERNAME = "";

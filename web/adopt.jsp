@@ -1,4 +1,9 @@
-<%--
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="DBS.Database" %>
+<%@ page import="Utils.Post" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="Utils.Reply" %><%--
   Created by IntelliJ IDEA.
   User: 16096
   Date: 2021/9/26
@@ -9,6 +14,8 @@
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
+<%! static ArrayList<Post> postList = new ArrayList<>();%>
+<%! static HashMap<Integer, Reply> replyList = new HashMap<>();%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -45,6 +52,15 @@
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
         USER_ID = userId;
+    }
+    postList.clear();
+    String sql = "SELECT * FROM post";
+    System.out.println(sql);
+    ResultSet rs = Database.retrieveDb(sql);
+    if (rs != null) {
+        while (rs.next()) {
+            postList.add(new Post(rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_context"), rs.getString("post_place"), rs.getInt("post_likes_number"), rs.getInt("post_person_id")));
+        }
     }
 %>
 
@@ -154,85 +170,40 @@
 </div><!-- /.carousel -->
 
 
-<!-- Marketing messaging and featurettes
-================================================== -->
-<!-- Wrap the rest of the page in another container to center all the content. -->
+<div class="container">
 
-<div class="container marketing">
-
-    <!-- Three columns of text below the carousel -->
-    <div class="row">
-        <div class="col-lg-4">
-            <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-            <h2>Heading</h2>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-    </div><!-- /.row -->
-
-
-    <!-- START THE FEATURETTES -->
-
-    <hr class="featurette-divider">
-
-    <div class="row featurette">
-        <div class="col-md-7">
-            <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-5">
-            <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-        </div>
+    <div class="blog-header">
+        <h1 class="blog-title">待领养的宠物帖子</h1>
+        <p class="lead blog-description">请给他们一个新家</p>
     </div>
 
-    <hr class="featurette-divider">
+    <%
+        for (int i = 0; i < postList.size(); i++) {
+    %>
 
-    <div class="row featurette">
-        <div class="col-md-7 col-md-push-5">
-            <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-5 col-md-pull-7">
-            <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-        </div>
-    </div>
+        <div class="row">
 
-    <hr class="featurette-divider">
+            <div class="col-sm-8 blog-main">
 
-    <div class="row featurette">
-        <div class="col-md-7">
-            <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-5">
-            <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-        </div>
-    </div>
+                <div class="blog-post">
+                    <h2 class="blog-post-title"><%= postList.get(i).getPostTitle()%></h2>
+                    <p class="blog-post-meta">January 1, 2014 by <a href="#"><%= postList.get(i).getPostPersonId()%>  <%= postList.get(i).getPostPlace()%></a></p>
+                    <p>查看详情</p>
+                    <hr>
+                    <p>占位</p>
+                </div><!-- /.blog-post -->
+            </div><!-- /.blog-main -->
 
-    <hr class="featurette-divider">
+        </div><!-- /.row -->
 
-    <!-- /END THE FEATURETTES -->
-
-
-    <!-- FOOTER -->
-    <footer>
-        <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2016 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-    </footer>
+    <%
+        }
+    %>
 
 </div><!-- /.container -->
+
+
+
 
 
 <!-- Bootstrap core JavaScript

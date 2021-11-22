@@ -99,18 +99,18 @@
                 address = rs.getString("address");
                 birthday = rs.getString("birthday");
             }
-            sql = "SELECT pet_name FROM pet WHERE presenter_phone='" + PHONE_NUMBER + "';";
+            sql = "SELECT pet_id FROM adopt_present WHERE user_id='" + USER_ID + "';";
             System.out.println(sql);
             rs = Database.retrieveDb(sql);
             petnames = "";
             if (rs != null) {
                 while (rs.next()) {
-                    System.out.println("petname: " + rs.getString("pet_name"));
-                    if (rs.getString("pet_name") == null || rs.getString("pet_name").equals("")) continue;
+                    System.out.println("petname: " + rs.getString("pet_id"));
+                    if (rs.getString("pet_name") == null || rs.getString("pet_id").equals("")) continue;
                     if (petnames == null || petnames.equals("")) {
-                        petnames = rs.getString("pet_name");
+                        petnames = rs.getString("pet_id");
                     } else {
-                        petnames += ", " + rs.getString("pet_name");
+                        petnames += ", " + rs.getString("pet_id");
                     }
                 }
             }
