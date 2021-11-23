@@ -5,18 +5,22 @@ public class Post {
     String postTitle;
     String postIntro;
     String postContext;
+    String postTime;
     String postPlace;
     int postLikesNum;
     int postPersonId;
+    int postPetId;
 
-    public Post(int postId, String postTitle, String postIntro, String postContext, String postPlace, int postLikesNum, int postPersonId) {
+    public Post(int postId, String postTitle, String postIntro, String postContext, String postTime, String postPlace, int postLikesNum, int postPersonId, int postPetId) {
         this.postId = postId;
         this.postTitle = postTitle;
         this.postIntro = postIntro;
         this.postContext = postContext;
+        this.postTime = postTime;
         this.postPlace = postPlace;
         this.postLikesNum = postLikesNum;
         this.postPersonId = postPersonId;
+        this.postPetId = postPetId;
     }
 
     public int getPostId() {
@@ -27,8 +31,16 @@ public class Post {
         return postTitle;
     }
 
+    public String getPostIntro() {
+        return postIntro;
+    }
+
     public String getPostContext() {
         return postContext;
+    }
+
+    public String getPostTime() {
+        return postTime;
     }
 
     public String getPostPlace() {
@@ -43,7 +55,7 @@ public class Post {
         return postPersonId;
     }
 
-    public String getPostIntro() {
-        return postIntro;
+    public int getPostPetId() {
+        return postPetId;
     }
 }

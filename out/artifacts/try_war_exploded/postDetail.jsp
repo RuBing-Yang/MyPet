@@ -18,6 +18,7 @@
 <%! static Post post;%>
 <%! static ArrayList<Reply> replyList = new ArrayList<>();%>
 <%! static String REPLY_CONTEXT = "";%>
+<%! static boolean isPublisher = false;%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -26,7 +27,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>领养宠物</title>
+    <title>帖子详情</title>
     <link rel="icon" href="img/icon.png">
     <!-- Bootstrap core CSS -->
     <link href="bootstrap-3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -61,6 +62,17 @@
     String sql;
     ResultSet rs;
 
+    sql = "SELECT * FROM post WHERE post_id =" + POST_ID;
+    System.out.println(sql);
+    rs = Database.retrieveDb(sql);
+    if (rs != null && rs.next()) {
+        post = new Post(
+                        rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_intro"),
+                        rs.getString("post_context"), rs.getString("post_time"), rs.getString("post_place"),
+                        rs.getInt("post_likes_number"), rs.getInt("post_person_id"), rs.getInt("post_pet_id")
+                );
+    }
+
     String reply_context = request.getParameter("reply_context");
     if (reply_context != null) {
         reply_context = new String((request.getParameter("reply_context")).getBytes("ISO-8859-1"),"UTF-8");
@@ -80,21 +92,25 @@
         }
 
         sql = "INSERT INTO reply_post (post_id, reply_id) VALUES ("
-                + POST_ID + ",'" + reply_id + "');";
+                + POST_ID + "," + reply_id + ");";
         System.out.println(sql);
         Database.createDb(sql);
+
+        sql = "SELECT * FROM adopt_present WHERE user_id = " + USER_ID + " AND pet_id = " + post.getPostPetId() + ";";
+        System.out.println(sql);
+        rs = Database.retrieveDb(sql);
+        if (rs != null && rs.next()) {
+            
+        } else {
+            sql = "INSERT INTO adopt_present (user_id, pet_id, pet_state) VALUES ("
+                    + USER_ID + "," + post.getPostPetId() + ", 'need');";
+            System.out.println(sql);
+            Database.createDb(sql);
+        }
     }
 
-    sql = "SELECT * FROM post WHERE post_id =" + POST_ID;
-    System.out.println(sql);
-    rs = Database.retrieveDb(sql);
-    if (rs != null && rs.next()) {
-        post = new Post(
-                        rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_intro"),
-                        rs.getString("post_context"), rs.getString("post_place"),
-                        rs.getInt("post_likes_number"), rs.getInt("post_person_id")
-                );
-    }
+    isPublisher = post.getPostPersonId() == USER_ID;
+    System.out.println(post.getPostPersonId() + " " + USER_ID);
 
     sql = "SELECT * FROM reply, reply_post WHERE reply.reply_id = reply_post.reply_id AND reply_post.post_id = " + POST_ID;
     System.out.println(sql);
@@ -233,7 +249,16 @@
 
             <div class="blog-post">
                 <h2 class="blog-post-title"><%= post.getPostTitle()%></h2>
-                <p class="blog-post-meta">January 1, 2014 by <a href="#"><%= post.getPostPersonId()%></a></p>
+                <%
+                    sql = "SELECT user_name FROM user WHERE user_id = " + post.getPostPersonId();
+                    System.out.println(sql);
+                    String publisherName = "游客";
+                    rs = Database.retrieveDb(sql);
+                    if (rs != null && rs.next()) {
+                        publisherName = rs.getString("user_name");
+                    }
+                %>
+                <p class="blog-post-meta">January 1, 2014 by <a href="#"><%=publisherName%></a></p>
 
                 <p><%= post.getPostIntro()%></p>
                 <hr>
@@ -268,11 +293,26 @@
                 <%
                     } else {
                         for (int i = 0; i < replyList.size(); i++) {
+                            sql = "SELECT user_name FROM user WHERE user_id = " + replyList.get(i).getReplyPersonId();
+                            System.out.println(sql);
+                            String userName = "游客";
+                            rs = Database.retrieveDb(sql);
+                            if (rs != null && rs.next()) {
+                                userName = rs.getString("user_name");
+                            }
                 %>
-                            <p class="blog-post-meta">January 1, 2014 by <a href="#"><%= replyList.get(i).getReplyPersonId()%></a></p>
+                            <p class="blog-post-meta">January 1, 2014 by <a href="#"><%= userName%></a></p>
                             <div class="sidebar-module sidebar-module-inset">
                                 <h4><%= replyList.get(i).getReplyContext()%></h4>
                             </div>
+                <%
+                            if (isPublisher && replyList.get(i).getReplyPersonId() != post.getPostPersonId()) {
+
+                %>
+                                <p><a class="btn btn-default" href="#" role="button">赠送</a></p>
+                <%
+                            }
+                %>
                 <%
                         }
                     }

@@ -3,7 +3,8 @@
 <%@ page import="Utils.Post" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.HashMap" %>
-<%@ page import="Utils.Reply" %><%--
+<%@ page import="Utils.Reply" %>
+<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: 16096
   Date: 2021/9/26
@@ -62,8 +63,8 @@
             postList.add(
                     new Post(
                             rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_intro"),
-                            rs.getString("post_context"), rs.getString("post_place"),
-                            rs.getInt("post_likes_number"), rs.getInt("post_person_id")
+                            rs.getString("post_context"), rs.getString("post_time"), rs.getString("post_place"),
+                            rs.getInt("post_likes_number"), rs.getInt("post_person_id"), rs.getInt("post_pet_id")
                     )
             );
         }
@@ -191,6 +192,23 @@
 
     <%
         for (int i = 0; i < postList.size(); i++) {
+            sql = "SELECT pet_state FROM adopt_present " +
+                    "WHERE user_id = " + postList.get(i).getPostPersonId() + " AND pet_id = " + postList.get(i).getPostPetId();
+            System.out.println(sql);
+            rs = Database.retrieveDb(sql);
+            String stateLabel = "初始状态";
+            if (rs != null && rs.next()) {
+                String state = rs.getString("pet_state");
+                stateLabel = Objects.equals(state, "pre") ? "待领养" : Objects.equals(state, "left") ? "已领养" : "状态出错";
+            }
+
+            sql = "SELECT user_name FROM user WHERE user_id = " + postList.get(i).getPostPersonId();
+            System.out.println(sql);
+            String publisherName = "游客";
+            rs = Database.retrieveDb(sql);
+            if (rs != null && rs.next()) {
+                publisherName = rs.getString("user_name");
+            }
     %>
 
         <div class="row">
@@ -205,10 +223,11 @@
 <%--                    <p>占位</p>--%>
 <%--                </div><!-- /.blog-post -->--%>
                 <div class="jumbotron">
+                    <p><%= stateLabel%></p>
                     <h2><%= postList.get(i).getPostTitle()%></h2>
                     <p><%= postList.get(i).getPostIntro()%></p>
                     <p class="blog-post-meta">January 1, 2014 by
-                        <a href="#"><%= postList.get(i).getPostPersonId()%>     <%= postList.get(i).getPostPlace()%></a></p>
+                        <a href="#"><%= publisherName%>     <%= postList.get(i).getPostPlace()%></a></p>
                     <p>
                         <a class="btn btn-lg btn-primary" href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
                         "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + postList.get(i).getPostId()%> role="button">查看详情</a>

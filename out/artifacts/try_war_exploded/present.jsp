@@ -61,7 +61,7 @@
         USER_ID = userId;
         String sql;
         ResultSet rs;
-        sql = "SELECT pet.pet_id, pet_name FROM pet, adopt_present WHERE pet.pet_id = adopt_present.pet_id AND adopt_present.user_id=" + USER_ID + ";";
+        sql = "SELECT pet.pet_id, pet_name FROM pet, adopt_present WHERE pet.pet_id = adopt_present.pet_id AND adopt_present.pet_state = 'own' AND adopt_present.user_id=" + USER_ID + ";";
         System.out.println(sql);
         rs = Database.retrieveDb(sql);
         petIdList.clear();
@@ -88,6 +88,10 @@
         if (postTitle != null && postContext != null && postPlace != null) {
             if (!postTitle.equals("") && !postContext.equals("") && !postPlace.equals("") && pet_info.length == 2) {
                 postPetId = Integer.parseInt(pet_info[1]);
+
+                sql = "UPDATE adopt_present SET pet_state = 'pre' WHERE user_id = " + USER_ID + " AND pet_id = " + postPetId + ";";
+                System.out.println(sql);
+                Database.updateDb(sql);
 
                 sql = "INSERT INTO post (post_person_id, post_title, post_intro, post_context, post_place, post_pet_id) VALUES ("
                         + USER_ID + ",'" + postTitle + "','" + postIntro + "','" + postContext + "','" + postPlace + "', " + postPetId + ");";
@@ -225,6 +229,7 @@
                 </p>
             </div>
             <%
+                    // has_submit = false;
                 }
             %>
 
