@@ -14,10 +14,12 @@
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
 <%! static Boolean has_submit = false;%>
+<%! int postPetId = -1;%>
 <%! String postTitle = "";%>
 <%! String postContext = "";%>
 <%! String postPlace = "";%>
 <%! String postIntro = "";%>
+<%! static ArrayList<Integer> petIdList = new ArrayList<>();%>
 <%! static ArrayList<String> petNameList = new ArrayList<>();%>
 
 
@@ -58,6 +60,20 @@
         USERNAME = username;
         USER_ID = userId;
         String sql;
+        ResultSet rs;
+        sql = "SELECT pet.pet_id, pet_name FROM pet, adopt_present WHERE pet.pet_id = adopt_present.pet_id AND adopt_present.user_id=" + USER_ID + ";";
+        System.out.println(sql);
+        rs = Database.retrieveDb(sql);
+        petIdList.clear();
+        petNameList.clear();
+        if (rs != null) {
+            while (rs.next()) {
+                System.out.println("petname: " + rs.getString("pet_name"));
+                if (rs.getString("pet_name").equals("")) continue;
+                petIdList.add(rs.getInt("pet_id"));
+                petNameList.add(rs.getString("pet_name"));
+            }
+        }
     }
     System.out.println(has_submit);
     if (!has_submit && request.getParameter("postTitle")!=null) {
@@ -65,12 +81,16 @@
         postContext = new String((request.getParameter("postContext")).getBytes("ISO-8859-1"),"UTF-8");
         postPlace = new String((request.getParameter("postPlace")).getBytes("ISO-8859-1"),"UTF-8");
         postIntro = new String((request.getParameter("postIntro")).getBytes("ISO-8859-1"),"UTF-8");
-        System.out.println(postTitle + " " + postContext + " " + postPlace);
+        String petInfo = new String((request.getParameter("postPetId")).getBytes("ISO-8859-1"),"UTF-8");
+        String[] pet_info = petInfo.split(" ");
+        System.out.println(postTitle + " " + postContext + " " + postPlace + " " + petInfo);
         String sql = "";
         if (postTitle != null && postContext != null && postPlace != null) {
-            if (!postTitle.equals("") && !postContext.equals("") && !postPlace.equals("")) {
-                sql = "INSERT INTO post (post_person_id, post_title, post_context, post_place) VALUES ("
-                        + USER_ID + ",'" + postTitle + "','" + postContext + "','" + postPlace + "');";
+            if (!postTitle.equals("") && !postContext.equals("") && !postPlace.equals("") && pet_info.length == 2) {
+                postPetId = Integer.parseInt(pet_info[1]);
+
+                sql = "INSERT INTO post (post_person_id, post_title, post_intro, post_context, post_place, post_pet_id) VALUES ("
+                        + USER_ID + ",'" + postTitle + "','" + postIntro + "','" + postContext + "','" + postPlace + "', " + postPetId + ");";
                 System.out.println(sql);
                 if (Database.createDb(sql)) {
                     has_submit = true;
@@ -149,12 +169,22 @@
 
                     <div class="form-group has-feedback">
                         <label for="inputPostPet" class="sr-only">选择赠送的宠物</label>
-                        <select id="inputPostPet" class="form-control">
-                            <option>small</option>
-                            <option>medium</option>
-                            <option>large</option>
+                        <select id="inputPostPet" class="form-control" name="postPetId" >
+                            <%
+                                if (petNameList.isEmpty()) {
+                            %>
+                                    <option>您还没有宠物</option>
+                            <%
+                                } else {
+                                    for (int i = 0; i < petIdList.size(); i++) {
+                            %>
+                                    <option><%=petNameList.get(i)%> <%=petIdList.get(i)%></option>
+                            <%
+                                    }
+                                }
+                            %>
+
                         </select>
-                        <!--<span class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
                         <div class="help-block with-errors">请选择您要赠送的宠物</div>
                     </div>
 

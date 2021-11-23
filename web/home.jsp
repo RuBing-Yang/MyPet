@@ -70,8 +70,8 @@
         if (Database.createDb(sql)) {
             /*** 获取自动生成的主键 */
             pet_id = Database.getId();
-            sql = "INSERT INTO pet (user_id, pet_id, pet_state) VALUES ("
-                    + pet_id + ", " + USER_ID + ", 'own');";
+            sql = "INSERT INTO adopt_present (user_id, pet_id, pet_state) VALUES ("
+                    + USER_ID + ", " + pet_id + ", 'own');";
             Database.createDb(sql);
             if (petnames == null || petnames.equals("")) {
                 petnames = request.getParameter("petname");
@@ -105,18 +105,18 @@
                 address = rs.getString("address");
                 birthday = rs.getString("birthday");
             }
-            sql = "SELECT pet_id FROM adopt_present WHERE user_id='" + USER_ID + "';";
+            sql = "SELECT pet_name FROM pet, adopt_present WHERE pet.pet_id = adopt_present.pet_id AND adopt_present.user_id=" + USER_ID + ";";
             System.out.println(sql);
             rs = Database.retrieveDb(sql);
             petnames = "";
             if (rs != null) {
                 while (rs.next()) {
-                    System.out.println("petname: " + rs.getString("pet_id"));
-                    if (rs.getString("pet_name") == null || rs.getString("pet_id").equals("")) continue;
+                    System.out.println("petname: " + rs.getString("pet_name"));
+                    if (rs.getString("pet_name").equals("")) continue;
                     if (petnames == null || petnames.equals("")) {
-                        petnames = rs.getString("pet_id");
+                        petnames = rs.getString("pet_name");
                     } else {
-                        petnames += ", " + rs.getString("pet_id");
+                        petnames += ", " + rs.getString("pet_name");
                     }
                 }
             }
