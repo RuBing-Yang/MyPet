@@ -9,6 +9,7 @@
 <%@ page import="DBS.Database" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.SQLException" %>
+<%@ page import="java.util.ArrayList" %>
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
@@ -17,6 +18,8 @@
 <%! String postContext = "";%>
 <%! String postPlace = "";%>
 <%! String postIntro = "";%>
+<%! static ArrayList<String> petNameList = new ArrayList<>();%>
+
 
 <html>
 <head>
@@ -54,6 +57,7 @@
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
         USER_ID = userId;
+        String sql;
     }
     System.out.println(has_submit);
     if (!has_submit && request.getParameter("postTitle")!=null) {
@@ -142,6 +146,18 @@
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <div class="help-block with-errors">请填写帖子标题</div>
                     </div>
+
+                    <div class="form-group has-feedback">
+                        <label for="inputPostPet" class="sr-only">选择赠送的宠物</label>
+                        <select id="inputPostPet" class="form-control">
+                            <option>small</option>
+                            <option>medium</option>
+                            <option>large</option>
+                        </select>
+                        <!--<span class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+                        <div class="help-block with-errors">请选择您要赠送的宠物</div>
+                    </div>
+
                     <div class="form-group has-feedback">
                         <label for="inputPostIntro" class="sr-only">帖子简介</label>
                         <input type="text" id="inputPostIntro" class="form-control"
