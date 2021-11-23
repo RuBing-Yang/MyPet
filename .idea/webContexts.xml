@@ -5,6 +5,7 @@
       <map>
         <entry key="file://$PROJECT_DIR$/web/home.jsp" value="file://$PROJECT_DIR$/web" />
         <entry key="file://$PROJECT_DIR$/web/index.jsp" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/postDetail.jsp" value="file://$PROJECT_DIR$/web" />
         <entry key="file://$PROJECT_DIR$/web/registerResult.jsp" value="file://$PROJECT_DIR$/web" />
       </map>
     </option>
