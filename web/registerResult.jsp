@@ -8,6 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="DBS.Database" %>
 <%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.math.BigDecimal" %>
+<%@ page import="java.math.BigInteger" %>
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
@@ -78,10 +80,12 @@
                 USERNAME = username;
                 PHONE_NUMBER = phoneNumber;
                 hint = "";
+                /***需要获取自动生成的主键
                 sql = "SELECT user_id FROM user WHERE phone_number='" + phoneNumber + "';";
                 System.out.println(sql);
                 rs = Database.retrieveDb(sql);
-                if (rs != null && rs.next()) USER_ID = rs.getInt("user_id");
+                if (rs != null && rs.next()) USER_ID = rs.getInt("user_id"); */
+                USER_ID = Database.getId();
             } else {
                 suc = false;
                 hint = "创建账户失败，请重试!";

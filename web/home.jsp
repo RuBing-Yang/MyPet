@@ -9,6 +9,8 @@
 <%@ page import="DBS.Database" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.math.BigInteger" %>
+<%! static Boolean submit = false;%>
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
@@ -47,7 +49,7 @@
 <%
     String phoneNumber = request.getParameter("PHONE_NUMBER");
     String username = request.getParameter("USERNAME");
-    if (PHONE_NUMBER!=null && !PHONE_NUMBER.equals("") && request.getParameter("address")!=null) {
+    if (PHONE_NUMBER!=null && !PHONE_NUMBER.equals("") && request.getParameter("address")!=null && !submit) {
         address = request.getParameter("address");
         birthday = request.getParameter("birthday");
         gender = request.getParameter("gender");
@@ -56,27 +58,31 @@
         sql += ",birthday=" + ((birthday==null || birthday.equals("")) ? "null" : ("'" + birthday + "'"));
         sql += " WHERE PHONE_NUMBER='" + PHONE_NUMBER + "';";
         System.out.println(sql);
-        Database.updateDb(sql);
+        if (Database.updateDb(sql))
+            submit = true;
         if (gender == null || gender.equals("")) gender = "";
         else if (gender.equals("f")) gender = "女";
         else if (gender.equals("m")) gender = "男";
-    } else if (PHONE_NUMBER!=null && !PHONE_NUMBER.equals("") && request.getParameter("petname")!=null) {
-        String sql = "SELECT pet_id FROM pet WHERE pet_name='" + request.getParameter("petname")
-                + "' AND presenter_phone='" + PHONE_NUMBER + "';";
+    } else if (PHONE_NUMBER!=null && !PHONE_NUMBER.equals("") && request.getParameter("petname")!=null && !submit) {
+        String sql = "INSERT INTO pet (pet_name) VALUES ('" + request.getParameter("petname") + "');";
         System.out.println(sql);
-        ResultSet rs = Database.retrieveDb(sql);
-        if (rs==null || !rs.next()) {
-            sql = "INSERT INTO pet (pet_name,presenter_phone) VALUES ('" + request.getParameter("petname")
-                    + "','" + PHONE_NUMBER + "');";
-            System.out.println(sql);
+        int pet_id = -1;
+        if (Database.createDb(sql)) {
+            /*** 获取自动生成的主键 */
+            pet_id = Database.getId();
+            sql = "INSERT INTO pet (user_id, pet_id, pet_state) VALUES ("
+                    + pet_id + ", " + USER_ID + ", 'own');";
             Database.createDb(sql);
             if (petnames == null || petnames.equals("")) {
                 petnames = request.getParameter("petname");
             } else {
                 petnames += ", " + request.getParameter("petname");
             }
+            submit = true;
         }
     } else {
+        if (request.getParameter("address")==null && request.getParameter("petname")==null)
+            submit = false;
         if (phoneNumber != null) {
             int userId = Integer.parseInt(request.getParameter("USER_ID"));
             PHONE_NUMBER = phoneNumber;
@@ -88,7 +94,7 @@
             PHONE_NUMBER = phoneNumber;
             USERNAME = username;
             USER_ID = userId;
-            String sql = "SELECT gender,address,birthday FROM user WHERE phone_number='" + PHONE_NUMBER + "';";
+            String sql = "SELECT gender,address,birthday FROM user WHERE user_id=" + USER_ID + ";";
             System.out.println(sql);
             ResultSet rs = Database.retrieveDb(sql);
             if (rs != null && rs.next()) {
@@ -217,13 +223,13 @@
                 </div>
                 <br>
                 <button class="btn btn-default btn-lg btn-primary">
-                    <a href=<%= "editInform.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME %>>
+                    <a href=<%= "editInform.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME  + "&USER_ID=" + USER_ID%>>
                         <font color="black">编辑个人信息</font>
                     </a>
                 </button>
                 <br><br>
                 <button class="btn btn-default btn-lg btn-primary">
-                    <a href=<%= "addPet.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME %>>
+                    <a href=<%= "addPet.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME  + "&USER_ID=" + USER_ID%>>
                         <font color="black">增添宠物信息</font>
                     </a>
                 </button>

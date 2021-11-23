@@ -1,5 +1,6 @@
 package DBS;
 
+import java.math.BigInteger;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,13 +16,30 @@ public class Database {
 
     private static Connection connection = null;
     private static Statement statement = null;
+    private static PreparedStatement preparedStatement = null;
 
-    public Statement getStatement() {
+    public static Statement getStatement() {
         return statement;
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         return connection;
+    }
+
+    public static int getId() {
+        ResultSet rs = null;
+        int res = -1;
+        try {
+            rs = preparedStatement.getGeneratedKeys();
+            if (rs != null && rs.next()) res = ((BigInteger) rs.getObject(1)).intValue();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
+    }
+
+    public static PreparedStatement getPreparedStatement() {
+        return preparedStatement;
     }
 
     public static boolean connectDb(String username, String password) {
@@ -58,7 +76,7 @@ public class Database {
     public static boolean createDb(String sql) {
         boolean suc = false;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);;
             preparedStatement.executeUpdate();
             suc = true;
         }
@@ -79,7 +97,7 @@ public class Database {
     public static boolean deleteDb(String sql) {
         boolean suc = false;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate();
             suc = true;
         }
@@ -100,7 +118,7 @@ public class Database {
     public static boolean updateDb(String sql) {
         boolean suc = false;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate();
             suc = true;
         }
@@ -133,4 +151,6 @@ public class Database {
         }
         return rs;
     }
+
+
 }
