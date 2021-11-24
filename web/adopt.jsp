@@ -145,9 +145,9 @@
             <img class="first-slide" src="img/slide1.png" alt="First slide">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>Example headline.</h1>
-                    <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-                    <p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Sign up today</a></p>
+                    <h1>领养代替购买</h1>
+                    <p>"领养代替购买，让爱不再流浪。"</p>
+                    <!--<p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Sign up today</a></p>-->
                 </div>
             </div>
         </div>
@@ -155,9 +155,9 @@
             <img class="second-slide" src="img/slide2.png" alt="Second slide">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>Another example headline.</h1>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Learn more</a></p>
+                    <h1>每个生命都是美好的</h1>
+                    <p>"给生命以爱，给宠物以家。"</p>
+                    <!--<p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Learn more</a></p>-->
                 </div>
             </div>
         </div>
@@ -165,9 +165,9 @@
             <img class="third-slide" src="img/slide3.png" alt="Third slide">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>One more for good measure.</h1>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Browse gallery</a></p>
+                    <h1>为它我能做些什么</h1>
+                    <p>"陪伴是最长情的告白，对所有生命都是。"</p>
+                    <!--<p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Browse gallery</a></p>-->
                 </div>
             </div>
         </div>
@@ -186,7 +186,7 @@
 <div class="container">
 
     <div class="blog-header">
-        <h1 class="blog-title">待领养的宠物帖子</h1>
+        <h1 class="blog-title">所有帖子</h1>
         <p class="lead blog-description">请给他们一个新家</p>
     </div>
 

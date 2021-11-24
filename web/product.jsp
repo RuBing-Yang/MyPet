@@ -132,7 +132,7 @@
                 <p><%=productList.get(i).getProductPrice()%> 元</p>
                 <p><a href="#"><%= productList.get(i).getProductLink()%></a></p>
                 <p><%= productList.get(i).getProductIntroduction()%></p>
-                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                <p><a class="btn btn-default" href="#" role="button">进入链接 &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
@@ -140,7 +140,7 @@
                 <p><%=productList.get(i+1).getProductPrice()%> 元</p>
                 <p><a href="#"><%= productList.get(i+1).getProductLink()%></a></p>
                 <p><%= productList.get(i+1).getProductIntroduction()%></p>
-                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                <p><a class="btn btn-default" href="#" role="button">进入链接 &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
@@ -148,7 +148,7 @@
                 <p><%=productList.get(i+2).getProductPrice()%> 元</p>
                 <p><a href="#"><%= productList.get(i+2).getProductLink()%></a></p>
                 <p><%= productList.get(i+2).getProductIntroduction()%></p>
-                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                <p><a class="btn btn-default" href="#" role="button">进入链接 &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
         <%

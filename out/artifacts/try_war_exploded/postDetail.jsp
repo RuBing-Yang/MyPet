@@ -100,7 +100,7 @@
         System.out.println(sql);
         rs = Database.retrieveDb(sql);
         if (rs != null && rs.next()) {
-            
+
         } else {
             sql = "INSERT INTO adopt_present (user_id, pet_id, pet_state) VALUES ("
                     + USER_ID + "," + post.getPostPetId() + ", 'need');";
@@ -180,117 +180,61 @@
 
     </div>
 
+    <div class="container">
 
-</div>
-
-
-<!-- Carousel
-================================================== -->
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img class="first-slide" src="img/slide1.png" alt="First slide">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>Example headline.</h1>
-                    <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-                    <p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Sign up today</a></p>
-                </div>
-            </div>
+        <div class="blog-header">
+            <h1 class="blog-title">递爱宠物屋</h1>
+            <p class="lead blog-description">领养代替购买，让爱不再流浪</p>
         </div>
-        <div class="item">
-            <img class="second-slide" src="img/slide2.png" alt="Second slide">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>Another example headline.</h1>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Learn more</a></p>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <img class="third-slide" src="img/slide3.png" alt="Third slide">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>One more for good measure.</h1>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Browse gallery</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div><!-- /.carousel -->
 
+        <div class="row">
 
-<div class="container">
+            <div class="col-sm-8 blog-main">
 
-    <div class="blog-header">
-        <h1 class="blog-title">递爱宠物屋</h1>
-        <p class="lead blog-description">领养代替购买，让爱不再流浪</p>
-    </div>
+                <div class="blog-post">
+                    <h2 class="blog-post-title"><%= post.getPostTitle()%></h2>
+                    <%
+                        sql = "SELECT user_name FROM user WHERE user_id = " + post.getPostPersonId();
+                        System.out.println(sql);
+                        String publisherName = "游客";
+                        rs = Database.retrieveDb(sql);
+                        if (rs != null && rs.next()) {
+                            publisherName = rs.getString("user_name");
+                        }
+                    %>
+                    <p class="blog-post-meta">January 1, 2014 by <a href="#"><%=publisherName%></a></p>
 
-    <div class="row">
+                    <p><%= post.getPostIntro()%></p>
+                    <hr>
+                    <blockquote>
+                        <p> <strong> <%= post.getPostContext()%> </strong></p>
+                    </blockquote>
+                    <p>in <%= post.getPostPlace()%></p>
+                    <h2>回复</h2>
 
-        <div class="col-sm-8 blog-main">
+                    <div class="inner cover">
+                        <form class="form-signin" action="postDetail.jsp" method="POST" role="form" data-toggle="validator" novalidate>
+                            <h3>我要回复</h3>
+                            <div class="form-group has-feedback">
+                                <label for="inputReplyContext" class="sr-only">回复内容</label>
+                                <textarea type="text" id="inputReplyContext" class="form-control" placeholder="内容"
+                                          name="reply_context" rows="3" required autofocus></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-lg btn-primary btn-block" type="submit">添加回复</button>
+                            </div>
+                        </form>
 
-            <div class="blog-post">
-                <h2 class="blog-post-title"><%= post.getPostTitle()%></h2>
-                <%
-                    sql = "SELECT user_name FROM user WHERE user_id = " + post.getPostPersonId();
-                    System.out.println(sql);
-                    String publisherName = "游客";
-                    rs = Database.retrieveDb(sql);
-                    if (rs != null && rs.next()) {
-                        publisherName = rs.getString("user_name");
-                    }
-                %>
-                <p class="blog-post-meta">January 1, 2014 by <a href="#"><%=publisherName%></a></p>
+                    </div>
 
-                <p><%= post.getPostIntro()%></p>
-                <hr>
-                <blockquote>
-                    <p> <strong> <%= post.getPostContext()%> </strong></p>
-                </blockquote>
-                <p>in <%= post.getPostPlace()%></p>
-                <h2>回复</h2>
-
-                <div class="inner cover">
-                    <form class="form-signin" action="postDetail.jsp" method="POST" role="form" data-toggle="validator" novalidate>
-                        <h3>我要回复</h3>
-                        <div class="form-group has-feedback">
-                            <label for="inputReplyContext" class="sr-only">回复内容</label>
-                            <textarea type="text" id="inputReplyContext" class="form-control" placeholder="内容"
-                                      name="reply_context" rows="3" required autofocus></textarea>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-lg btn-primary btn-block" type="submit">添加回复</button>
-                        </div>
-                    </form>
-
-                </div>
-
-                <h3>所有回复</h3>
-                <%
-                    if (replyList.isEmpty()) {
-                %>
+                    <h3>所有回复</h3>
+                    <%
+                        if (replyList.isEmpty()) {
+                    %>
                     <div class="sidebar-module sidebar-module-inset">
                         <h4>暂无回复</h4>
                     </div>
-                <%
+                    <%
                     } else {
                         for (int i = 0; i < replyList.size(); i++) {
                             sql = "SELECT user_name FROM user WHERE user_id = " + replyList.get(i).getReplyPersonId();
@@ -300,35 +244,44 @@
                             if (rs != null && rs.next()) {
                                 userName = rs.getString("user_name");
                             }
-                %>
-                            <p class="blog-post-meta">January 1, 2014 by <a href="#"><%= userName%></a></p>
-                            <div class="sidebar-module sidebar-module-inset">
-                                <h4><%= replyList.get(i).getReplyContext()%></h4>
-                            </div>
-                <%
-                            if (isPublisher && replyList.get(i).getReplyPersonId() != post.getPostPersonId()) {
+                    %>
+                    <p class="blog-post-meta">January 1, 2014 by <a href="#"><%= userName%></a></p>
+                    <div class="sidebar-module sidebar-module-inset">
+                        <h4><%= replyList.get(i).getReplyContext()%></h4>
+                    </div>
+                    <%
+                        if (isPublisher && replyList.get(i).getReplyPersonId() != post.getPostPersonId()) {
 
-                %>
-                                <p><a class="btn btn-default" href="#" role="button">赠送</a></p>
-                <%
-                            }
-                %>
-                <%
+                    %>
+                    <p><a class="btn btn-default" href="#" role="button">赠送</a></p>
+                    <%
                         }
-                    }
-                %>
-            </div><!-- /.blog-post -->
+                    %>
+                    <%
+                            }
+                        }
+                    %>
+                </div><!-- /.blog-post -->
 
-        </div><!-- /.blog-main -->
+            </div><!-- /.blog-main -->
 
-    </div><!-- /.row -->
+        </div><!-- /.row -->
 
-</div><!-- /.container -->
+    </div><!-- /.container -->
+
+
+</div>
+
+
+
+
+
+
 
 <footer class="blog-footer">
-    <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+    <p> </p>
     <p>
-        <a href="#">Back to top</a>
+
     </p>
 </footer>
 
