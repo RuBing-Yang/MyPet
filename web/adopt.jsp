@@ -53,6 +53,8 @@
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
         USER_ID = userId;
+    } else {
+        Database.connectDb("test", "q1w2e3r4_");
     }
     postList.clear();
     String sql = "SELECT * FROM post";
@@ -211,9 +213,9 @@
             }
     %>
 
-        <div class="row">
+    <div class="row">
 
-            <div class="col-sm-8 blog-main">
+        <div class="col-sm-8 blog-main">
 
 <%--                <div class="blog-post">--%>
 <%--                    <h2 class="blog-post-title"><%= postList.get(i).getPostTitle()%></h2>--%>
@@ -222,21 +224,23 @@
 <%--                    <hr>--%>
 <%--                    <p>占位</p>--%>
 <%--                </div><!-- /.blog-post -->--%>
-                <div class="jumbotron">
-                    <p><%= stateLabel%></p>
-                    <h2><%= postList.get(i).getPostTitle()%></h2>
-                    <p><%= postList.get(i).getPostIntro()%></p>
-                    <p class="blog-post-meta">January 1, 2014 by
-                        <a href="#"><%= publisherName%>     <%= postList.get(i).getPostPlace()%></a></p>
-                    <p>
-                        <a class="btn btn-lg btn-primary" href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
-                        "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + postList.get(i).getPostId()%> role="button">查看详情</a>
-                    </p>
-                    <hr>
-                </div>
-            </div><!-- /.blog-main -->
+            <div class="jumbotron">
+                <p><%= stateLabel%></p>
+                <h2><%= postList.get(i).getPostTitle()%></h2>
+                <p><%= postList.get(i).getPostIntro()%></p>
+                <p class="blog-post-meta">January 1, 2014 by
+                    <a href=<%= "intro.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
+                    + "&POST_PERSON_ID=" + postList.get(i).getPostPersonId()%>>
+                        <%=publisherName%>     <%= postList.get(i).getPostPlace()%></a>
+                <p>
+                    <a class="btn btn-lg btn-primary" href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
+                    "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + postList.get(i).getPostId()%> role="button">查看详情</a>
+                </p>
+                <hr>
+            </div>
+        </div><!-- /.blog-main -->
 
-        </div><!-- /.row -->
+    </div><!-- /.row -->
 
     <%
         }

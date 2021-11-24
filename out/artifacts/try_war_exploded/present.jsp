@@ -49,7 +49,32 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
+<body onload = "confirmLogin()">
+
+<script type="text/javascript">
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+
+    function confirmLogin()
+    {
+        var id = getQueryVariable("USER_ID");
+        if (id == false || id == -1) {
+            if (window.confirm("发帖需要完善资料信息\n请先登录")) {
+                window.location.replace("login.jsp");
+            } else {
+                window.location.replace("index.jsp");
+            }
+        }
+    }
+</script>
 
 <%
     String phoneNumber = request.getParameter("PHONE_NUMBER");

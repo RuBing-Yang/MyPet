@@ -189,7 +189,7 @@
 
         <div class="row">
 
-            <div class="col-sm-8 blog-main">
+            <div class="col-md-9 blog-main">
 
                 <div class="blog-post">
                     <h2 class="blog-post-title"><%= post.getPostTitle()%></h2>
@@ -201,9 +201,20 @@
                         if (rs != null && rs.next()) {
                             publisherName = rs.getString("user_name");
                         }
-                    %>
-                    <p class="blog-post-meta">January 1, 2014 by <a href="#"><%=publisherName%></a></p>
+                        sql = "SELECT * FROM post WHERE post_person_id = " + post.getPostPersonId();
+                        System.out.println(sql);
+                        ResultSet post_results = Database.retrieveDb(sql);
+                        ArrayList<Integer> ids = new ArrayList<>();
+                        ArrayList<String> titiles = new ArrayList<>();
+                        while (post_results != null && post_results.next()) {
+                            ids.add( post_results.getInt("post_id"));
+                            titiles.add(post_results.getString("post_title"));
+                        }
 
+                    %>
+                    <p class="blog-post-meta">January 1, 2014 by <a href=
+                            <%="intro.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID+ "&POST_PERSON_ID=" + post.getPostPersonId()%>
+                    > <%=publisherName%></a></p>
                     <p><%= post.getPostIntro()%></p>
                     <hr>
                     <blockquote>
@@ -264,6 +275,35 @@
                 </div><!-- /.blog-post -->
 
             </div><!-- /.blog-main -->
+
+            <div class="col-md-1" role="complementary"> </div>
+            <div class="col-md-2" role="complementary">
+                <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
+
+
+                    <div class="sidebar-module sidebar-module-inset">
+                        <h2><a href=<%="intro.jsp?POST_PERSON_ID=" + post.getPostPersonId()%>> <%=publisherName%></a></h2>
+                        <p>这些年，我见过日升月落，万物以自己的轨迹运行着，也见过野生动物们或壮观或温暖的场景，以及自然环境、野生动物遭到伤害的样子……</p>
+                        <p>所有有生命的、没有生命的，都是一样重要，共同组成了这个世界。野生动物们和我们人类一样，也是自然的孩子</p>
+                    </div>
+                    <div class="sidebar-module">
+                        <h3>其他文章</h3>
+                        <ol class="list-unstyled">
+                            <%
+                                for (int i = 0; i < ids.size(); i++) {
+                            %>
+                                <p></p><li><a href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME +
+                                        "&USER_ID=" + USER_ID + "&POST_ID=" + ids.get(i)%>>
+                                    <%= titiles.get(i)%>
+                                </a></li></p>
+                            <%
+                                }
+                            %>
+                        </ol>
+                    </div>
+
+                </nav>
+            </div>
 
         </div><!-- /.row -->
 
