@@ -189,9 +189,9 @@
 
         <div class="row">
 
-            <div class="col-md-9 blog-main">
+            <div class="col-md-8 blog-main">
 
-                <div class="blog-post">
+                <div class="blog-post my_content">
                     <h2 class="blog-post-title"><%= post.getPostTitle()%></h2>
                     <%
                         sql = "SELECT user_name FROM user WHERE user_id = " + post.getPostPersonId();
@@ -229,7 +229,7 @@
                             <div class="form-group has-feedback">
                                 <label for="inputReplyContext" class="sr-only">回复内容</label>
                                 <textarea type="text" id="inputReplyContext" class="form-control" placeholder="内容"
-                                          name="reply_context" rows="3" required autofocus></textarea>
+                                          name="reply_context" rows="6" required autofocus></textarea>
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-lg btn-primary btn-block" type="submit">添加回复</button>
@@ -277,25 +277,29 @@
             </div><!-- /.blog-main -->
 
             <div class="col-md-1" role="complementary"> </div>
-            <div class="col-md-2" role="complementary">
+            <div class="col-md-3 my_box" role="complementary">
+
+                <div class="my_sidebar">
                 <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
 
-
                     <div class="sidebar-module sidebar-module-inset">
-                        <h2><a href=<%="intro.jsp?POST_PERSON_ID=" + post.getPostPersonId()%>> <%=publisherName%></a></h2>
-                        <p>这些年，我见过日升月落，万物以自己的轨迹运行着，也见过野生动物们或壮观或温暖的场景，以及自然环境、野生动物遭到伤害的样子……</p>
-                        <p>所有有生命的、没有生命的，都是一样重要，共同组成了这个世界。野生动物们和我们人类一样，也是自然的孩子</p>
+                        <h2>&emsp;
+                            <a href=<%="intro.jsp?POST_PERSON_ID=" + post.getPostPersonId()%>>
+                                <%=publisherName%></a>
+                        </h2>
+                        <p>&emsp; &emsp; 这些年，我见过日升月落，万物以自己的轨迹运行着，也见过野生动物们或壮观或温暖的场景，以及自然环境、野生动物遭到伤害的样子……</p>
+                        <p>&emsp; &emsp; 所有有生命的、没有生命的，都是一样重要，共同组成了这个世界。野生动物们和我们人类一样，也是自然的孩子</p>
                     </div>
-                    <div class="sidebar-module">
+                    <div class="sidebar-module sidebar-module-inset">
                         <h3>其他文章</h3>
                         <ol class="list-unstyled">
                             <%
                                 for (int i = 0; i < ids.size(); i++) {
                             %>
-                                <p></p><li><a href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME +
+                                <p><a href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME +
                                         "&USER_ID=" + USER_ID + "&POST_ID=" + ids.get(i)%>>
                                     <%= titiles.get(i)%>
-                                </a></li></p>
+                                </a></p>
                             <%
                                 }
                             %>
@@ -303,6 +307,7 @@
                     </div>
 
                 </nav>
+                </div>
             </div>
 
         </div><!-- /.row -->

@@ -5,6 +5,7 @@
 body {
     font-family: Georgia, "Times New Roman", Times, serif;
     padding-bottom: 40px;
+    background-attachment: fixed;
     background-image: url(img/cover_bg.png);
 }
 
@@ -147,14 +148,12 @@ h6, .h6 {
 
 
 
-
-
 /*
  * Masthead for nav
  */
 
 .blog-masthead {
-    background-color: #428bca;
+    /*background-color: #428bca;*/
     -webkit-box-shadow: inset 0 -2px 5px rgba(0, 0, 0, .1);
     box-shadow: inset 0 -2px 5px rgba(0, 0, 0, .1);
 }
@@ -165,17 +164,17 @@ h6, .h6 {
     display: inline-block;
     padding: 10px;
     font-weight: 500;
-    color: #cdddeb;
+    /*color: #cdddeb;*/
 }
 .blog-nav-item:hover,
 .blog-nav-item:focus {
-    color: #fff;
+    /*color: #fff;*/
     text-decoration: none;
 }
 
 /* Active state gets a caret at the bottom */
 .blog-nav .active {
-    color: #fff;
+    /*color: #fff;*/
 }
 .blog-nav .active:after {
     position: absolute;
@@ -208,7 +207,7 @@ h6, .h6 {
 }
 .blog-description {
     font-size: 20px;
-    color: #999;
+    /*color: #999;*/
 }
 
 
@@ -224,11 +223,18 @@ h6, .h6 {
 /* Sidebar modules for boxing content */
 .sidebar-module {
     padding: 15px;
-    margin: 0 -15px 15px;
+    margin: 0 15px 15px;
 }
+
+.sidebar-module p{
+    font-weight: bolder;
+    font-size: 18px;
+    line-height: 1.2;
+}
+
 .sidebar-module-inset {
     padding: 15px;
-    background-color: #f5f5f5;
+    /*background-color: #f5f5f5;*/
     border-radius: 4px;
 }
 .sidebar-module-inset p:last-child,
@@ -264,7 +270,7 @@ h6, .h6 {
 }
 .blog-post-meta {
     margin-bottom: 20px;
-    color: #999;
+    /*color: #999;*/
 }
 
 
@@ -274,15 +280,48 @@ h6, .h6 {
 
 .blog-footer {
     padding: 40px 0;
-    color: #999;
+    /*color: #999;*/
     text-align: center;
-    background-color: #f9f9f9;
+    /*background-color: #f9f9f9;*/
     border-top: 1px solid #e5e5e5;
 }
 .blog-footer p:last-child {
     margin-bottom: 0;
 }
 
+.list-unstyled {
+    font-weight: bolder;
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.list-unstyled a {
+    color: black;
+}
 
 
+.my_content {
+    background-color: rgba(255,255,255,0.8);
+    padding: 15px;
+    margin: 0 15px 0;
+}
 
+.jumbotron {
+    background-color: lightcyan;
+    background-color: rgba(187,255,255,0);
+    margin: -5px 15px -5px;
+}
+
+
+.my_box {
+    background-color: rgba(187,255,255,0);
+    padding: 15px 20px 15px;
+    margin: -5px -5px 15px;
+}
+
+.my_sidebar {
+    position: fixed;
+    padding: 0;
+    margin: -100px 80px 0 0;
+    background-color: rgba(210,255,255,0.8);
+}
