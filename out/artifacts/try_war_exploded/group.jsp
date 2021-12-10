@@ -157,6 +157,11 @@
             </p>
         </div>
 
+        <div class="blog-header">
+            <h1 class="blog-title"><%= curGroup.getGroupName()%></h1>
+            <p class="lead blog-description"><%= curGroup.getGroupIntroduction()%></p>
+        </div>
+
 
         <div class="row">
             <div class="col-sm-8 blog-main my_content">

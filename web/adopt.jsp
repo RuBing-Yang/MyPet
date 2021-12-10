@@ -4,7 +4,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="Utils.Reply" %>
-<%@ page import="java.util.Objects" %><%--
+<%@ page import="java.util.Objects" %>
+<%@ page import="Utils.Group" %><%--
   Created by IntelliJ IDEA.
   User: 16096
   Date: 2021/9/26
@@ -17,6 +18,7 @@
 <%! static int USER_ID = -1;%>
 <%! static ArrayList<Post> postList = new ArrayList<>();%>
 <%! static HashMap<Integer, Reply> replyList = new HashMap<>();%>
+<%! static ArrayList<Group> groupList = new ArrayList<>();%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -66,6 +68,21 @@
                             rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_intro"),
                             rs.getString("post_context"), rs.getString("post_time"), rs.getString("post_place"),
                             rs.getInt("post_likes_number"), rs.getInt("post_person_id"), rs.getInt("post_pet_id")
+                    )
+            );
+        }
+    }
+
+    groupList.clear();
+    sql = "SELECT * FROM pet_group";
+    System.out.println(sql);
+    rs = Database.retrieveDb(sql);
+    if (rs != null) {
+        while (rs.next()) {
+            groupList.add(
+                    new Group(
+                            rs.getInt("group_id"), rs.getString("group_name"), rs.getString("group_introduction"),
+                            rs.getInt("group_leader"), rs.getInt("group_number"), rs.getInt("group_activity")
                     )
             );
         }
@@ -191,15 +208,15 @@
                         </div>
 
                         <div class="sidebar-module sidebar-module-inset">
-                            <p>所有有生命的、没有生命的，都是一样重要，共同组成了这个世界。野生动物们和我们人类一样，也是自然的孩子</p>
+                            <p>进入小组，获取更多内容</p>
                             <%
-                                for (int i = 1; i < 10; i++) {
+                                for (int i = 0; i < groupList.size(); i++) {
                                     //第i个小组
                             %>
 
                             <p><a href=<%="group.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                   + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
-                                  + "&GROUP_INDEX=" + i%>>第<%= i %>小组
+                                  + "&GROUP_ID=" + groupList.get(i).getGroupId()%>><%= groupList.get(i).getGroupName() %>
                             </a></p>
 
                             <% } %>
