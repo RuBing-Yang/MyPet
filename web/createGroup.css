@@ -135,10 +135,12 @@ body {
     max-width: 330px;
     padding: 15px;
     margin: 0 auto;
+    color: #FFFFFF;
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
     margin-bottom: 10px;
+    color: #FFFFFF;
 }
 .form-signin .checkbox {
     font-weight: 400;

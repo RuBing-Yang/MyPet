@@ -5,6 +5,7 @@
 body {
     padding-bottom: 40px;
     /*color: #5a5a5a;*/
+    background-attachment: fixed;
     background-image: url(img/cover_bg.png);
 }
 
@@ -133,7 +134,7 @@ body {
 }
 
 
-.my_box {
-    background-color: rgba(255,255,255,0.5);
+.my_box_ {
+    background-color: rgba(210,255,255,0.5);
     margin: 5px 30px 5px;
 }

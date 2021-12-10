@@ -186,7 +186,7 @@
                                             + "&POST_PERSON_ID=" + postList.get(i).getPostPersonId()%>>
                                         <%=publisherName%>     <%= postList.get(i).getPostPlace()%></a></p>
                             </div>
-                            <p><a class="btn btn-lg btn-primary" href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
+                            <p><a class="btn btn-lg btn-primary opacity-75" href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
                             "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + postList.get(i).getPostId()%> role="button">查看详情</a></p>
                             <hr>
                         </div>
@@ -220,6 +220,12 @@
                             </a></p>
 
                             <% } %>
+                        </div>
+
+
+                        <div class="sidebar-module">
+                            <p><a class="btn btn-lg btn-primary" href=<%="createGroup.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
+                            "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%> role="button">创建小组</a></p>
                         </div>
 
                     </nav>

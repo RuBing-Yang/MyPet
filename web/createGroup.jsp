@@ -111,7 +111,7 @@
 
         <div class="inner cover">
             <form class="form-signin" action="group.jsp" method="POST" role="form" data-toggle="validator" novalidate>
-                <h2>创建一个小组</h2>
+                <h2 class="form-signin-heading">创建一个小组</h2>
                 <div class="form-group has-feedback">
                     <label for="inputGroupName" class="sr-only">小组名称</label>
                     <input type="text" id="inputGroupName" class="form-control" placeholder="名字"

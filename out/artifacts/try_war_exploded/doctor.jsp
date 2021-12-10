@@ -128,28 +128,43 @@
         %>
                 <div class="row">
                     <div class="col-lg-4">
+                        <div class="my_box_">
                         <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                        <div class="my_box">
                             <h2><%= doctorList.get(i).getDoctorName()%></h2>
                             <p><%= doctorList.get(i).getDoctorIntroduction()%></p>
                         </div>
-                        <p><a class="btn btn-default" href="#" role="button">咨询 &raquo;</a></p>
+                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                                + "&USERNAME=" + USERNAME
+                                + "&USER_ID=" + USER_ID
+                                + "&DOCTOR_ID=" + i%>
+                                role="button">咨询 &raquo;
+                        </a></p>
                     </div><!-- /.col-lg-4 -->
                     <div class="col-lg-4">
+                        <div class="my_box_">
                         <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                        <div class="my_box">
                             <h2><%= doctorList.get(i+1).getDoctorName()%></h2>
                             <p><%= doctorList.get(i+1).getDoctorIntroduction()%></p>
                         </div>
-                        <p><a class="btn btn-default" href="#" role="button">咨询 &raquo;</a></p>
+                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                                + "&USERNAME=" + USERNAME
+                                + "&USER_ID=" + USER_ID
+                                + "&DOCTOR_ID=" + (i+1)%>
+                                role="button">咨询 &raquo;
+                        </a></p>
                     </div><!-- /.col-lg-4 -->
                     <div class="col-lg-4">
+                        <div class="my_box_">
                         <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                        <div class="my_box">
                             <h2><%= doctorList.get(i+2).getDoctorName()%></h2>
                             <p><%= doctorList.get(i+2).getDoctorIntroduction()%></p>
                         </div>
-                        <p><a class="btn btn-default" href="#" role="button">咨询 &raquo;</a></p>
+                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                                + "&USERNAME=" + USERNAME
+                                + "&USER_ID=" + USER_ID
+                                + "&DOCTOR_ID=" + (i+2)%>
+                                role="button">咨询 &raquo;
+                        </a></p>
                     </div><!-- /.col-lg-4 -->
                 </div><!-- /.row -->
         <%
