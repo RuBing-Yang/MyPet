@@ -50,6 +50,14 @@
 <body>
 
 <%
+    String phoneNumber = request.getParameter("PHONE_NUMBER");
+    String username = request.getParameter("USERNAME");
+    if (phoneNumber != null) {
+        int userId = Integer.parseInt(request.getParameter("USER_ID"));
+        PHONE_NUMBER = phoneNumber;
+        USERNAME = username;
+        USER_ID = userId;
+    }
     String post_person_id = request.getParameter("POST_PERSON_ID");
     if (post_person_id != null) {
         POST_PERSON_ID = Integer.parseInt(post_person_id);

@@ -15,6 +15,7 @@
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
+<%! static int GROUP_INDEX = -1;%>
 <%! static ArrayList<Post> postList = new ArrayList<>();%>
 <%! static HashMap<Integer, Reply> replyList = new HashMap<>();%>
 <html>
@@ -32,7 +33,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="bootstrap-3.4.1/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="adopt_.css" rel="stylesheet">
+    <link href="group.css" rel="stylesheet">
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="bootstrap-3.4.1/docs/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="bootstrap-3.4.1/docs/assets/js/ie-emulation-modes-warning.js"></script>
@@ -47,6 +48,10 @@
 <%
     String phoneNumber = request.getParameter("PHONE_NUMBER");
     String username = request.getParameter("USERNAME");
+    String groupIndex = request.getParameter("GROUP_INDEX");
+    if (groupIndex != null && !groupIndex.equals("")) {
+        GROUP_INDEX = Integer.parseInt(groupIndex);
+    }
     if (phoneNumber != null) {
         int userId = Integer.parseInt(request.getParameter("USER_ID"));
         PHONE_NUMBER = phoneNumber;
@@ -54,21 +59,6 @@
         USER_ID = userId;
     } else {
         Database.connectDb("test", "q1w2e3r4_");
-    }
-    postList.clear();
-    String sql = "SELECT * FROM post";
-    System.out.println(sql);
-    ResultSet rs = Database.retrieveDb(sql);
-    if (rs != null) {
-        while (rs.next()) {
-            postList.add(
-                    new Post(
-                            rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_intro"),
-                            rs.getString("post_context"), rs.getString("post_time"), rs.getString("post_place"),
-                            rs.getInt("post_likes_number"), rs.getInt("post_person_id"), rs.getInt("post_pet_id")
-                    )
-            );
-        }
     }
 %>
 
@@ -138,45 +128,19 @@
 
         <div class="row">
             <div class="col-sm-8 blog-main my_content">
-                <%
-                    for (int i = 0; i < postList.size(); i++) {
-                        sql = "SELECT pet_state FROM adopt_present " +
-                                "WHERE user_id = " + postList.get(i).getPostPersonId() + " AND pet_id = " + postList.get(i).getPostPetId();
-                        System.out.println(sql);
-                        rs = Database.retrieveDb(sql);
-                        String stateLabel = "初始状态";
-                        if (rs != null && rs.next()) {
-                            String state = rs.getString("pet_state");
-                            stateLabel = Objects.equals(state, "pre") ? "待领养" : Objects.equals(state, "left") ? "已领养" : "状态出错";
-                        }
 
-                        sql = "SELECT user_name FROM user WHERE user_id = " + postList.get(i).getPostPersonId();
-                        System.out.println(sql);
-                        String publisherName = "游客";
-                        rs = Database.retrieveDb(sql);
-                        if (rs != null && rs.next()) {
-                            publisherName = rs.getString("user_name");
-                        }
-                %>
+                <% for (int i = 0; i < 5; i++) { %>
+
                     <div class="row">
                         <div class="jumbotron">
                             <div class = "my_box">
-                                <p><%= stateLabel%></p>
-                                <h2><%= postList.get(i).getPostTitle()%></h2>
-                                <p><%= postList.get(i).getPostIntro()%></p>
-                                <p class="blog-post-meta">January 1, 2014 by
-                                    <a href=<%= "intro.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
-                                            + "&POST_PERSON_ID=" + postList.get(i).getPostPersonId()%>>
-                                        <%=publisherName%>     <%= postList.get(i).getPostPlace()%></a></p>
+                                <p>这里可以循环放小组的内容</p>
                             </div>
-                            <p><a class="btn btn-lg btn-primary" href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
-                            "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + postList.get(i).getPostId()%> role="button">查看详情</a></p>
-                            <hr>
                         </div>
                     </div><!-- /.row -->
-                <%
-                    }
-                %>
+
+                <% } %>
+
             </div><!-- /.blog-main -->
 
 
@@ -187,7 +151,7 @@
                     <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
 
                         <div class="sidebar-module">
-                            <h3>小组</h3>
+                            <h3>其他小组</h3>
                         </div>
 
                         <div class="sidebar-module sidebar-module-inset">
@@ -195,11 +159,12 @@
                             <%
                                 for (int i = 1; i < 10; i++) {
                                     //第i个小组
+                                    if (i == GROUP_INDEX) continue;
                             %>
 
                             <p><a href=<%="group.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                  + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
-                                  + "&GROUP_INDEX=" + i%>>第<%= i %>小组
+                                    + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
+                                    + "&GROUP_INDEX=" + i%>>第<%= i %>小组
                             </a></p>
 
                             <% } %>

@@ -32,8 +32,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="bootstrap-3.4.1/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="adopt.css" rel="stylesheet">
-    <%--<link href="bootstrap-3.4.1/docs/examples/cover/cover.css" rel="stylesheet">--%>
+    <link href="adopt_.css" rel="stylesheet">
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="bootstrap-3.4.1/docs/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="bootstrap-3.4.1/docs/assets/js/ie-emulation-modes-warning.js"></script>
@@ -129,124 +128,147 @@
 
 
 
+    <div class="container">
+
+        <div class="blog-header">
+            <h1 class="blog-title">所有帖子</h1>
+            <p class="lead blog-description">请给他们一个新家</p>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-8 blog-main my_content">
+                <%
+                    for (int i = 0; i < postList.size(); i++) {
+                        sql = "SELECT pet_state FROM adopt_present " +
+                                "WHERE user_id = " + postList.get(i).getPostPersonId() + " AND pet_id = " + postList.get(i).getPostPetId();
+                        System.out.println(sql);
+                        rs = Database.retrieveDb(sql);
+                        String stateLabel = "初始状态";
+                        if (rs != null && rs.next()) {
+                            String state = rs.getString("pet_state");
+                            stateLabel = Objects.equals(state, "pre") ? "待领养" : Objects.equals(state, "left") ? "已领养" : "状态出错";
+                        }
+
+                        sql = "SELECT user_name FROM user WHERE user_id = " + postList.get(i).getPostPersonId();
+                        System.out.println(sql);
+                        String publisherName = "游客";
+                        rs = Database.retrieveDb(sql);
+                        if (rs != null && rs.next()) {
+                            publisherName = rs.getString("user_name");
+                        }
+                %>
+                    <div class="row">
+                        <div class="jumbotron">
+                            <div class = "my_box">
+                                <p><%= stateLabel%></p>
+                                <h2><%= postList.get(i).getPostTitle()%></h2>
+                                <p><%= postList.get(i).getPostIntro()%></p>
+                                <p class="blog-post-meta">January 1, 2014 by
+                                    <a href=<%= "intro.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
+                                            + "&POST_PERSON_ID=" + postList.get(i).getPostPersonId()%>>
+                                        <%=publisherName%>     <%= postList.get(i).getPostPlace()%></a></p>
+                            </div>
+                            <p><a class="btn btn-lg btn-primary" href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
+                            "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + postList.get(i).getPostId()%> role="button">查看详情</a></p>
+                            <hr>
+                        </div>
+                    </div><!-- /.row -->
+                <%
+                    }
+                %>
+            </div><!-- /.blog-main -->
+
+
+
+            <div class="col-md-2" role="complementary"> </div>
+            <div class="col-md-3 my_sidebar" role="complementary">
+                <div class="row">
+                    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
+
+                        <div class="sidebar-module">
+                            <h3>小组</h3>
+                        </div>
+
+                        <div class="sidebar-module sidebar-module-inset">
+                            <p>所有有生命的、没有生命的，都是一样重要，共同组成了这个世界。野生动物们和我们人类一样，也是自然的孩子</p>
+                            <%
+                                for (int i = 1; i < 10; i++) {
+                                    //第i个小组
+                            %>
+
+                            <p><a href=<%="group.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                                  + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
+                                  + "&GROUP_INDEX=" + i%>>第<%= i %>小组
+                            </a></p>
+
+                            <% } %>
+                        </div>
+
+                    </nav>
+                </div><!-- /.row -->
+            </div>
+
+
+        </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
 
 </div>
 
 
 <!-- Carousel
 ================================================== -->
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img class="first-slide" src="img/slide1.png" alt="First slide">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>领养代替购买</h1>
-                    <p>"领养代替购买，让爱不再流浪。"</p>
-                    <!--<p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Sign up today</a></p>-->
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <img class="second-slide" src="img/slide2.png" alt="Second slide">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>每个生命都是美好的</h1>
-                    <p>"给生命以爱，给宠物以家。"</p>
-                    <!--<p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Learn more</a></p>-->
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <img class="third-slide" src="img/slide3.png" alt="Third slide">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>为它我能做些什么</h1>
-                    <p>"陪伴是最长情的告白，对所有生命都是。"</p>
-                    <!--<p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Browse gallery</a></p>-->
-                </div>
-            </div>
-        </div>
-    </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div><!-- /.carousel -->
+<%--<div id="myCarousel" class="carousel slide" data-ride="carousel">--%>
+<%--    <!-- Indicators -->--%>
+<%--    <ol class="carousel-indicators">--%>
+<%--        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>--%>
+<%--        <li data-target="#myCarousel" data-slide-to="1"></li>--%>
+<%--        <li data-target="#myCarousel" data-slide-to="2"></li>--%>
+<%--    </ol>--%>
+<%--    <div class="carousel-inner" role="listbox">--%>
+<%--        <div class="item active">--%>
+<%--            <img class="first-slide" src="img/slide1.png" alt="First slide">--%>
+<%--            <div class="container">--%>
+<%--                <div class="carousel-caption">--%>
+<%--                    <h1>领养代替购买</h1>--%>
+<%--                    <p>"领养代替购买，让爱不再流浪。"</p>--%>
+<%--                    <!--<p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Sign up today</a></p>-->--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="item">--%>
+<%--            <img class="second-slide" src="img/slide2.png" alt="Second slide">--%>
+<%--            <div class="container">--%>
+<%--                <div class="carousel-caption">--%>
+<%--                    <h1>每个生命都是美好的</h1>--%>
+<%--                    <p>"给生命以爱，给宠物以家。"</p>--%>
+<%--                    <!--<p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Learn more</a></p>-->--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="item">--%>
+<%--            <img class="third-slide" src="img/slide3.png" alt="Third slide">--%>
+<%--            <div class="container">--%>
+<%--                <div class="carousel-caption">--%>
+<%--                    <h1>为它我能做些什么</h1>--%>
+<%--                    <p>"陪伴是最长情的告白，对所有生命都是。"</p>--%>
+<%--                    <!--<p><a class="btn btn-lg btn-primary" href="login.jsp" role="button">Browse gallery</a></p>-->--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">--%>
+<%--        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>--%>
+<%--        <span class="sr-only">Previous</span>--%>
+<%--    </a>--%>
+<%--    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">--%>
+<%--        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>--%>
+<%--        <span class="sr-only">Next</span>--%>
+<%--    </a>--%>
+<%--</div><!-- /.carousel -->--%>
 
-
-<div class="container">
-
-    <div class="blog-header">
-        <h1 class="blog-title">所有帖子</h1>
-        <p class="lead blog-description">请给他们一个新家</p>
-    </div>
-
-    <%
-        for (int i = 0; i < postList.size(); i++) {
-            sql = "SELECT pet_state FROM adopt_present " +
-                    "WHERE user_id = " + postList.get(i).getPostPersonId() + " AND pet_id = " + postList.get(i).getPostPetId();
-            System.out.println(sql);
-            rs = Database.retrieveDb(sql);
-            String stateLabel = "初始状态";
-            if (rs != null && rs.next()) {
-                String state = rs.getString("pet_state");
-                stateLabel = Objects.equals(state, "pre") ? "待领养" : Objects.equals(state, "left") ? "已领养" : "状态出错";
-            }
-
-            sql = "SELECT user_name FROM user WHERE user_id = " + postList.get(i).getPostPersonId();
-            System.out.println(sql);
-            String publisherName = "游客";
-            rs = Database.retrieveDb(sql);
-            if (rs != null && rs.next()) {
-                publisherName = rs.getString("user_name");
-            }
-    %>
-
-    <div class="row">
-
-        <div class="col-sm-8 blog-main">
-
-<%--                <div class="blog-post">--%>
-<%--                    <h2 class="blog-post-title"><%= postList.get(i).getPostTitle()%></h2>--%>
-<%--                    <p class="blog-post-meta">January 1, 2014 by <a href="#"><%= postList.get(i).getPostPersonId()%>  <%= postList.get(i).getPostPlace()%></a></p>--%>
-<%--                    <p>查看详情</p>--%>
-<%--                    <hr>--%>
-<%--                    <p>占位</p>--%>
-<%--                </div><!-- /.blog-post -->--%>
-            <div class="jumbotron">
-                <p><%= stateLabel%></p>
-                <h2><%= postList.get(i).getPostTitle()%></h2>
-                <p><%= postList.get(i).getPostIntro()%></p>
-                <p class="blog-post-meta">January 1, 2014 by
-                    <a href=<%= "intro.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
-                    + "&POST_PERSON_ID=" + postList.get(i).getPostPersonId()%>>
-                        <%=publisherName%>     <%= postList.get(i).getPostPlace()%></a>
-                <p>
-                    <a class="btn btn-lg btn-primary" href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
-                    "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + postList.get(i).getPostId()%> role="button">查看详情</a>
-                </p>
-                <hr>
-            </div>
-        </div><!-- /.blog-main -->
-
-    </div><!-- /.row -->
-
-    <%
-        }
-    %>
-
-</div><!-- /.container -->
 
 
 
