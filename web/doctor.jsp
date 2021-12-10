@@ -30,7 +30,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="bootstrap-3.4.1/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="present.css" rel="stylesheet">
+    <link href="doctor.css" rel="stylesheet">
     <%--<link href="bootstrap-3.4.1/docs/examples/cover/cover.css" rel="stylesheet">--%>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="bootstrap-3.4.1/docs/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -120,8 +120,8 @@
 
     </div>
 
-    <div class="container marketing">
 
+    <div class="container marketing">
         <%
             for (int i = 0; i < doctorList.size(); i = i + 3) {
 
@@ -129,26 +129,33 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                        <h2><%= doctorList.get(i).getDoctorName()%></h2>
-                        <p><%= doctorList.get(i).getDoctorIntroduction()%></p>
+                        <div class="my_box">
+                            <h2><%= doctorList.get(i).getDoctorName()%></h2>
+                            <p><%= doctorList.get(i).getDoctorIntroduction()%></p>
+                        </div>
                         <p><a class="btn btn-default" href="#" role="button">咨询 &raquo;</a></p>
                     </div><!-- /.col-lg-4 -->
                     <div class="col-lg-4">
                         <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                        <h2><%= doctorList.get(i+1).getDoctorName()%></h2>
-                        <p><%= doctorList.get(i+1).getDoctorIntroduction()%></p>
+                        <div class="my_box">
+                            <h2><%= doctorList.get(i+1).getDoctorName()%></h2>
+                            <p><%= doctorList.get(i+1).getDoctorIntroduction()%></p>
+                        </div>
                         <p><a class="btn btn-default" href="#" role="button">咨询 &raquo;</a></p>
                     </div><!-- /.col-lg-4 -->
                     <div class="col-lg-4">
                         <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                        <h2><%= doctorList.get(i+2).getDoctorName()%></h2>
-                        <p><%= doctorList.get(i+2).getDoctorIntroduction()%></p>
+                        <div class="my_box">
+                            <h2><%= doctorList.get(i+2).getDoctorName()%></h2>
+                            <p><%= doctorList.get(i+2).getDoctorIntroduction()%></p>
+                        </div>
                         <p><a class="btn btn-default" href="#" role="button">咨询 &raquo;</a></p>
                     </div><!-- /.col-lg-4 -->
                 </div><!-- /.row -->
         <%
             }
         %>
+
 
     </div><!-- /.container -->
 
