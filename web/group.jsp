@@ -51,6 +51,11 @@
     String phoneNumber = request.getParameter("PHONE_NUMBER");
     String username = request.getParameter("USERNAME");
     String groupIndex = request.getParameter("GROUP_ID");
+
+    /**
+    * request.getParameter("OPERATE") join加入,exit退出
+     */
+
     if (groupIndex != null && !groupIndex.equals("")) {
         GROUP_ID = Integer.parseInt(groupIndex);
     }
