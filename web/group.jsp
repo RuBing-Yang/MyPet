@@ -19,6 +19,7 @@
 <%! static int GROUP_ID = -1;%>
 <%! static Group curGroup = null;%>
 <%! static ArrayList<Group> groupList = new ArrayList<>();%>
+<%! static ArrayList<Post> postList = new ArrayList<>();%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -86,6 +87,22 @@
             }
         }
     }
+
+    postList.clear();
+    sql = "SELECT post.* FROM post, group_join WHERE group_join.group_id = " + GROUP_ID + " AND group_join.user_id = post.post_person_id";
+    System.out.println(sql);
+    rs = Database.retrieveDb(sql);
+    if (rs != null) {
+        while (rs.next()) {
+            postList.add(
+                    new Post(
+                            rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_intro"),
+                            rs.getString("post_context"), rs.getString("post_time"), rs.getString("post_place"),
+                            rs.getInt("post_likes_number"), rs.getInt("post_person_id"), rs.getInt("post_pet_id")
+                    )
+            );
+        }
+    }
 %>
 
 <div class="navbar-wrapper">
@@ -150,29 +167,67 @@
             <h1><%= curGroup.getGroupName()%></h1>
             <p><%= curGroup.getGroupIntroduction()%></p>
             <%
-                //TODO 查询是否已经加入，来确定是否显示按钮
+                if (USER_ID == -1) {
             %>
-            <p>
-                <a class="btn btn-lg btn-primary" role="button">加入</a>
-            </p>
+                <p>
+                    <a class="btn btn-lg btn-primary" role="button">请先登录</a>
+                </p>
+            <%
+                } else {
+                    sql = "SELECT * FROM group_join WHERE group_join.user_id = " + USER_ID + " AND group_join.group_id = " + GROUP_ID;
+                    System.out.println(sql);
+                    rs = Database.retrieveDb(sql);
+                    if (rs != null && rs.next()) {
+            %>
+                        <p>您已加入该小组</p>
+            <%      } else {%>
+                        <a class="btn btn-lg btn-primary" role="button">加入</a>
+            <%      }%>
+            <% } %>
         </div>
 
 
         <div class="row">
             <div class="col-sm-8 blog-main my_content">
+                <%
+                    for (int i = 0; i < postList.size(); i++) {
+                        sql = "SELECT pet_state FROM adopt_present " +
+                                "WHERE user_id = " + postList.get(i).getPostPersonId() + " AND pet_id = " + postList.get(i).getPostPetId();
+                        System.out.println(sql);
+                        rs = Database.retrieveDb(sql);
+                        String stateLabel = "初始状态";
+                        if (rs != null && rs.next()) {
+                            String state = rs.getString("pet_state");
+                            stateLabel = Objects.equals(state, "pre") ? "待领养" : Objects.equals(state, "left") ? "已领养" : "状态出错";
+                        }
 
-                <% for (int i = 0; i < 5; i++) { %>
-
-                    <div class="row">
-                        <div class="jumbotron">
-                            <div class = "my_box">
-                                <p>这里可以循环放小组的内容</p>
-                            </div>
+                        sql = "SELECT user_name FROM user WHERE user_id = " + postList.get(i).getPostPersonId();
+                        System.out.println(sql);
+                        String publisherName = "游客";
+                        rs = Database.retrieveDb(sql);
+                        if (rs != null && rs.next()) {
+                            publisherName = rs.getString("user_name");
+                        }
+                %>
+                <div class="row">
+                    <div class="jumbotron">
+                        <div class = "my_box">
+                            <p><%= stateLabel%></p>
+                            <h2><%= postList.get(i).getPostTitle()%></h2>
+                            <p><%= postList.get(i).getPostIntro()%></p>
+                            <p class="blog-post-meta">January 1, 2014 by
+                                <a href=<%= "intro.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
+                                        + "&POST_PERSON_ID=" + postList.get(i).getPostPersonId()%>>
+                                    <%=publisherName%>     <%= postList.get(i).getPostPlace()%></a></p>
                         </div>
-                    </div><!-- /.row -->
-
-                <% } %>
-
+                        <p><a class="btn btn-lg btn-primary" href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
+                            "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + postList.get(i).getPostId()%> role="button">查看详情</a></p>
+                        <hr>
+                    </div>
+                </div><!-- /.row -->
+                <%
+                    }
+                %>
             </div><!-- /.blog-main -->
 
 
