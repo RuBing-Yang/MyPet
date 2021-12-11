@@ -1,4 +1,7 @@
-<%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Utils.Pet" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="DBS.Database" %><%--
   Created by IntelliJ IDEA.
   User: 16096
   Date: 2021/9/26
@@ -9,6 +12,8 @@
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
+<%! static ArrayList<Pet> rescuePetsList = new ArrayList<>();%>
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -55,6 +60,17 @@
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
         USER_ID = userId;
+    }
+
+    String sql = "SELECT * FROM pet WHERE rescue = 1";
+    System.out.println(sql);
+    ResultSet rs = Database.retrieveDb(sql);
+    rescuePetsList.clear();
+    if (rs != null) {
+        while (rs.next()) {
+            rescuePetsList.add(new Pet(rs.getInt("pet_id"), rs.getInt("pet_variety"), rs.getString("pet_name"),
+                    rs.getInt("pet_age"), rs.getString("pet_gender"), rs.getString("pet_remarks")));
+        }
     }
 %>
 
@@ -168,13 +184,19 @@
 
 
 <div class="container features">
+    <%
+        for (int i = 0; i < rescuePetsList.size(); i++) {
+    %>
+    <%
+            if (i % 2 == 0) {
+    %>
     <div class="row feature">
         <div class="col-lg-7">
             <h2 class="feature-heading">
-                速度超快。
+                <%= rescuePetsList.get(i).getPetName()%>
             </h2>
             <p class="feature-text">
-                Yarn 缓存了每个下载过的包，所以再次使用时无需重复下载。 同时利用并行下载以最大化资源利用率，因此安装速度更快。
+                <%= rescuePetsList.get(i).getPetRemarks()%>
 
             </p>
         </div>
@@ -182,16 +204,17 @@
             <img class="feature-image img-fluid mx-auto feature-image-speed" src="img/feature-speed.png" width="500" height="300" alt="Watercolour of cat riding a rocketship">
         </div>
     </div>
+    <%
+            } else {
 
-    <hr class="feature-divider">
-
+    %>
     <div class="row feature">
         <div class="col-lg-7 push-lg-5">
             <h2 class="feature-heading">
-                超级安全。
+                <%= rescuePetsList.get(i).getPetName()%>
             </h2>
             <p class="feature-text">
-                在执行代码之前，Yarn 会通过算法校验每个安装包的完整性。
+                <%= rescuePetsList.get(i).getPetRemarks()%>
 
             </p>
         </div>
@@ -199,23 +222,61 @@
             <img class="feature-image img-fluid mx-auto feature-image-secure" src="img/feature-secure.png" width="375" height="300" alt="Watercolour of cat driving a robot suit">
         </div>
     </div>
-
+    <%
+            }
+    %>
     <hr class="feature-divider">
+    <%
+        }
+    %>
+<%--    <div class="row feature">--%>
+<%--        <div class="col-lg-7">--%>
+<%--            <h2 class="feature-heading">--%>
+<%--                速度超快。--%>
+<%--            </h2>--%>
+<%--            <p class="feature-text">--%>
+<%--                Yarn 缓存了每个下载过的包，所以再次使用时无需重复下载。 同时利用并行下载以最大化资源利用率，因此安装速度更快。--%>
 
-    <div class="row feature">
-        <div class="col-lg-7">
-            <h2 class="feature-heading">
-                超级可靠。
-            </h2>
-            <p class="feature-text">
-                使用详细、简洁的锁文件格式和明确的安装算法，Yarn 能够保证在不同系统上无差异的工作。
+<%--            </p>--%>
+<%--        </div>--%>
+<%--        <div class="col-lg-5">--%>
+<%--            <img class="feature-image img-fluid mx-auto feature-image-speed" src="img/feature-speed.png" width="500" height="300" alt="Watercolour of cat riding a rocketship">--%>
+<%--        </div>--%>
+<%--    </div>--%>
 
-            </p>
-        </div>
-        <div class="col-lg-5">
-            <img class="feature-image img-fluid mx-auto feature-image-reliable" src="img/feature-reliable.png" width="500" height="300" alt="Watercolour of cat waving from seat behind computer screens">
-        </div>
-    </div>
+<%--    <hr class="feature-divider">--%>
+
+<%--    <div class="row feature">--%>
+<%--        <div class="col-lg-7 push-lg-5">--%>
+<%--            <h2 class="feature-heading">--%>
+<%--                超级安全。--%>
+<%--            </h2>--%>
+<%--            <p class="feature-text">--%>
+<%--                在执行代码之前，Yarn 会通过算法校验每个安装包的完整性。--%>
+
+<%--            </p>--%>
+<%--        </div>--%>
+<%--        <div class="col-lg-5 pull-lg-7">--%>
+<%--            <img class="feature-image img-fluid mx-auto feature-image-secure" src="img/feature-secure.png" width="375" height="300" alt="Watercolour of cat driving a robot suit">--%>
+<%--        </div>--%>
+<%--    </div>--%>
+
+<%--    <hr class="feature-divider">--%>
+
+<%--    <div class="row feature">--%>
+<%--        <div class="col-lg-7">--%>
+<%--            <h2 class="feature-heading">--%>
+<%--                超级可靠。--%>
+<%--            </h2>--%>
+<%--            <p class="feature-text">--%>
+<%--                使用详细、简洁的锁文件格式和明确的安装算法，Yarn 能够保证在不同系统上无差异的工作。--%>
+
+<%--            </p>--%>
+<%--        </div>--%>
+<%--        <div class="col-lg-5">--%>
+<%--            <img class="feature-image img-fluid mx-auto feature-image-reliable" src="img/feature-reliable.png" width="500" height="300" alt="Watercolour of cat waving from seat behind computer screens">--%>
+<%--        </div>--%>
+<%--    </div>--%>
 </div>
 
 <div class="hero">
