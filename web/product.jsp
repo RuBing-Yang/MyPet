@@ -129,9 +129,9 @@
             <h1><%= productList.get(i).getProductType() == 1 ? "狗狗用品" : productList.get(i).getProductType() == 2 ? "猫咪用品" : "其他用品"%></h1>
             <div class="col-lg-4">
                 <div class="my_box_">
-                <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                <h2><%= productList.get(i).getProductName()%></h2>
-                <p><%= productList.get(i).getProductIntroduction()%></p>
+                    <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                    <h2><%= productList.get(i).getProductName()%></h2>
+                    <p><%= productList.get(i).getProductIntroduction()%></p>
                 </div>
                 <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
@@ -142,9 +142,9 @@
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <div class="my_box_">
-                <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                <h2><%= productList.get(i+1).getProductName()%></h2>
-                <p><%= productList.get(i+1).getProductIntroduction()%></p>
+                    <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                    <h2><%= productList.get(i+1).getProductName()%></h2>
+                    <p><%= productList.get(i+1).getProductIntroduction()%></p>
                 </div>
                 <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
@@ -155,9 +155,9 @@
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <div class="my_box_">
-                <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                <h2><%= productList.get(i+2).getProductName()%></h2>
-                <p><%= productList.get(i+2).getProductIntroduction()%></p>
+                    <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                    <h2><%= productList.get(i+2).getProductName()%></h2>
+                    <p><%= productList.get(i+2).getProductIntroduction()%></p>
                 </div>
                 <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME

@@ -66,20 +66,25 @@ body {
 
 /* MARKETING CONTENT
 -------------------------------------------------- */
-
-/* Center align the text within the three columns below the carousel */
 .marketing .col-lg-4 {
+    color: whitesmoke;
     margin-bottom: 20px;
     text-align: center;
     background-color: rgba(255,255,255,0);
 }
+.marketing h1 {
+    text-shadow: 5px 5px 5px #3a3f43;
+}
 .marketing h2 {
     font-weight: 400;
+    text-shadow: 5px 5px 5px #3a3f43;
 }
 .marketing .col-lg-4 p {
     margin-right: 10px;
     margin-left: 10px;
+    text-shadow: 3px 3px 3px #3a3f43;
 }
+
 
 
 /* Featurettes
@@ -135,6 +140,7 @@ body {
 
 
 .my_box_ {
-    background-color: rgba(210,255,255,0.5);
+    background-color: rgba(220,255,255,0.4);
     margin: 5px 30px 5px;
+    border-radius: 25px;
 }

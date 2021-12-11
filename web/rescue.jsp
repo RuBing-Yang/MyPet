@@ -25,6 +25,16 @@
     <link href="bootstrap-3.4.1/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="rescue.css" rel="stylesheet">
+    <link href="rescue2.css" rel="stylesheet">
+
+
+    <link rel="canonical" href="https://yarn.bootcss.com/">
+    <link rel="alternate" type="application/rss+xml" title="Yarn 中文文档" href="https://yarn.bootcss.com/feed.xml">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="rescue2.css">
+
+
+
     <%--<link href="bootstrap-3.4.1/docs/examples/cover/cover.css" rel="stylesheet">--%>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="bootstrap-3.4.1/docs/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -156,85 +166,84 @@
 </div><!-- /.carousel -->
 
 
-<!-- Marketing messaging and featurettes
-================================================== -->
-<!-- Wrap the rest of the page in another container to center all the content. -->
 
-<div class="container marketing">
+<div class="container features">
+    <div class="row feature">
+        <div class="col-lg-7">
+            <h2 class="feature-heading">
+                速度超快。
+            </h2>
+            <p class="feature-text">
+                Yarn 缓存了每个下载过的包，所以再次使用时无需重复下载。 同时利用并行下载以最大化资源利用率，因此安装速度更快。
 
-    <!-- Three columns of text below the carousel -->
-    <div class="row">
-        <div class="col-lg-4">
-            <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-            <h2>Heading</h2>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-    </div><!-- /.row -->
-
-
-    <!-- START THE FEATURETTES -->
-
-    <hr class="featurette-divider">
-
-    <div class="row featurette">
-        <div class="col-md-7">
-            <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </p>
         </div>
-        <div class="col-md-5">
-            <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+        <div class="col-lg-5">
+            <img class="feature-image img-fluid mx-auto feature-image-speed" src="img/feature-speed.png" width="500" height="300" alt="Watercolour of cat riding a rocketship">
         </div>
     </div>
 
-    <hr class="featurette-divider">
+    <hr class="feature-divider">
 
-    <div class="row featurette">
-        <div class="col-md-7 col-md-push-5">
-            <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-5 col-md-pull-7">
-            <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-        </div>
-    </div>
+    <div class="row feature">
+        <div class="col-lg-7 push-lg-5">
+            <h2 class="feature-heading">
+                超级安全。
+            </h2>
+            <p class="feature-text">
+                在执行代码之前，Yarn 会通过算法校验每个安装包的完整性。
 
-    <hr class="featurette-divider">
-
-    <div class="row featurette">
-        <div class="col-md-7">
-            <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </p>
         </div>
-        <div class="col-md-5">
-            <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+        <div class="col-lg-5 pull-lg-7">
+            <img class="feature-image img-fluid mx-auto feature-image-secure" src="img/feature-secure.png" width="375" height="300" alt="Watercolour of cat driving a robot suit">
         </div>
     </div>
 
-    <hr class="featurette-divider">
+    <hr class="feature-divider">
 
-    <!-- /END THE FEATURETTES -->
+    <div class="row feature">
+        <div class="col-lg-7">
+            <h2 class="feature-heading">
+                超级可靠。
+            </h2>
+            <p class="feature-text">
+                使用详细、简洁的锁文件格式和明确的安装算法，Yarn 能够保证在不同系统上无差异的工作。
+
+            </p>
+        </div>
+        <div class="col-lg-5">
+            <img class="feature-image img-fluid mx-auto feature-image-reliable" src="img/feature-reliable.png" width="500" height="300" alt="Watercolour of cat waving from seat behind computer screens">
+        </div>
+    </div>
+</div>
+
+<div class="hero">
+    <div class="container">
+        <p class="hero-prompt float-md-left">
+            你还在等什么？
+        </p>
+
+        <a href="#" class="btn hero-btn float-md-right">
+            立刻使用！
+        </a>
+    </div>
+</div>
 
 
-    <!-- FOOTER -->
-    <footer>
-        <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2016 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+<div class="container">
+    <footer class="footer">
+        <div class="footer-left">
+            <span class="footer-item">递爱宠物屋</span>
+            <span class="footer-item"><a href="#">基于宠物救助协议发布</a></span>
+            <span class="footer-item"><a href="#">遵守国家规定</a></span>
+        </div>
+        <div class="footer-right">
+            <span class="footer-item">最终解释权归递爱宠物屋所有</span>
+        </div>
     </footer>
+</div>
 
-</div><!-- /.container -->
 
 
 <!-- Bootstrap core JavaScript
