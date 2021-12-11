@@ -205,6 +205,7 @@
 
                         <div class="sidebar-module">
                             <h3>小组</h3>
+                            <a class="btn btn-lg btn-primary" role="button">创建小组</a>
                         </div>
 
                         <div class="sidebar-module sidebar-module-inset">
