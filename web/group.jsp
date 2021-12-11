@@ -56,6 +56,30 @@
     * request.getParameter("OPERATE") join加入,exit退出
      */
 
+    String groupName = request.getParameter("groupName");
+    String groupIntro = request.getParameter("groupIntro");
+    String sql;
+    if (groupName != null) {
+        System.out.println(groupName);
+        sql = "INSERT INTO pet_group (group_name, group_introduction, group_leader) VALUES ('"
+                + groupName + "', '" + groupIntro + "', " + USER_ID + ");";
+        System.out.println(sql);
+        Database.createDb(sql);
+        GROUP_ID = Database.getId();
+    }
+
+    String groupAdd = request.getParameter("GROUP_ADD");
+    if (Objects.equals(groupAdd, "1")) {
+        sql = "INSERT INTO group_join (user_id, group_id) VALUES ("
+                + USER_ID + ", " + GROUP_ID + ");";
+        System.out.println(sql);
+        Database.createDb(sql);
+    } else if (Objects.equals(groupAdd, "0")) {
+        sql = "DELETE FROM group_join WHERE user_id = " + USER_ID + " AND group_id = " + GROUP_ID;
+        System.out.println(sql);
+        Database.deleteDb(sql);
+    }
+
     if (groupIndex != null && !groupIndex.equals("")) {
         GROUP_ID = Integer.parseInt(groupIndex);
     }
@@ -67,7 +91,7 @@
     } else {
         Database.connectDb("test", "q1w2e3r4_");
     }
-    String sql = "SELECT * FROM pet_group WHERE group_id = " + GROUP_ID;
+    sql = "SELECT * FROM pet_group WHERE group_id = " + GROUP_ID;
     System.out.println(sql);
     ResultSet rs = Database.retrieveDb(sql);
     if (rs != null && rs.next()) {
@@ -184,9 +208,9 @@
                     rs = Database.retrieveDb(sql);
                     if (rs != null && rs.next()) {
             %>
-                        <p>您已加入该小组</p>
+                        <a href=<%="group.jsp?GROUP_ADD=0"%>>退出小组</a></p>
             <%      } else {%>
-                        <a class="btn btn-lg btn-primary" role="button">加入</a>
+                        <a href=<%="group.jsp?GROUP_ADD=1"%>>加入小组</a></p>
             <%      }%>
             <% } %>
         </div>
