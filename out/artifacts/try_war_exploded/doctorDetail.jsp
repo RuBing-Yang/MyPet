@@ -4,7 +4,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="Utils.Reply" %>
-<%@ page import="Utils.Doctor" %><%--
+<%@ page import="Utils.Doctor" %>
+<%@ page import="Utils.Consult" %><%--
   Created by IntelliJ IDEA.
   User: 16096
   Date: 2021/9/26
@@ -17,7 +18,7 @@
 <%! static int USER_ID = -1;%>
 <%! static int DOCTOR_ID = -1;%>
 <%! static Doctor curDoctor = null;%>
-<%! static ArrayList<String> consultList = new ArrayList<>();%>
+<%! static ArrayList<Consult> consultList = new ArrayList<>();%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -57,28 +58,43 @@
         USER_ID = userId;
         DOCTOR_ID = doctorId;
     }
+    String sql;
 
-    String sql = "SELECT * FROM doctor WHERE doctor_id = " + DOCTOR_ID;
+    String consult_context = request.getParameter("consult_context");
+    if (consult_context != null) {
+        System.out.println(consult_context);
+        consult_context = new String((request.getParameter("consult_context")).getBytes("ISO-8859-1"),"UTF-8");
+        // 加入用户咨询内容
+        sql = "INSERT INTO consult (user_id, doctor_id, consult_item, consult_direction) VALUES ("
+                + USER_ID + ", " + DOCTOR_ID + ", '" + consult_context + "', 1);";
+        System.out.println(sql);
+        Database.createDb(sql);
+        // 加入自动生成的咨询回复
+        sql = "INSERT INTO consult (user_id, doctor_id, consult_item, consult_direction) VALUES ("
+                + USER_ID + ", " + DOCTOR_ID + ", '抱歉，我现在有事，请稍后咨询', 0);";
+        System.out.println(sql);
+        Database.createDb(sql);
+    }
+
+    sql = "SELECT * FROM doctor WHERE doctor_id = " + DOCTOR_ID;
     System.out.println(sql);
     ResultSet rs = Database.retrieveDb(sql);
     if (rs != null && rs.next()) {
         curDoctor = new Doctor(rs.getInt("doctor_id"), rs.getString("doctor_name"), rs.getNString("doctor_photo"),
                 rs.getInt("doctor_work_years"), rs.getString("doctor_introduction"), rs.getString("doctor_contact"));
     }
-    /*
-    sql = "SELECT product.* FROM product, browse WHERE browse.user_id = " + USER_ID + " AND browse.product_id = product.product_id";
+
+    sql = "SELECT * FROM consult WHERE user_id = " + USER_ID + " AND doctor_id = " + DOCTOR_ID;
     System.out.println(sql);
     rs = Database.retrieveDb(sql);
-    browseList.clear();
+    consultList.clear();
     if (rs != null) {
         while (rs.next()) {
-            browseList.add(new Product(rs.getInt("product_id"), rs.getInt("product_type"), rs.getString("product_name"), rs.getNString("product_photo"),
-                    rs.getString("product_introduction"), rs.getDouble("product_price"), rs.getString("product_link"))
+            consultList.add(new Consult(rs.getInt("consult_id"), rs.getString("consult_item"),
+                    rs.getInt("user_id"), rs.getInt("doctor_id"), rs.getInt("consult_direction"))
             );
         }
     }
-
-     */
 
 %>
 
@@ -147,12 +163,12 @@
 
 
                 <div class="inner cover">
-                    <form class="form-signin" action="postDetail.jsp" method="POST" role="form" data-toggle="validator" novalidate>
+                    <form class="form-signin" action="doctorDetail.jsp" method="POST" role="form" data-toggle="validator" novalidate>
                         <h3>我要咨询</h3>
                         <div class="form-group has-feedback">
-                            <label for="inputReplyContext" class="sr-only">回复内容</label>
-                            <textarea type="text" id="inputReplyContext" class="form-control" placeholder="内容"
-                                      name="reply_context" rows="3" required autofocus></textarea>
+                            <label for="inputConsultContext" class="sr-only">咨询内容</label>
+                            <textarea type="text" id="inputConsultContext" class="form-control" placeholder="内容"
+                                      name="consult_context" rows="3" required autofocus></textarea>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-lg btn-primary btn-block" type="submit">发送</button>
@@ -162,9 +178,17 @@
                 </div>
 
                 <div class="blog-post my_content">
-                    <h2 class="blog-post-title">咨询医生</h2>
+                    <h2 class="blog-post-title">咨询记录</h2>
                     <div class="inner cover">
-                        <p>咨询内容</p>
+                        <%
+                            for (int i = consultList.size() - 1; i >= 0; i--) {
+                                if (consultList.get(i).getConsultDirection() == 0) {
+                        %>
+                        <p><%= curDoctor.getDoctorName()%>:<%= consultList.get(i).getConsultItem()%></p>
+                        <%      } else {%>
+                        <p>我：<%= consultList.get(i).getConsultItem()%></p>
+                        <%      }%>
+                        <% } %>
                     </div>
                 </div><!-- /.blog-post -->
 
