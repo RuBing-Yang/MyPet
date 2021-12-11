@@ -205,7 +205,18 @@
 
                         <div class="sidebar-module">
                             <h3>小组</h3>
-                            <a class="btn btn-lg btn-primary" role="button">创建小组</a>
+                            <%
+                                if (USER_ID == -1) {
+                            %>
+                            <p>登录后可创建小组</p>
+                            <%
+                                } else {
+                            %>
+                            <p><a class="btn btn-lg btn-primary" href=<%="createGroup.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
+                            "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%> role="button">创建小组</a></p>
+                            <%
+                                }
+                            %>
                         </div>
 
                         <div class="sidebar-module sidebar-module-inset">
@@ -221,12 +232,6 @@
                             </a></p>
 
                             <% } %>
-                        </div>
-
-
-                        <div class="sidebar-module">
-                            <p><a class="btn btn-lg btn-primary" href=<%="createGroup.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
-                            "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%> role="button">创建小组</a></p>
                         </div>
 
                     </nav>
