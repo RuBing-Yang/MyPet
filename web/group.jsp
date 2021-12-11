@@ -28,7 +28,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>领养宠物</title>
+    <title>小组</title>
     <link rel="icon" href="img/icon.png">
     <!-- Bootstrap core CSS -->
     <link href="bootstrap-3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -51,6 +51,11 @@
     String phoneNumber = request.getParameter("PHONE_NUMBER");
     String username = request.getParameter("USERNAME");
     String groupIndex = request.getParameter("GROUP_ID");
+
+    /**
+    * request.getParameter("OPERATE") join加入,exit退出
+     */
+
     if (groupIndex != null && !groupIndex.equals("")) {
         GROUP_ID = Integer.parseInt(groupIndex);
     }

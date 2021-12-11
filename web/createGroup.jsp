@@ -1,7 +1,3 @@
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="Utils.Doctor" %>
-<%@ page import="java.sql.ResultSet" %>
-<%@ page import="DBS.Database" %>
 <%--
   Created by IntelliJ IDEA.
   User: 16096
@@ -10,10 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="DBS.Database" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.util.ArrayList" %>
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
-<%! static ArrayList<Doctor> doctorList = new ArrayList<>();%>
+
 
 <html>
 <head>
@@ -23,14 +23,14 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>宠物医生</title>
+    <title>创建小组</title>
     <link rel="icon" href="img/icon.png">
     <!-- Bootstrap core CSS -->
     <link href="bootstrap-3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="bootstrap-3.4.1/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="doctor.css" rel="stylesheet">
+    <link href="present.css" rel="stylesheet">
     <%--<link href="bootstrap-3.4.1/docs/examples/cover/cover.css" rel="stylesheet">--%>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="bootstrap-3.4.1/docs/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -43,28 +43,17 @@
 </head>
 <body>
 
+
 <%
     String phoneNumber = request.getParameter("PHONE_NUMBER");
     String username = request.getParameter("USERNAME");
     if (phoneNumber != null) {
-        int userId = Integer.parseInt(request.getParameter("USER_ID"));
+        String userId = request.getParameter("USER_ID");
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
-        USER_ID = userId;
-    }
-
-    String sql = "SELECT * FROM doctor";
-    ResultSet rs = Database.retrieveDb(sql);
-    doctorList.clear();
-    if (rs != null) {
-        while (rs.next()) {
-            doctorList.add(new Doctor(rs.getInt("doctor_id"), rs.getString("doctor_name"), rs.getNString("doctor_photo"),
-                    rs.getInt("doctor_work_years"), rs.getString("doctor_introduction"), rs.getString("doctor_contact")));
+        if (userId != null && !userId.equals("")) {
+            USER_ID = Integer.parseInt(userId);
         }
-    }
-
-    for (Doctor doctor : doctorList) {
-        System.out.println(doctor);
     }
 %>
 
@@ -80,15 +69,16 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href=<%="index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>首页</a>
+                    <a class="navbar-brand" href=<%="index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>首页</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href=<%="present.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>赠送</a></li>
-                        <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>收养</a></li>
+                        <li class="active"><a href="#">收养</a></li>
                         <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>救助</a></li>
-                        <li class="active"><a href="#">医生</a></li>
+                        <li><a href=<%="doctor.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>医生</a></li>
                         <li><a href=<%="product.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>商品</a></li>
+
                         <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
                         <li><a href="login.jsp">登录</a></li>
                         <% } else { %>
@@ -102,8 +92,8 @@
                                 <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li class="dropdown-header">离开</li>
-                                <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=">退出登录</a></li>
-                                <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&delete=true"%>>注销账号</a></li>
+                                <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=&USER_ID=">退出登录</a></li>
+                                <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true" + "&USER_ID=" + USER_ID%>>注销账号</a></li>
                                 <script type="text/javascript">
                                     function confirmDel()
                                     {
@@ -113,69 +103,39 @@
                             </ul>
                         </li>
                         <% } %>
+
                     </ul>
                 </div>
             </div>
         </nav>
 
+        <div class="inner cover">
+            <form class="form-signin" action="group.jsp" method="POST" role="form" data-toggle="validator" novalidate>
+                <h2 class="form-signin-heading">创建一个小组</h2>
+                <div class="form-group has-feedback">
+                    <label for="inputGroupName" class="sr-only">小组名称</label>
+                    <input type="text" id="inputGroupName" class="form-control" placeholder="名字"
+                           name="groupName" required autofocus>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors">请填写小组名称</div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label for="inputGroupIntro" class="sr-only">小组简介</label>
+                    <input type="text" id="inputGroupIntro" class="form-control"
+                           placeholder="简介" name="groupIntro" required autofocus>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors">请填写小组简介</div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">创建小组</button>
+                </div>
+            </form>
+
+        </div>
+
+
     </div>
-
-
-    <div class="container marketing">
-        <%
-            for (int i = 0; i < doctorList.size(); i = i + 3) {
-
-        %>
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="my_box_">
-                        <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                            <h2><%= doctorList.get(i).getDoctorName()%></h2>
-                            <p><%= doctorList.get(i).getDoctorIntroduction()%></p>
-                        </div>
-                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                + "&USERNAME=" + USERNAME
-                                + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + i%>
-                                role="button">咨询 &raquo;
-                        </a></p>
-                    </div><!-- /.col-lg-4 -->
-                    <div class="col-lg-4">
-                        <div class="my_box_">
-                        <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                            <h2><%= doctorList.get(i+1).getDoctorName()%></h2>
-                            <p><%= doctorList.get(i+1).getDoctorIntroduction()%></p>
-                        </div>
-                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                + "&USERNAME=" + USERNAME
-                                + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + (i+1)%>
-                                role="button">咨询 &raquo;
-                        </a></p>
-                    </div><!-- /.col-lg-4 -->
-                    <div class="col-lg-4">
-                        <div class="my_box_">
-                        <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                            <h2><%= doctorList.get(i+2).getDoctorName()%></h2>
-                            <p><%= doctorList.get(i+2).getDoctorIntroduction()%></p>
-                        </div>
-                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                + "&USERNAME=" + USERNAME
-                                + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + (i+2)%>
-                                role="button">咨询 &raquo;
-                        </a></p>
-                    </div><!-- /.col-lg-4 -->
-                </div><!-- /.row -->
-        <%
-            }
-        %>
-
-
-    </div><!-- /.container -->
-
 </div>
-
 
 
 
@@ -189,5 +149,6 @@
 <script src="bootstrap-3.4.1/docs/dist/js/bootstrap.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="bootstrap-3.4.1/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 </body>
 </html>

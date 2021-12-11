@@ -1,8 +1,9 @@
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="Utils.Doctor" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="DBS.Database" %>
-<%--
+<%@ page import="Utils.Post" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="Utils.Reply" %><%--
   Created by IntelliJ IDEA.
   User: 16096
   Date: 2021/9/26
@@ -13,8 +14,6 @@
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
-<%! static ArrayList<Doctor> doctorList = new ArrayList<>();%>
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -23,14 +22,14 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>宠物医生</title>
+    <title>医生</title>
     <link rel="icon" href="img/icon.png">
     <!-- Bootstrap core CSS -->
     <link href="bootstrap-3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="bootstrap-3.4.1/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="doctor.css" rel="stylesheet">
+    <link href="productDetail.css" rel="stylesheet">
     <%--<link href="bootstrap-3.4.1/docs/examples/cover/cover.css" rel="stylesheet">--%>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="bootstrap-3.4.1/docs/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -51,20 +50,6 @@
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
         USER_ID = userId;
-    }
-
-    String sql = "SELECT * FROM doctor";
-    ResultSet rs = Database.retrieveDb(sql);
-    doctorList.clear();
-    if (rs != null) {
-        while (rs.next()) {
-            doctorList.add(new Doctor(rs.getInt("doctor_id"), rs.getString("doctor_name"), rs.getNString("doctor_photo"),
-                    rs.getInt("doctor_work_years"), rs.getString("doctor_introduction"), rs.getString("doctor_contact")));
-        }
-    }
-
-    for (Doctor doctor : doctorList) {
-        System.out.println(doctor);
     }
 %>
 
@@ -120,59 +105,44 @@
 
     </div>
 
+    <div class="container">
 
-    <div class="container marketing">
-        <%
-            for (int i = 0; i < doctorList.size(); i = i + 3) {
+        <div class="blog-header">
+            <h1 class="blog-title">购买商品</h1>
+            <p class="lead blog-description">领养代替购买，让爱不再流浪</p>
+        </div>
 
-        %>
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="my_box_">
-                        <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                            <h2><%= doctorList.get(i).getDoctorName()%></h2>
-                            <p><%= doctorList.get(i).getDoctorIntroduction()%></p>
-                        </div>
-                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                + "&USERNAME=" + USERNAME
-                                + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + i%>
-                                role="button">咨询 &raquo;
-                        </a></p>
-                    </div><!-- /.col-lg-4 -->
-                    <div class="col-lg-4">
-                        <div class="my_box_">
-                        <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                            <h2><%= doctorList.get(i+1).getDoctorName()%></h2>
-                            <p><%= doctorList.get(i+1).getDoctorIntroduction()%></p>
-                        </div>
-                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                + "&USERNAME=" + USERNAME
-                                + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + (i+1)%>
-                                role="button">咨询 &raquo;
-                        </a></p>
-                    </div><!-- /.col-lg-4 -->
-                    <div class="col-lg-4">
-                        <div class="my_box_">
-                        <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                            <h2><%= doctorList.get(i+2).getDoctorName()%></h2>
-                            <p><%= doctorList.get(i+2).getDoctorIntroduction()%></p>
-                        </div>
-                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                + "&USERNAME=" + USERNAME
-                                + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + (i+2)%>
-                                role="button">咨询 &raquo;
-                        </a></p>
-                    </div><!-- /.col-lg-4 -->
-                </div><!-- /.row -->
-        <%
-            }
-        %>
+        <div class="row">
 
+            <div class="col-md-8 blog-main">
+
+                <div class="blog-post my_content">
+                    <h2 class="blog-post-title">商品名</h2>
+                    <div class="inner cover">
+                        <p>商品介绍</p>
+                    </div>
+                </div><!-- /.blog-post -->
+
+            </div><!-- /.blog-main -->
+
+            <div class="col-md-1" role="complementary"> </div>
+            <div class="col-md-3 my_box" role="complementary">
+
+                <div class="my_sidebar">
+                    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
+
+                        <div class="sidebar-module sidebar-module-inset">
+                            <h2>产品分类</h2>
+                            <p>其他产品</p>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+        </div><!-- /.row -->
 
     </div><!-- /.container -->
+
 
 </div>
 
@@ -180,6 +150,14 @@
 
 
 
+
+
+<footer class="blog-footer">
+    <p> </p>
+    <p>
+
+    </p>
+</footer>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

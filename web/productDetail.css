@@ -289,19 +289,22 @@ h6, .h6 {
     margin-bottom: 0;
 }
 
+.list-unstyled {
+    font-weight: bolder;
+    font-size: 18px;
+    line-height: 1.2;
+}
 
+.list-unstyled a {
+    color: black;
+}
 
 
 .my_content {
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(210,255,255,0.5);
     padding: 15px;
     margin: 0 15px 0;
-}
-
-.my_sidebar {
-    background-color: rgba(255,255,255,0.5);
-    padding: 15px;
-    margin: 0 15px 0;
+    font-weight: bolder;
 }
 
 .jumbotron {
@@ -312,13 +315,14 @@ h6, .h6 {
 
 
 .my_box {
-    background-color: lightcyan;
-    background-color: rgba(187,255,255,0.5);
-    padding: 15px 25px 15px;
+    background-color: rgba(187,255,255,0);
+    padding: 15px 20px 15px;
     margin: -5px -5px 15px;
 }
 
-.btn .btn-lg .btn-primary{
-    opacity: 0.5;
-    background: rgba(51,122,183,0.5);
+.my_sidebar {
+    position: fixed;
+    padding: 0;
+    margin: -100px 80px 0 0;
+    background-color: rgba(210,255,255,0.5);
 }

@@ -29,7 +29,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="bootstrap-3.4.1/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="present.css" rel="stylesheet">
+    <link href="product.css" rel="stylesheet">
     <%--<link href="bootstrap-3.4.1/docs/examples/cover/cover.css" rel="stylesheet">--%>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="bootstrap-3.4.1/docs/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -127,28 +127,49 @@
         %>
         <div class="row">
             <div class="col-lg-4">
+                <div class="my_box_">
                 <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
                 <h2><%= productList.get(i).getProductName()%></h2>
                 <p><%=productList.get(i).getProductPrice()%> 元</p>
                 <p><a href="#"><%= productList.get(i).getProductLink()%></a></p>
                 <p><%= productList.get(i).getProductIntroduction()%></p>
-                <p><a class="btn btn-default" href="#" role="button">进入链接 &raquo;</a></p>
+                </div>
+                <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                                + "&USERNAME=" + USERNAME
+                                + "&USER_ID=" + USER_ID
+                                + "&DOCTOR_ID=" + i%>
+                        role="button">咨询 &raquo;
+                </a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
+                <div class="my_box_">
                 <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
                 <h2><%= productList.get(i+1).getProductName()%></h2>
                 <p><%=productList.get(i+1).getProductPrice()%> 元</p>
                 <p><a href="#"><%= productList.get(i+1).getProductLink()%></a></p>
                 <p><%= productList.get(i+1).getProductIntroduction()%></p>
-                <p><a class="btn btn-default" href="#" role="button">进入链接 &raquo;</a></p>
+                </div>
+                <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                                + "&USERNAME=" + USERNAME
+                                + "&USER_ID=" + USER_ID
+                                + "&DOCTOR_ID=" + (i+1)%>
+                        role="button">咨询 &raquo;
+                </a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
+                <div class="my_box_">
                 <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
                 <h2><%= productList.get(i+2).getProductName()%></h2>
                 <p><%=productList.get(i+2).getProductPrice()%> 元</p>
                 <p><a href="#"><%= productList.get(i+2).getProductLink()%></a></p>
                 <p><%= productList.get(i+2).getProductIntroduction()%></p>
-                <p><a class="btn btn-default" href="#" role="button">进入链接 &raquo;</a></p>
+                </div>
+                <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                                + "&USERNAME=" + USERNAME
+                                + "&USER_ID=" + USER_ID
+                                + "&DOCTOR_ID=" + (i+2)%>
+                        role="button">咨询 &raquo;
+                </a></p>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
         <%
