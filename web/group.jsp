@@ -198,9 +198,7 @@
             <%
                 if (USER_ID == -1) {
             %>
-                <p>
-                    <a class="btn btn-lg btn-primary" role="button">请先登录</a>
-                </p>
+                <p>请先登录</p>
             <%
                 } else {
                     sql = "SELECT * FROM group_join WHERE group_join.user_id = " + USER_ID + " AND group_join.group_id = " + GROUP_ID;

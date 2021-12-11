@@ -227,12 +227,12 @@
                         sql = "SELECT * FROM like_post WHERE user_id = " + USER_ID + " AND post_id = " + POST_ID;
                         System.out.println(sql);
                         ResultSet likes = Database.retrieveDb(sql);
-                        if (likes != null && likes.next()) {
+                        if (USER_ID != -1 && likes != null && likes.next()) {
                     %>
                     <a href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
                             "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + post.getPostId() + "&POST_LIKE=2"%>>取消关注</a></p>
                     <%
-                        } else {
+                        } else if (USER_ID != -1) {
                     %>
                     <a href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
                             "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + post.getPostId() + "&POST_LIKE=1"%>>关注帖子</a></p>
@@ -251,6 +251,13 @@
                     <h2>回复</h2>
 
                     <div class="inner cover">
+                        <%
+                            if (USER_ID == -1) {
+                        %>
+                        <p>登录后即可回复</p>
+                        <%
+                            } else {
+                        %>
                         <form class="form-signin" action="postDetail.jsp" method="POST" role="form" data-toggle="validator" novalidate>
                             <h3>我要回复</h3>
                             <div class="form-group has-feedback">
@@ -262,6 +269,9 @@
                                 <button class="btn btn-lg btn-primary btn-block" type="submit">添加回复</button>
                             </div>
                         </form>
+                        <%
+                            }
+                        %>
 
                     </div>
 

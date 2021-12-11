@@ -122,8 +122,12 @@
     <div class="container marketing">
 
         <%
-            for (int i = 0; i < productList.size(); i = i + 3) {
-
+            if (USER_ID == -1) {
+        %>
+        <p>请先登录</p>
+        <%
+            } else {
+                for (int i = 0; i < productList.size(); i = i + 3) {
         %>
         <div class="row">
             <h1><%= productList.get(i).getProductType() == 1 ? "狗狗用品" : productList.get(i).getProductType() == 2 ? "猫咪用品" : "其他用品"%></h1>
@@ -168,6 +172,7 @@
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
         <%
+                }
             }
         %>
 

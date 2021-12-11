@@ -123,7 +123,12 @@
 
     <div class="container marketing">
         <%
-            for (int i = 0; i < doctorList.size(); i = i + 3) {
+            if (USER_ID == -1) {
+        %>
+            <p>请先登录</p>
+        <%
+            } else {
+                for (int i = 0; i < doctorList.size(); i = i + 3) {
 
         %>
                 <div class="row">
@@ -168,6 +173,7 @@
                     </div><!-- /.col-lg-4 -->
                 </div><!-- /.row -->
         <%
+                }
             }
         %>
 
