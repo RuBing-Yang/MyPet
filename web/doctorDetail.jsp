@@ -1,4 +1,5 @@
-------------------------------<%@ page import="java.sql.ResultSet" %>
+------------------------------
+<%@ page import="java.sql.ResultSet" %>
 <%@ page import="DBS.Database" %>
 <%@ page import="Utils.Post" %>
 <%@ page import="java.util.ArrayList" %>

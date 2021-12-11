@@ -3,7 +3,8 @@
 <%@ page import="Utils.Post" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.HashMap" %>
-<%@ page import="Utils.Reply" %><%--
+<%@ page import="Utils.Reply" %>
+<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: 16096
   Date: 2021/9/26
@@ -71,6 +72,18 @@
                         rs.getString("post_context"), rs.getString("post_time"), rs.getString("post_place"),
                         rs.getInt("post_likes_number"), rs.getInt("post_person_id"), rs.getInt("post_pet_id")
                 );
+    }
+
+    String post_like =request.getParameter("POST_LIKE");
+    if (Objects.equals(post_like, "1")) {
+        sql = "INSERT INTO like_post (user_id, post_id) VALUES ("
+                + USER_ID + ",'" + POST_ID + "');";
+        System.out.println(sql);
+        Database.createDb(sql);
+    } else if (Objects.equals(post_like, "2")) {
+        sql = "DELETE FROM like_post WHERE user_id = " + USER_ID + " AND post_id = " + POST_ID;
+        System.out.println(sql);
+        Database.deleteDb(sql);
     }
 
     String reply_context = request.getParameter("reply_context");
@@ -211,6 +224,20 @@
                             titiles.add(post_results.getString("post_title"));
                         }
 
+                        sql = "SELECT * FROM like_post WHERE user_id = " + USER_ID + " AND post_id = " + POST_ID;
+                        System.out.println(sql);
+                        ResultSet likes = Database.retrieveDb(sql);
+                        if (likes != null && likes.next()) {
+                    %>
+                    <a href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
+                            "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + post.getPostId() + "&POST_LIKE=2"%>>取消关注</a></p>
+                    <%
+                        } else {
+                    %>
+                    <a href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
+                            "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + post.getPostId() + "&POST_LIKE=1"%>>关注帖子</a></p>
+                    <%
+                        }
                     %>
                     <p class="blog-post-meta">January 1, 2014 by <a href=
                             <%="intro.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID+ "&POST_PERSON_ID=" + post.getPostPersonId()%>
