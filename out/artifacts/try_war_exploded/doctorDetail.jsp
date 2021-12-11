@@ -3,7 +3,8 @@
 <%@ page import="Utils.Post" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.HashMap" %>
-<%@ page import="Utils.Reply" %><%--
+<%@ page import="Utils.Reply" %>
+<%@ page import="Utils.Doctor" %><%--
   Created by IntelliJ IDEA.
   User: 16096
   Date: 2021/9/26
@@ -14,6 +15,9 @@
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
+<%! static int DOCTOR_ID = -1;%>
+<%! static Doctor curDoctor = null;%>
+<%! static ArrayList<String> consultList = new ArrayList<>();%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -47,10 +51,35 @@
     String username = request.getParameter("USERNAME");
     if (phoneNumber != null) {
         int userId = Integer.parseInt(request.getParameter("USER_ID"));
+        int doctorId = Integer.parseInt(request.getParameter("DOCTOR_ID"));
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
         USER_ID = userId;
+        DOCTOR_ID = doctorId;
     }
+
+    String sql = "SELECT * FROM doctor WHERE doctor_id = " + DOCTOR_ID;
+    System.out.println(sql);
+    ResultSet rs = Database.retrieveDb(sql);
+    if (rs != null && rs.next()) {
+        curDoctor = new Doctor(rs.getInt("doctor_id"), rs.getString("doctor_name"), rs.getNString("doctor_photo"),
+                rs.getInt("doctor_work_years"), rs.getString("doctor_introduction"), rs.getString("doctor_contact"));
+    }
+    /*
+    sql = "SELECT product.* FROM product, browse WHERE browse.user_id = " + USER_ID + " AND browse.product_id = product.product_id";
+    System.out.println(sql);
+    rs = Database.retrieveDb(sql);
+    browseList.clear();
+    if (rs != null) {
+        while (rs.next()) {
+            browseList.add(new Product(rs.getInt("product_id"), rs.getInt("product_type"), rs.getString("product_name"), rs.getNString("product_photo"),
+                    rs.getString("product_introduction"), rs.getDouble("product_price"), rs.getString("product_link"))
+            );
+        }
+    }
+
+     */
+
 %>
 
 <div class="navbar-wrapper">
@@ -116,6 +145,22 @@
 
             <div class="col-md-8 blog-main">
 
+
+                <div class="inner cover">
+                    <form class="form-signin" action="postDetail.jsp" method="POST" role="form" data-toggle="validator" novalidate>
+                        <h3>我要咨询</h3>
+                        <div class="form-group has-feedback">
+                            <label for="inputReplyContext" class="sr-only">回复内容</label>
+                            <textarea type="text" id="inputReplyContext" class="form-control" placeholder="内容"
+                                      name="reply_context" rows="3" required autofocus></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">发送</button>
+                        </div>
+                    </form>
+
+                </div>
+
                 <div class="blog-post my_content">
                     <h2 class="blog-post-title">咨询医生</h2>
                     <div class="inner cover">
@@ -132,10 +177,10 @@
                     <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
 
                         <div class="sidebar-module sidebar-module-inset">
-                            <h2>医生名字</h2>
-                            <p>工作单位</p>
-                            <p>主攻科室</p>
-                            <p>医生自我介绍</p>
+                            <h2><%= curDoctor.getDoctorName() %></h2>
+                            <p>简介：<%= curDoctor.getDoctorIntroduction() %></p>
+                            <p>工作经历：<%= curDoctor.getDoctorWorkYears() %>年</p>
+                            <p>联系方式：<%= curDoctor.getDoctorContact() %></p>
                         </div>
                     </nav>
                 </div>

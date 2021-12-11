@@ -136,7 +136,7 @@
                         <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
                                 + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + i%>
+                                + "&DOCTOR_ID=" + (i+1)%>
                                 role="button">咨询 &raquo;
                         </a></p>
                     </div><!-- /.col-lg-4 -->
@@ -149,7 +149,7 @@
                         <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
                                 + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + (i+1)%>
+                                + "&DOCTOR_ID=" + (i+2)%>
                                 role="button">咨询 &raquo;
                         </a></p>
                     </div><!-- /.col-lg-4 -->
@@ -162,7 +162,7 @@
                         <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
                                 + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + (i+2)%>
+                                + "&DOCTOR_ID=" + (i+3)%>
                                 role="button">咨询 &raquo;
                         </a></p>
                     </div><!-- /.col-lg-4 -->
