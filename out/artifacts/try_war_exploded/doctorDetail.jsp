@@ -3,8 +3,7 @@
 <%@ page import="Utils.Post" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.HashMap" %>
-<%@ page import="Utils.Reply" %>
-<%@ page import="Utils.Product" %><%--
+<%@ page import="Utils.Reply" %><%--
   Created by IntelliJ IDEA.
   User: 16096
   Date: 2021/9/26
@@ -15,9 +14,6 @@
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
-<%! static int PRODUCT_ID = -1;%>
-<%! static Product curProduct = null;%>
-<%! static ArrayList<Product> browseList = new ArrayList<>();%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -33,7 +29,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="bootstrap-3.4.1/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="productDetail.css" rel="stylesheet">
+    <link href="doctorDetail.css" rel="stylesheet">
     <%--<link href="bootstrap-3.4.1/docs/examples/cover/cover.css" rel="stylesheet">--%>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="bootstrap-3.4.1/docs/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -51,36 +47,10 @@
     String username = request.getParameter("USERNAME");
     if (phoneNumber != null) {
         int userId = Integer.parseInt(request.getParameter("USER_ID"));
-        int productId = Integer.parseInt(request.getParameter("PRODUCT_ID"));
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
         USER_ID = userId;
-        PRODUCT_ID = productId;
     }
-
-    String sql = "SELECT * FROM product WHERE product_id = " + PRODUCT_ID;
-    System.out.println(sql);
-    ResultSet rs = Database.retrieveDb(sql);
-    if (rs != null && rs.next()) {
-        curProduct = new Product(rs.getInt("product_id"), rs.getInt("product_type"), rs.getString("product_name"), rs.getNString("product_photo"),
-                rs.getString("product_introduction"), rs.getDouble("product_price"), rs.getString("product_link"));
-    }
-
-    sql = "SELECT product.* FROM product, browse WHERE browse.user_id = " + USER_ID + " AND browse.product_id = product.product_id";
-    System.out.println(sql);
-    rs = Database.retrieveDb(sql);
-    browseList.clear();
-    if (rs != null) {
-        while (rs.next()) {
-            browseList.add(new Product(rs.getInt("product_id"), rs.getInt("product_type"), rs.getString("product_name"), rs.getNString("product_photo"),
-                    rs.getString("product_introduction"), rs.getDouble("product_price"), rs.getString("product_link"))
-            );
-        }
-    }
-
-    sql = "INSERT INTO browse (user_id, product_id) VALUES ("
-            + USER_ID + ", " + PRODUCT_ID + ");";
-    Database.createDb(sql);
 %>
 
 <div class="navbar-wrapper">
@@ -102,8 +72,8 @@
                         <li><a href=<%="present.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>赠送</a></li>
                         <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>收养</a></li>
                         <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>救助</a></li>
-                        <li><a href=<%="doctor.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>医生</a></li>
-                        <li class="active"><a href="#">商品</a></li>
+                        <li class="active"><a href="#">医生</a></li>
+                        <li><a href=<%="product.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>商品</a></li>
                         <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
                         <li><a href="login.jsp">登录</a></li>
                         <% } else { %>
@@ -138,7 +108,7 @@
     <div class="container">
 
         <div class="blog-header">
-            <h1 class="blog-title">购买商品</h1>
+            <h1 class="blog-title">咨询医生</h1>
             <p class="lead blog-description">领养代替购买，让爱不再流浪</p>
         </div>
 
@@ -147,11 +117,9 @@
             <div class="col-md-8 blog-main">
 
                 <div class="blog-post my_content">
-                    <h2 class="blog-post-title"><%= curProduct.getProductName()%></h2>
+                    <h2 class="blog-post-title">咨询医生</h2>
                     <div class="inner cover">
-                        <p><%= curProduct.getProductIntroduction()%></p>
-                        <p><%= curProduct.getProductPrice()%></p>
-                        <a><%= curProduct.getProductLink()%></a>
+                        <p>咨询内容</p>
                     </div>
                 </div><!-- /.blog-post -->
 
@@ -164,17 +132,10 @@
                     <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
 
                         <div class="sidebar-module sidebar-module-inset">
-                            <h2>最近浏览</h2>
-                            <%
-                                for (int i = browseList.size() - 1, j = 0; i >= 0 && j < 6; i--, j++) {
-                            %>
-
-                            <p><a href=<%="productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                    + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
-                                    + "&PRODUCT_ID=" + browseList.get(i).getProductId()%>><%= browseList.get(i).getProductName() %>
-                            </a></p>
-
-                            <% } %>
+                            <h2>医生名字</h2>
+                            <p>工作单位</p>
+                            <p>主攻科室</p>
+                            <p>医生自我介绍</p>
                         </div>
                     </nav>
                 </div>

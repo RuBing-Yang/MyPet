@@ -93,13 +93,29 @@
                     <strong>请先登录！</strong>
                 </div>
                 <% } else {%>
-                <form class="form-signin" action="home.jsp" method="GET" role="form" data-toggle="validator" novalidate>
+                <form class="form-signin" action="home.jsp" method="POST" role="form" data-toggle="validator" novalidate>
                     <h2 class="form-signin-heading">宠物信息填写</h2>
                     <div class="form-group has-feedback">
                         <label for="inputPetName" class="sr-only">宠物名字</label>
                         <input type="text" id="inputPetName" class="form-control" placeholder="宠物名字"
                                name="petname" maxlength="10" required autofocus>
                         <div class="help-block with-errors"></div>
+                        <label for="inputPetAge" class="sr-only">宠物年龄</label>
+                        <input  name="petAge" type="number" id="inputPetAge"
+                                class="form-control" placeholder="宠物年龄" autofocus>
+                        <br>
+                        <label class="radio-inline">
+                            <input type="radio" name="petGender" value="m">公
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="petGender" value="f">母
+                        </label>
+                        <br><br>
+                        <label class="radio-inline">
+                            <input type="checkbox" name="needHelp">&emsp;需要救济
+                            <%-- request.getParameter("needHelp")选中为'on'，未选中为null --%>
+                        </label>
+                        <br><br>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>

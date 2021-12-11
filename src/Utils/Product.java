@@ -2,14 +2,16 @@ package Utils;
 
 public class Product {
     int productId;
+    int productType;
     String productName;
     String productPhoto;
     String productIntroduction;
     double productPrice;
     String productLink;
 
-    public Product(int productId, String productName, String productPhoto, String productIntroduction, double productPrice, String productLink) {
+    public Product(int productId, int productType, String productName, String productPhoto, String productIntroduction, double productPrice, String productLink) {
         this.productId = productId;
+        this.productType = productType;
         this.productName = productName;
         this.productPhoto = productPhoto;
         this.productIntroduction = productIntroduction;
@@ -19,6 +21,10 @@ public class Product {
 
     public int getProductId() {
         return productId;
+    }
+
+    public int getProductType() {
+        return productType;
     }
 
     public String getProductName() {

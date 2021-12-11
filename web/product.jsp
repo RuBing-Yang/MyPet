@@ -57,7 +57,7 @@
     productList.clear();
     if (rs != null) {
         while (rs.next()) {
-            productList.add(new Product(rs.getInt("product_id"), rs.getString("product_name"), rs.getNString("product_photo"),
+            productList.add(new Product(rs.getInt("product_id"), rs.getInt("product_type"), rs.getString("product_name"), rs.getNString("product_photo"),
                     rs.getString("product_introduction"), rs.getDouble("product_price"), rs.getString("product_link")));
         }
     }
@@ -126,49 +126,44 @@
 
         %>
         <div class="row">
+            <h1><%= productList.get(i).getProductType() == 1 ? "狗狗用品" : productList.get(i).getProductType() == 2 ? "猫咪用品" : "其他用品"%></h1>
             <div class="col-lg-4">
                 <div class="my_box_">
                 <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
                 <h2><%= productList.get(i).getProductName()%></h2>
-                <p><%=productList.get(i).getProductPrice()%> 元</p>
-                <p><a href="#"><%= productList.get(i).getProductLink()%></a></p>
                 <p><%= productList.get(i).getProductIntroduction()%></p>
                 </div>
                 <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
                                 + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + i%>
-                        role="button">咨询 &raquo;
+                                + "&PRODUCT_ID=" + (i+1)%>
+                        role="button">查看详情 &raquo;
                 </a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <div class="my_box_">
                 <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
                 <h2><%= productList.get(i+1).getProductName()%></h2>
-                <p><%=productList.get(i+1).getProductPrice()%> 元</p>
-                <p><a href="#"><%= productList.get(i+1).getProductLink()%></a></p>
                 <p><%= productList.get(i+1).getProductIntroduction()%></p>
                 </div>
                 <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
                                 + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + (i+1)%>
-                        role="button">咨询 &raquo;
+                                + "&PRODUCT_ID=" + (i+2)%>
+                        role="button">查看详情 &raquo;
                 </a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <div class="my_box_">
                 <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
                 <h2><%= productList.get(i+2).getProductName()%></h2>
-                <p><%=productList.get(i+2).getProductPrice()%> 元</p>
-                <p><a href="#"><%= productList.get(i+2).getProductLink()%></a></p>
                 <p><%= productList.get(i+2).getProductIntroduction()%></p>
                 </div>
                 <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
                                 + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + (i+2)%>
-                        role="button">咨询 &raquo;
+                                + "&PRODUCT_ID=" + (i+3)%>
+                        role="button">查看详情 &raquo;
                 </a></p>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
