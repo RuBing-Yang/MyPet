@@ -14,13 +14,6 @@
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
-<%! static int POST_PERSON_ID = -1;%>
-<%! static String user_name = "";%>
-<%! static String phone_number = "";%>
-<%! static String gender = "";%>
-<%! static String address = "";%>
-<%! static String birthday = "";%>
-<%! static String petnames = "";%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -36,7 +29,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="bootstrap-3.4.1/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="home.css" rel="stylesheet">
+    <link href="petDetail.css" rel="stylesheet">
     <%--<link href="bootstrap-3.4.1/docs/examples/cover/cover.css" rel="stylesheet">--%>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="bootstrap-3.4.1/docs/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -57,38 +50,6 @@
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
         USER_ID = userId;
-    }
-    String post_person_id = request.getParameter("POST_PERSON_ID");
-    if (post_person_id != null) {
-        POST_PERSON_ID = Integer.parseInt(post_person_id);
-        String sql = "SELECT * FROM user WHERE user_id=" + POST_PERSON_ID + ";";
-        System.out.println(sql);
-        ResultSet rs = Database.retrieveDb(sql);
-        if (rs != null && rs.next()) {
-            user_name = rs.getString("user_name");
-            phone_number = rs.getString("phone_number");
-            gender = rs.getString("gender");
-            if (gender == null || gender.equals("")) gender = "";
-            else if (gender.equals("f")) gender = "女";
-            else if (gender.equals("m")) gender = "男";
-            address = rs.getString("address");
-            birthday = rs.getString("birthday");
-        }
-        sql = "SELECT pet_name FROM pet, adopt_present WHERE pet.pet_id = adopt_present.pet_id AND adopt_present.user_id=" + USER_ID + ";";
-        System.out.println(sql);
-        rs = Database.retrieveDb(sql);
-        petnames = "";
-        if (rs != null) {
-            while (rs.next()) {
-                System.out.println("petname: " + rs.getString("pet_name"));
-                if (rs.getString("pet_name").equals("")) continue;
-                if (petnames == null || petnames.equals("")) {
-                    petnames = rs.getString("pet_name");
-                } else {
-                    petnames += ", " + rs.getString("pet_name");
-                }
-            }
-        }
     }
 %>
 
@@ -122,7 +83,7 @@
                                     <li class="dropdown active">
                                         <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
                                                    class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                            用户信息<span class="caret"></span>
+                                            宠物信息<span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
@@ -146,77 +107,44 @@
                 </div>
             </div>
 
-            <div class="inner cover">
-                <div class="page-header">
-                    <h1>个人信息</h1>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">昵称</h3>
-                            </div>
-                            <div class="panel-body" style="color:#000;">
-                                <%= user_name%>
-                            </div>
-                        </div>
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">电话号码</h3>
-                            </div>
-                            <div class="panel-body" style="color:#000;">
-                                <%= phone_number%>
-                            </div>
-                        </div>
-                    </div><!-- /.col-sm-4 -->
-                    <div class="col-sm-4">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">性别</h3>
-                            </div>
-                            <div class="panel-body" style="color:#000;">
-                                <%= (gender==null||gender.equals("")) ? "--" : gender%>
-                            </div>
-                        </div>
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">家庭住址</h3>
-                            </div>
-                            <div class="panel-body" style="color:#000;">
-                                <%= (address==null||address.equals("")) ? "--" : address%>
-                            </div>
-                        </div>
-                    </div><!-- /.col-sm-4 -->
-                    <div class="col-sm-4">
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">生日</h3>
-                            </div>
-                            <div class="panel-body" style="color:#000;">
-                                <%= (birthday==null||birthday.equals("")) ? "--" : birthday%>
-                            </div>
-                        </div>
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">宠物</h3>
-                            </div>
-                            <div class="panel-body  pet_box">
-                                <%= (petnames==null||petnames.equals("")) ? "--" : petnames %>
-                                &emsp;
-                                <a href=<%="petDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                        + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>详情&raquo;</a>
-                            </div>
-                        </div>
-                    </div><!-- /.col-sm-4 -->
-                </div>
-                <br>
-                <button class="btn btn-default btn-lg btn-primary">
-                    <a href="#">
-                        <font color="black">关注</font>
-                    </a>
-                </button>
+        </div>
 
+        <div class="row">
+
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="panel panel-default pet_panel">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="row pet_title">
+                                    <div class="col-md-4">
+                                        <img src="img/icon.png" class="img-circle img-responsive">
+                                    </div>
+                                    <div class="col-md-4 pet_name">
+                                        <p>名字</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>主人</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="panel panel-default info_panel">
+                                        <p>简介</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row pet_content">种类</div>
+                                <div class="row pet_content">年龄</div>
+                                <div class="row pet_content">性别</div>
+                                <div class="row pet_content">救助</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="col-md-4"></div>
 
         </div>
     </div>

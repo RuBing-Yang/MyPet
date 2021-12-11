@@ -294,7 +294,32 @@ body {
     font-weight: 700;
 }
 
-.pet_box a {
-    color: black;
-    font-weight: bold;
+.pet_panel {
+    height: 200px;
+    font-size: large;
+    margin: -10px 30px -10px;
+    background-color: rgba(255, 255, 255, 0.6);
 }
+
+.info_panel {
+    height: 100px;
+    margin: 5px 10px 10px;
+    background-color: rgba(255, 255, 255, 0);
+    vertical-align: middle;
+}
+
+.pet_title {
+    vertical-align: middle;
+}
+
+.pet_name {
+    text-align: left;
+}
+
+.pet_content {
+    height: 50px;
+}
+
+
+
+

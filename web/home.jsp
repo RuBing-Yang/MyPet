@@ -215,8 +215,11 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">宠物</h3>
                             </div>
-                            <div class="panel-body" style="color:#000;">
-                                <%= (petnames==null||petnames.equals("")) ? "--" : petnames%>
+                            <div class="panel-body pet_box" >
+                                <%= (petnames==null||petnames.equals("")) ? "--" : petnames %>
+                                &emsp;
+                                <a href=<%="petDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                                        + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>详情&raquo;</a>
                             </div>
                         </div>
                     </div><!-- /.col-sm-4 -->
