@@ -160,6 +160,17 @@
         <div class="row">
             <div class="col-sm-8 blog-main my_content">
                 <%
+                    if (postList == null || postList.size() == 0) {
+                %>
+                        <br><br>
+                        <p><strong>暂无收养帖子</strong></p>
+                        <p><strong>点导航栏-赠送，发个帖子丰富内容吧</strong></p>
+                        <br><br><br><br><br><br>
+                <%
+                    }
+                %>
+
+                <%
                     for (int i = postList.size() - 1; i >= 0; i--) {
                         sql = "SELECT pet_state FROM adopt_present " +
                                 "WHERE user_id = " + postList.get(i).getPostPersonId() + " AND pet_id = " + postList.get(i).getPostPetId();

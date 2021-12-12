@@ -246,6 +246,18 @@
 
         <div class="row">
             <div class="col-sm-8 blog-main my_content">
+
+                <%
+                    if (postList == null || postList.size() == 0) {
+                %>
+                        <br><br>
+                        <p><strong>本小组暂无帖子</strong></p>
+                        <p><strong>点导航栏-赠送，发个帖子丰富内容吧</strong></p>
+                        <br><br><br><br><br><br>
+                <%
+                    }
+                %>
+
                 <%
                     for (int i = 0; i < postList.size(); i++) {
                         sql = "SELECT pet_state FROM adopt_present " +
