@@ -180,7 +180,7 @@
                 <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
                                 + "&USER_ID=" + USER_ID
-                                + "&PRODUCT_ID=" + (i+1)%>
+                                + "&PRODUCT_ID=" + (i+2)%>
                         role="button">查看详情 &raquo;
                 </a></p>
                 <%
@@ -204,7 +204,7 @@
                 <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
                                 + "&USER_ID=" + USER_ID
-                                + "&PRODUCT_ID=" + (i+1)%>
+                                + "&PRODUCT_ID=" + (i+3)%>
                         role="button">查看详情 &raquo;
                 </a></p>
                 <%
