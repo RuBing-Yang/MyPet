@@ -2,12 +2,14 @@ package Utils;
 
 public class Reply {
     int replyId;
+    String replyDate;
     String replyContext;
     int replyLikesNum;
     int replyPersonId;
 
-    public Reply(int replyId, String replyContext, int replyLikesNum, int replyPersonId) {
+    public Reply(int replyId, String replyDate, String replyContext, int replyLikesNum, int replyPersonId) {
         this.replyId = replyId;
+        this.replyDate = replyDate;
         this.replyContext = replyContext;
         this.replyLikesNum = replyLikesNum;
         this.replyPersonId = replyPersonId;
@@ -15,6 +17,10 @@ public class Reply {
 
     public int getReplyId() {
         return replyId;
+    }
+
+    public String getReplyDate() {
+        return replyDate;
     }
 
     public String getReplyContext() {

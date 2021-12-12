@@ -60,9 +60,10 @@
     String groupIntro = request.getParameter("groupIntro");
     String sql;
     if (groupName != null) {
-        System.out.println(groupName);
-        sql = "INSERT INTO pet_group (group_name, group_introduction, group_leader) VALUES ('"
-                + groupName + "', '" + groupIntro + "', " + USER_ID + ");";
+        groupName = new String((request.getParameter("groupName")).getBytes("ISO-8859-1"),"UTF-8");
+        groupIntro = new String((request.getParameter("groupIntro")).getBytes("ISO-8859-1"),"UTF-8");
+        sql = "INSERT INTO pet_group (group_name, group_date, group_introduction, group_leader) VALUES ('"
+                + groupName + "', curdate(), '" + groupIntro + "', " + USER_ID + ");";
         System.out.println(sql);
         Database.createDb(sql);
         GROUP_ID = Database.getId();
@@ -95,8 +96,8 @@
     System.out.println(sql);
     ResultSet rs = Database.retrieveDb(sql);
     if (rs != null && rs.next()) {
-        curGroup = new Group(rs.getInt("group_id"), rs.getString("group_name"), rs.getString("group_introduction"),
-                rs.getInt("group_leader"), rs.getInt("group_number"), rs.getInt("group_activity")
+        curGroup = new Group(rs.getInt("group_id"), rs.getString("group_name"), rs.getString("group_date"),
+                rs.getString("group_introduction"), rs.getInt("group_leader"), rs.getInt("group_activity")
         );
     }
 
@@ -109,8 +110,8 @@
             if (rs.getInt("group_id") != GROUP_ID) {
                 groupList.add(
                         new Group(
-                                rs.getInt("group_id"), rs.getString("group_name"), rs.getString("group_introduction"),
-                                rs.getInt("group_leader"), rs.getInt("group_number"), rs.getInt("group_activity")
+                                rs.getInt("group_id"), rs.getString("group_name"), rs.getString("group_date"),
+                                rs.getString("group_introduction"), rs.getInt("group_leader"), rs.getInt("group_activity")
                         )
                 );
             }
@@ -126,7 +127,7 @@
             postList.add(
                     new Post(
                             rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_intro"),
-                            rs.getString("post_context"), rs.getString("post_time"), rs.getString("post_place"),
+                            rs.getString("post_context"), rs.getString("post_date"), rs.getString("post_place"),
                             rs.getInt("post_likes_number"), rs.getInt("post_person_id"), rs.getInt("post_pet_id")
                     )
             );
@@ -196,6 +197,7 @@
         <div class="jumbotron">
             <h1><%= curGroup.getGroupName()%></h1>
             <p><%= curGroup.getGroupIntroduction()%></p>
+            <p><%= curGroup.getGroupDate()%></p>
             <%
                 if (USER_ID == -1) {
             %>

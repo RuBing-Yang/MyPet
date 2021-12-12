@@ -69,7 +69,7 @@
     if (rs != null && rs.next()) {
         post = new Post(
                         rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_intro"),
-                        rs.getString("post_context"), rs.getString("post_time"), rs.getString("post_place"),
+                        rs.getString("post_context"), rs.getString("post_date"), rs.getString("post_place"),
                         rs.getInt("post_likes_number"), rs.getInt("post_person_id"), rs.getInt("post_pet_id")
                 );
     }
@@ -91,8 +91,8 @@
         reply_context = new String((request.getParameter("reply_context")).getBytes("ISO-8859-1"),"UTF-8");
         REPLY_CONTEXT = reply_context;
         System.out.println(USER_ID + "  " + POST_ID + "  " + REPLY_CONTEXT);
-        sql = "INSERT INTO reply (reply_person_id, reply_context) VALUES ("
-                + USER_ID + ",'" + REPLY_CONTEXT + "');";
+        sql = "INSERT INTO reply (reply_person_id, reply_date, reply_context) VALUES ("
+                + USER_ID + ", curdate(), '" + REPLY_CONTEXT + "');";
         System.out.println(sql);
         Database.createDb(sql);
 
@@ -132,7 +132,7 @@
     if (rs != null) {
         while (rs.next()) {
             System.out.println(rs.getString("reply_context"));
-            replyList.add(new Reply(rs.getInt("reply_id"), rs.getString("reply_context"),
+            replyList.add(new Reply(rs.getInt("reply_id"), rs.getString("reply_date"), rs.getString("reply_context"),
                     rs.getInt("reply_likes_number"), rs.getInt("reply_person_id")));
         }
 
@@ -240,7 +240,7 @@
                     <%
                         }
                     %>
-                    <p class="blog-post-meta">January 1, 2014 by <a href=
+                    <p class="blog-post-meta"><%=post.getPostDate()%> <a href=
                             <%="intro.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID+ "&POST_PERSON_ID=" + post.getPostPersonId()%>
                     > <%=publisherName%></a></p>
                     <p><%= post.getPostIntro()%></p>
@@ -294,7 +294,7 @@
                                 userName = rs.getString("user_name");
                             }
                     %>
-                    <p class="blog-post-meta">January 1, 2014 by <a href="#"><%= userName%></a></p>
+                    <p class="blog-post-meta"><%=replyList.get(i).getReplyDate()%> <a href="#"><%= userName%></a></p>
                     <div class="sidebar-module sidebar-module-inset">
                         <h4><%= replyList.get(i).getReplyContext()%></h4>
                     </div>
@@ -325,8 +325,8 @@
                             <a href=<%="intro.jsp?POST_PERSON_ID=" + post.getPostPersonId()%>>
                                 <%=publisherName%></a>
                         </h2>
-                        <p>&emsp; &emsp; 这些年，我见过日升月落，万物以自己的轨迹运行着，也见过野生动物们或壮观或温暖的场景，以及自然环境、野生动物遭到伤害的样子……</p>
-                        <p>&emsp; &emsp; 所有有生命的、没有生命的，都是一样重要，共同组成了这个世界。野生动物们和我们人类一样，也是自然的孩子</p>
+<%--                        <p>&emsp; &emsp; 这些年，我见过日升月落，万物以自己的轨迹运行着，也见过野生动物们或壮观或温暖的场景，以及自然环境、野生动物遭到伤害的样子……</p>--%>
+<%--                        <p>&emsp; &emsp; 所有有生命的、没有生命的，都是一样重要，共同组成了这个世界。野生动物们和我们人类一样，也是自然的孩子</p>--%>
                     </div>
                     <div class="sidebar-module sidebar-module-inset">
                         <h3>其他文章</h3>

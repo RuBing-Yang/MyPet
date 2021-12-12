@@ -210,11 +210,6 @@
                     </div><!-- /.col-sm-4 -->
                 </div>
                 <br>
-                <button class="btn btn-default btn-lg btn-primary">
-                    <a href="#">
-                        <font color="black">关注</font>
-                    </a>
-                </button>
 
             </div>
 

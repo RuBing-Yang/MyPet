@@ -118,8 +118,8 @@
                 System.out.println(sql);
                 Database.updateDb(sql);
 
-                sql = "INSERT INTO post (post_person_id, post_title, post_intro, post_context, post_place, post_pet_id) VALUES ("
-                        + USER_ID + ",'" + postTitle + "','" + postIntro + "','" + postContext + "','" + postPlace + "', " + postPetId + ");";
+                sql = "INSERT INTO post (post_person_id, post_title, post_intro, post_context, post_date, post_place, post_pet_id) VALUES ("
+                        + USER_ID + ",'" + postTitle + "','" + postIntro + "','" + postContext + "', curdate(), '" + postPlace + "', " + postPetId + ");";
                 System.out.println(sql);
                 if (Database.createDb(sql)) {
                     has_submit = true;

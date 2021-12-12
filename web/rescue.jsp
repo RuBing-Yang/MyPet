@@ -150,7 +150,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-10 col2">
 
-            <br><br><br><br>><br><br>
+            <br><br><br><br><br><br>
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-10">

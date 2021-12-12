@@ -66,7 +66,7 @@
             postList.add(
                     new Post(
                             rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_intro"),
-                            rs.getString("post_context"), rs.getString("post_time"), rs.getString("post_place"),
+                            rs.getString("post_context"), rs.getString("post_date"), rs.getString("post_place"),
                             rs.getInt("post_likes_number"), rs.getInt("post_person_id"), rs.getInt("post_pet_id")
                     )
             );
@@ -81,8 +81,8 @@
         while (rs.next()) {
             groupList.add(
                     new Group(
-                            rs.getInt("group_id"), rs.getString("group_name"), rs.getString("group_introduction"),
-                            rs.getInt("group_leader"), rs.getInt("group_number"), rs.getInt("group_activity")
+                            rs.getInt("group_id"), rs.getString("group_name"), rs.getString("group_date"),
+                            rs.getString("group_introduction"), rs.getInt("group_leader"), rs.getInt("group_activity")
                     )
             );
         }
@@ -156,7 +156,7 @@
         <div class="row">
             <div class="col-sm-8 blog-main my_content">
                 <%
-                    for (int i = 0; i < postList.size(); i++) {
+                    for (int i = postList.size() - 1; i >= 0; i--) {
                         sql = "SELECT pet_state FROM adopt_present " +
                                 "WHERE user_id = " + postList.get(i).getPostPersonId() + " AND pet_id = " + postList.get(i).getPostPetId();
                         System.out.println(sql);
@@ -181,10 +181,10 @@
                                 <p><%= stateLabel%></p>
                                 <h2><%= postList.get(i).getPostTitle()%></h2>
                                 <p><%= postList.get(i).getPostIntro()%></p>
-                                <p class="blog-post-meta">January 1, 2014 by
+                                <p class="blog-post-meta"><%= postList.get(i).getPostDate()%> by
                                     <a href=<%= "intro.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
                                             + "&POST_PERSON_ID=" + postList.get(i).getPostPersonId()%>>
-                                        <%=publisherName%>     <%= postList.get(i).getPostPlace()%></a></p>
+                                        <%=publisherName%> </a>    <%= postList.get(i).getPostPlace()%></p>
                             </div>
                             <p><a class="btn btn-lg btn-primary opacity-75" href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
                             "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + postList.get(i).getPostId()%> role="button">查看详情</a></p>
