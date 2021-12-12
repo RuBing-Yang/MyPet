@@ -18,6 +18,7 @@
 <%! static int USER_ID = -1;%>
 <%! static int GROUP_ID = -1;%>
 <%! static Group curGroup = null;%>
+<%! static int groupMemberNum = 0;%>
 <%! static ArrayList<Group> groupList = new ArrayList<>();%>
 <%! static ArrayList<Post> postList = new ArrayList<>();%>
 <html>
@@ -135,11 +136,22 @@
                     new Post(
                             rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_intro"),
                             rs.getString("post_context"), rs.getString("post_date"), rs.getString("post_place"),
-                            rs.getInt("post_likes_number"), rs.getInt("post_person_id"), rs.getInt("post_pet_id")
+                            rs.getInt("post_person_id"), rs.getInt("post_pet_id")
                     )
             );
         }
     }
+
+    groupMemberNum = 0;
+    sql = "SELECT * FROM group_join WHERE group_id = " + GROUP_ID;
+    System.out.println(sql);
+    rs = Database.retrieveDb(sql);
+    if (rs != null) {
+        while (rs.next()) {
+            groupMemberNum++;
+        }
+    }
+
 %>
 
 <div class="navbar-wrapper">
@@ -205,6 +217,8 @@
             <h1><%= curGroup.getGroupName()%></h1>
             <p><%= curGroup.getGroupIntroduction()%></p>
             <p><%= curGroup.getGroupDate()%></p>
+            <p>小组成员数：<%= groupMemberNum%></p>
+            <p>小组帖子数: <%= postList.size()%></p>
             <%
                 if (USER_ID == -1) {
             %>

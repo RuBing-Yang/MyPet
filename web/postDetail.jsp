@@ -70,7 +70,7 @@
         post = new Post(
                         rs.getInt("post_id"), rs.getString("post_title"), rs.getString("post_intro"),
                         rs.getString("post_context"), rs.getString("post_date"), rs.getString("post_place"),
-                        rs.getInt("post_likes_number"), rs.getInt("post_person_id"), rs.getInt("post_pet_id")
+                        rs.getInt("post_person_id"), rs.getInt("post_pet_id")
                 );
     }
 
