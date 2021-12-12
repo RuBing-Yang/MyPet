@@ -7,9 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="DBS.Database" %>
-<%! static String PHONE_NUMBER = "";%>
-<%! static String USERNAME = "";%>
-<%! static int USER_ID = -1;%>
+<%! String PHONE_NUMBER = "";%>
+<%! String USERNAME = "";%>
+<%! int USER_ID = -1;%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -43,6 +43,21 @@
 </head>
 <body>
 
+<%
+    PHONE_NUMBER = "";
+    USERNAME = "";
+    USER_ID = -1;
+    Cookie myCookie[] = request.getCookies();
+    if (myCookie != null) {
+        for (int i = 0; i < myCookie.length; i++) {
+            if (myCookie[i].getName().equals("user_name")) USERNAME = myCookie[i].getValue();
+            if (myCookie[i].getName().equals("phone_number")) PHONE_NUMBER = myCookie[i].getValue();
+            if (myCookie[i].getName().equals("user_id") && !myCookie[i].getValue().equals(""))
+                USER_ID = Integer.parseInt(myCookie[i].getValue());
+        }
+    }
+%>
+
     <div class="site-wrapper">
 
         <div class="site-wrapper-inner">
@@ -66,8 +81,12 @@
                     </div>
                 </div>
 
+                <%
+                    if (USER_ID == -1) {
+                %>
+
                 <div class="inner cover">
-                    <form class="form-signin" action="loginResult.jsp" method="GET" role="form" data-toggle="validator" novalidate>
+                    <form class="form-signin" action="loginResult.jsp" method="POST" role="form" data-toggle="validator" novalidate>
                         <h2 class="form-signin-heading">请先登录</h2>
                         <div class="form-group has-feedback">
                             <label for="inputPhoneNumber" class="sr-only">电话号码</label>
@@ -102,6 +121,18 @@
                     </form>
 
                 </div>
+
+                <%
+                    } else {
+                %>
+
+                <div class="alert alert-danger" role="alert">
+                    <strong><%= USERNAME%> </strong>：您已经登录，要切换账号请先退出登录
+                </div>
+
+                <%
+                    }
+                %>
 
             </div>
 

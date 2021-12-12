@@ -10,9 +10,9 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.ArrayList" %>
-<%! static String PHONE_NUMBER = "";%>
-<%! static String USERNAME = "";%>
-<%! static int USER_ID = -1;%>
+<%! String PHONE_NUMBER = "";%>
+<%! String USERNAME = "";%>
+<%! int USER_ID = -1;%>
 <%! int postPetId = -1;%>
 <%! String postTitle = "";%>
 <%! String postContext = "";%>
@@ -51,21 +51,21 @@
 <body onload = "confirmLogin()">
 
 <script type="text/javascript">
-    function getQueryVariable(variable)
-    {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
-            var pair = vars[i].split("=");
-            if(pair[0] == variable){return pair[1];}
-        }
-        return(false);
-    }
 
     function confirmLogin()
     {
-        var id = getQueryVariable("USER_ID");
-        if (id == false || id == -1) {
+        var flag = 0;
+        var name = "user_name";
+        var cookies = document.cookie;
+        var arrCookie = cookies.split(';');
+        for (var i = 0; i < arrCookie.length; i++) {
+            var content = arrCookie[i].split('=');
+            if (content[0].replace(/^\s+|\s+$/g,"") == name.replace(/^\s+|\s+$/g,"")) {
+                flag = 1;
+                break;
+            }
+        }
+        if (flag == 0) {
             if (window.confirm("发帖需要完善资料信息\n请先登录")) {
                 window.location.replace("login.jsp");
             } else {
@@ -73,16 +73,24 @@
             }
         }
     }
+
 </script>
 
 <%
-    String phoneNumber = request.getParameter("PHONE_NUMBER");
-    String username = request.getParameter("USERNAME");
-    if (phoneNumber != null) {
-        int userId = Integer.parseInt(request.getParameter("USER_ID"));
-        PHONE_NUMBER = phoneNumber;
-        USERNAME = username;
-        USER_ID = userId;
+
+    PHONE_NUMBER = "";
+    USERNAME = "";
+    USER_ID = -1;
+    Cookie myCookie[] = request.getCookies();
+    if (myCookie != null) {
+        for (int i = 0; i < myCookie.length; i++) {
+            if (myCookie[i].getName().equals("user_name")) USERNAME = myCookie[i].getValue();
+            if (myCookie[i].getName().equals("phone_number")) PHONE_NUMBER = myCookie[i].getValue();
+            if (myCookie[i].getName().equals("user_id") && !myCookie[i].getValue().equals(""))
+                USER_ID = Integer.parseInt(myCookie[i].getValue());
+        }
+    }
+    if (USER_ID != -1) {
         String sql;
         ResultSet rs;
         sql = "SELECT pet.pet_id, pet_name FROM pet, adopt_present WHERE pet.pet_id = adopt_present.pet_id AND adopt_present.pet_state = 'own' AND adopt_present.user_id=" + USER_ID + ";";
@@ -113,30 +121,30 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href=<%="index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>首页</a>
+                        <a class="navbar-brand" href=<%="index.jsp"%>>首页</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="#">赠送</a></li>
-                            <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>收养</a></li>
-                            <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>救助</a></li>
-                            <li><a href=<%="doctor.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>医生</a></li>
-                            <li><a href=<%="product.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>商品</a></li>
+                            <li><a href=<%="adopt.jsp"%>>收养</a></li>
+                            <li><a href=<%="rescue.jsp"%>>救助</a></li>
+                            <li><a href=<%="doctor.jsp"%>>医生</a></li>
+                            <li><a href=<%="product.jsp"%>>商品</a></li>
                             <% if (PHONE_NUMBER == null || PHONE_NUMBER.equals("")) { %>
                             <li><a href="login.jsp">登录</a></li>
                             <% } else { %>
                             <li class="dropdown">
-                                <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
+                                <a href=<%= "home.jsp"%>
                                            class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                     <%= USERNAME%>
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
+                                    <li><a href=<%= "home.jsp"%>>个人主页</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li class="dropdown-header">离开</li>
-                                    <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=&USER_ID=">退出登录</a></li>
-                                    <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true" + "&USER_ID=" + USER_ID%>>注销账号</a></li>
+                                    <li><a href="index.jsp?operation=exit">退出登录</a></li>
+                                    <li><a onclick="return confirmDel()" href="index.jsp?operation=delete">注销账号</a></li>
                                     <script type="text/javascript">
                                         function confirmDel()
                                         {
@@ -152,8 +160,7 @@
             </nav>
 
             <div class="inner cover">
-                <form class="form-signin" action=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                      + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
+                <form class="form-signin" action=<%="postDetail.jsp"%>
                         method="POST" role="form" data-toggle="validator" novalidate>
                     <h2>发一个帖子，为您的宠物找一个新家</h2>
                     <div class="form-group has-feedback">
@@ -170,7 +177,7 @@
                             <%
                                 if (petNameList.isEmpty()) {
                             %>
-                                    <option>您还没有宠物</option>
+                                    <option disabled="disabled" selected="selected">您还没有宠物</option>
                             <%
                                 } else {
                                     for (int i = 0; i < petIdList.size(); i++) {

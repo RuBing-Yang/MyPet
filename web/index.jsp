@@ -8,9 +8,10 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ page import="DBS.Database" %>
-<%! static String PHONE_NUMBER = "";%>
-<%! static String USERNAME = "";%>
-<%! static int USER_ID = -1;%>
+<%@ page import="javax.servlet.http.Cookie" %>
+<%! String PHONE_NUMBER = "";%>
+<%! String USERNAME = "";%>
+<%! int USER_ID = -1;%>
 <html>
   <head>
     <meta charset="utf-8">
@@ -46,28 +47,38 @@
 <%--    <button class="btn btn-default" onclick="window.location='chatroom.jsp'">聊天室</button><br>--%>
 <%--    <button class="btn btn-default" onclick="window.location='rescue.jsp'">救助流浪动物</button><br>--%>
     <%--
-      Database.connectDb("test", "q1w2e3r4_");
+      Database.connectDb();
     --%>
   <%
-    Database.connectDb("test", "q1w2e3r4_");
-    if (request.getParameter("delete")!=null) {
-        PHONE_NUMBER = "";
-        USERNAME = "";
-        USER_ID = -1;
-        if (request.getParameter("PHONE_NUMBER")!=null && !request.getParameter("PHONE_NUMBER").equals("")) {
-          String sql = "DELETE FROM user WHERE user_id=" + request.getParameter("USER_ID") + ";";
+    Database.connectDb();
+    PHONE_NUMBER = "";
+    USERNAME = "";
+    USER_ID = -1;
+    Cookie myCookie[] = request.getCookies();
+    if (myCookie != null) {
+      for (int i = 0; i < myCookie.length; i++) {
+        if (myCookie[i].getName().equals("user_name")) USERNAME = myCookie[i].getValue();
+        if (myCookie[i].getName().equals("phone_number")) PHONE_NUMBER = myCookie[i].getValue();
+        if (myCookie[i].getName().equals("user_id") && !myCookie[i].getValue().equals(""))
+          USER_ID = Integer.parseInt(myCookie[i].getValue());
+      }
+    }
+    String operation = request.getParameter("operation");
+    if (USER_ID != -1 && operation != null) {
+      if (operation.equals("exit") || operation.equals("delete")) { //退出登录
+        for (int i = 0; i < myCookie.length; i++) {
+          Cookie delete = myCookie[i];
+          delete.setMaxAge(0);
+          response.addCookie(delete);
+        }
+        if (operation.equals("delete")) { //删除账号
+          String sql = "DELETE FROM user WHERE user_id=" + USER_ID + ";";
           System.out.println(sql);
           Database.deleteDb(sql);
         }
-    } else {
-      String phoneNumber = request.getParameter("PHONE_NUMBER");
-      String username = request.getParameter("USERNAME");
-      if (phoneNumber != null) {
-        String useId = request.getParameter("USER_ID");
-        PHONE_NUMBER = phoneNumber;
-        USERNAME = username;
-        if (useId == null || useId.equals("")) USER_ID = -1;
-        else USER_ID = Integer.parseInt(useId);
+        PHONE_NUMBER = "";
+        USERNAME = "";
+        USER_ID = -1;
       }
     }
   %>
@@ -84,27 +95,27 @@
               <nav>
                 <ul class="nav masthead-nav">
                   <li class="active"><a href="#">首页</a></li>
-                  <li><a href=<%="present.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>赠送</a></li>
-                  <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>收养</a></li>
-                  <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>救助</a></li>
-                  <li><a href=<%="doctor.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>医生</a></li>
-                  <li><a href=<%="product.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>商品</a></li>
+                  <li><a href=<%="present.jsp"%>>赠送</a></li>
+                  <li><a href=<%="adopt.jsp"%>>收养</a></li>
+                  <li><a href=<%="rescue.jsp"%>>救助</a></li>
+                  <li><a href=<%="doctor.jsp"%>>医生</a></li>
+                  <li><a href=<%="product.jsp"%>>商品</a></li>
 
-                  <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
+                  <% if (USER_ID == -1) { %>
                   <li><a href="login.jsp">登录</a></li>
                   <% } else { %>
                   <li class="dropdown">
-                    <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
+                    <a href=<%= "home.jsp"%>
                                class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                       <%= USERNAME%>
                       <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                      <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
+                      <li><a href=<%= "home.jsp"%>>个人主页</a></li>
                       <li role="separator" class="divider"></li>
                       <li class="dropdown-header">离开</li>
-                      <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=&USER_ID=">退出登录</a></li>
-                      <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true" + "&USER_ID=" + USER_ID%>>注销账号</a></li>
+                      <li><a href="index.jsp?operation=exit">退出登录</a></li>
+                      <li><a onclick="return confirmDel()" href="index.jsp?operation=delete">注销账号</a></li>
                       <script type="text/javascript">
                         function confirmDel()
                         {
@@ -124,7 +135,7 @@
             <p class="lead">"领养代替购买，让爱不再流浪。"</br>
               若你选择去爱上一只猫或一只狗，请把目光投向它的身后。</br>
               不去光顾这种生意，能为它和世界增添一点美好的希望</p>
-            <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
+            <% if (USER_ID == -1) { %>
               <p class="lead">
                 <a href="login.jsp" class="btn btn-lg btn-default">成为用户</a>
               </p>

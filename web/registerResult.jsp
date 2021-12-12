@@ -7,12 +7,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="DBS.Database" %>
+<%@ page import="DBS.EncDecJDBCPass" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.math.BigDecimal" %>
 <%@ page import="java.math.BigInteger" %>
-<%! static String PHONE_NUMBER = "";%>
-<%! static String USERNAME = "";%>
-<%! static int USER_ID = -1;%>
+<%! String PHONE_NUMBER = "";%>
+<%! String USERNAME = "";%>
+<%! int USER_ID = -1;%>
 <%! static String hint = "";%>
 <%! static boolean suc = false;%>
 <html>
@@ -50,7 +51,11 @@
     USER_ID = -1;
     System.out.println("phonenumber:" + phoneNumber + ", username:" + username + ", password:" + password);
     System.out.println("has succeed before:" + suc);
-    if (Database.connectDb("test", "q1w2e3r4_")) {
+    if (password == null) password = "";
+    EncDecJDBCPass encDecJDBCPass = new EncDecJDBCPass();
+    if (!password.equals("")) password = encDecJDBCPass.encrypt(password);
+    System.out.println("加密后的密码：" + password);
+    if (Database.valid()) {
         String sql = "SELECT password FROM user WHERE phone_number='" + phoneNumber + "';";
         System.out.println(sql);
         ResultSet rs = Database.retrieveDb(sql);
@@ -73,7 +78,7 @@
         }
         else {
             sql = "INSERT INTO user (phone_number,user_name,password) VALUES ("
-                    + phoneNumber + ",'" + username + "'," + password + ");";
+                    + phoneNumber + ",'" + username + "','" + password + "');";
             System.out.println(sql);
             if (Database.createDb(sql)) {
                 suc = true;
@@ -86,6 +91,12 @@
                 rs = Database.retrieveDb(sql);
                 if (rs != null && rs.next()) USER_ID = rs.getInt("user_id"); */
                 USER_ID = Database.getId();
+
+                // 添加Cookies
+                response.addCookie(new Cookie("user_name", USERNAME));
+                response.addCookie(new Cookie("phone_number", PHONE_NUMBER));
+                response.addCookie(new Cookie("user_id", USER_ID + ""));
+
             } else {
                 suc = false;
                 hint = "创建账户失败，请重试!";
@@ -117,15 +128,15 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand" href=<%="index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>首页</a>
+                                <a class="navbar-brand" href=<%="index.jsp"%>>首页</a>
                             </div>
                             <div id="navbar" class="navbar-collapse collapse">
                                 <ul class="nav navbar-nav">
-                                    <li><a href=<%="present.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>赠送</a></li>
-                                    <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>收养</a></li>
-                                    <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>救助</a></li>
-                                    <li><a href=<%="doctor.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>医生</a></li>
-                                    <li><a href=<%="product.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>商品</a></li>
+                                    <li><a href=<%="present.jsp"%>>赠送</a></li>
+                                    <li><a href=<%="adopt.jsp"%>>收养</a></li>
+                                    <li><a href=<%="rescue.jsp"%>>救助</a></li>
+                                    <li><a href=<%="doctor.jsp"%>>医生</a></li>
+                                    <li><a href=<%="product.jsp"%>>商品</a></li>
 
                                     <% if (!suc) { %>
                                         <% if (hint.equals("手机号已绑定账号，请直接登录!")) { %>
@@ -135,17 +146,17 @@
                                         <% }%>
                                     <% } else { %>
                                     <li class="dropdown active">
-                                        <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
+                                        <a href=<%= "home.jsp"%>
                                                    class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                             <%= USERNAME%>
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
+                                            <li><a href=<%= "home.jsp"%>>个人主页</a></li>
                                             <li role="separator" class="divider"></li>
                                             <li class="dropdown-header">离开</li>
-                                            <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=&USER_ID=">退出登录</a></li>
-                                            <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true" + "&USER_ID=" + USER_ID%>>注销账号</a></li>
+                                            <li><a href="index.jsp?operation=exit">退出登录</a></li>
+                                            <li><a onclick="return confirmDel()" href="index.jsp?operation=delete">注销账号</a></li>
                                             <script type="text/javascript">
                                                 function confirmDel()
                                                 {

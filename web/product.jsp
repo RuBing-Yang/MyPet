@@ -9,9 +9,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%! static String PHONE_NUMBER = "";%>
-<%! static String USERNAME = "";%>
-<%! static int USER_ID = -1;%>
+<%! String PHONE_NUMBER = "";%>
+<%! String USERNAME = "";%>
+<%! int USER_ID = -1;%>
 <%! static ArrayList<Product> productList = new ArrayList<>();%>
 <%! String hint = "";%>
 
@@ -44,14 +44,19 @@
 <body>
 
 <%
-    String phoneNumber = request.getParameter("PHONE_NUMBER");
-    String username = request.getParameter("USERNAME");
+
+    PHONE_NUMBER = "";
+    USERNAME = "";
+    USER_ID = -1;
     hint = request.getParameter("hint");
-    if (phoneNumber != null) {
-        int userId = Integer.parseInt(request.getParameter("USER_ID"));
-        PHONE_NUMBER = phoneNumber;
-        USERNAME = username;
-        USER_ID = userId;
+    Cookie myCookie[] = request.getCookies();
+    if (myCookie != null) {
+        for (int i = 0; i < myCookie.length; i++) {
+            if (myCookie[i].getName().equals("user_name")) USERNAME = myCookie[i].getValue();
+            if (myCookie[i].getName().equals("phone_number")) PHONE_NUMBER = myCookie[i].getValue();
+            if (myCookie[i].getName().equals("user_id") && !myCookie[i].getValue().equals(""))
+                USER_ID = Integer.parseInt(myCookie[i].getValue());
+        }
     }
 
     String sql = "SELECT * FROM product";
@@ -81,30 +86,30 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href=<%="index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME%>>首页</a>
+                    <a class="navbar-brand" href=<%="index.jsp"%>>首页</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href=<%="present.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>赠送</a></li>
-                        <li><a href=<%="adopt.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>收养</a></li>
-                        <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>救助</a></li>
-                        <li><a href=<%="doctor.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>医生</a></li>
+                        <li><a href=<%="present.jsp"%>>赠送</a></li>
+                        <li><a href=<%="adopt.jsp"%>>收养</a></li>
+                        <li><a href=<%="rescue.jsp"%>>救助</a></li>
+                        <li><a href=<%="doctor.jsp"%>>医生</a></li>
                         <li class="active"><a href="#">商品</a></li>
-                        <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
+                        <% if (USER_ID == -1) { %>
                         <li><a href="login.jsp">登录</a></li>
                         <% } else { %>
                         <li class="dropdown">
-                            <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
+                            <a href=<%= "home.jsp"%>
                                        class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <%= USERNAME%>
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
+                                <li><a href=<%= "home.jsp"%>>个人主页</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li class="dropdown-header">离开</li>
-                                <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=">退出登录</a></li>
-                                <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&delete=true"%>>注销账号</a></li>
+                                <li><a href="index.jsp?operation=exit">退出登录</a></li>
+                                <li><a onclick="return confirmDel()" href="index.jsp?operation=delete">注销账号</a></li>
                                 <script type="text/javascript">
                                     function confirmDel()
                                     {
@@ -153,10 +158,7 @@
                 <%
                     if (USER_ID != -1) {
                 %>
-                <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                + "&USERNAME=" + USERNAME
-                                + "&USER_ID=" + USER_ID
-                                + "&PRODUCT_ID=" + (i+1)%>
+                <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PRODUCT_ID=" + (i+1)%>
                         role="button">查看详情 &raquo;
                 </a></p>
                 <%
@@ -177,10 +179,7 @@
                 <%
                     if (USER_ID != -1) {
                 %>
-                <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                + "&USERNAME=" + USERNAME
-                                + "&USER_ID=" + USER_ID
-                                + "&PRODUCT_ID=" + (i+2)%>
+                <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PRODUCT_ID=" + (i+2)%>
                         role="button">查看详情 &raquo;
                 </a></p>
                 <%
@@ -201,10 +200,7 @@
                 <%
                     if (USER_ID != -1) {
                 %>
-                <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                + "&USERNAME=" + USERNAME
-                                + "&USER_ID=" + USER_ID
-                                + "&PRODUCT_ID=" + (i+3)%>
+                <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PRODUCT_ID=" + (i+3)%>
                         role="button">查看详情 &raquo;
                 </a></p>
                 <%

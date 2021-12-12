@@ -1,5 +1,8 @@
 package DBS;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import java.math.BigInteger;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,9 +13,9 @@ import java.sql.Connection;
 
 public class Database {
 
-    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://bj-cynosdbmysql-grp-6pt17ydw.sql.tencentcdb.com:25522/users?" +
-            "useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true";
+    //static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    //static final String DB_URL = "jdbc:mysql://bj-cynosdbmysql-grp-6pt17ydw.sql.tencentcdb.com:25522/users?" +
+           // "useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true";
 
     private static Connection connection = null;
     private static Statement statement = null;
@@ -42,14 +45,25 @@ public class Database {
         return preparedStatement;
     }
 
-    public static boolean connectDb(String username, String password) {
+    public static boolean connectDb() {
+        //MyPoolingDataSource mpds = new MyPoolingDataSource();
+        //mpds.connectDb();
+
         boolean suc = false;
         try {
-            // 注册 JDBC 驱动
+            // 获取上下文
+            Context initContext = new InitialContext();
+            Context webContext = (Context)initContext.lookup("java:/comp/env");
+
+            DataSource ds = (DataSource) webContext.lookup("jdbc/myJdbc");
+            connection = ds.getConnection();
+
+            /*// 注册 JDBC 驱动
             Class.forName(JDBC_DRIVER);
             // 打开链接
             System.out.println("连接数据库...");
-            connection = DriverManager.getConnection(DB_URL, username, password);
+            connection = DriverManager.getConnection(DB_URL, username, password);*/
+
             // 执行查询
             System.out.println("实例化Statement对象...");
             statement = connection.createStatement();
@@ -152,5 +166,11 @@ public class Database {
         return rs;
     }
 
+    public static boolean valid() throws SQLException {
+        if (statement == null || connection == null || connection.isClosed()) {
+            connectDb();
+        }
+        return statement != null && connection != null;
+    }
 
 }

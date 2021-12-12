@@ -13,9 +13,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%! static String PHONE_NUMBER = "";%>
-<%! static String USERNAME = "";%>
-<%! static int USER_ID = -1;%>
+<%! String PHONE_NUMBER = "";%>
+<%! String USERNAME = "";%>
+<%! int USER_ID = -1;%>
 <%! static ArrayList<Post> postList = new ArrayList<>();%>
 <%! static HashMap<Integer, Reply> replyList = new HashMap<>();%>
 <%! static ArrayList<Group> groupList = new ArrayList<>();%>
@@ -47,15 +47,17 @@
 <body>
 
 <%
-    String phoneNumber = request.getParameter("PHONE_NUMBER");
-    String username = request.getParameter("USERNAME");
-    if (phoneNumber != null) {
-        int userId = Integer.parseInt(request.getParameter("USER_ID"));
-        PHONE_NUMBER = phoneNumber;
-        USERNAME = username;
-        USER_ID = userId;
-    } else {
-        Database.connectDb("test", "q1w2e3r4_");
+    PHONE_NUMBER = "";
+    USERNAME = "";
+    USER_ID = -1;
+    Cookie myCookie[] = request.getCookies();
+    if (myCookie != null) {
+        for (int i = 0; i < myCookie.length; i++) {
+            if (myCookie[i].getName().equals("user_name")) USERNAME = myCookie[i].getValue();
+            if (myCookie[i].getName().equals("phone_number")) PHONE_NUMBER = myCookie[i].getValue();
+            if (myCookie[i].getName().equals("user_id") && !myCookie[i].getValue().equals(""))
+                USER_ID = Integer.parseInt(myCookie[i].getValue());
+        }
     }
     postList.clear();
     String sql = "SELECT * FROM post";
@@ -101,31 +103,31 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href=<%="index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>首页</a>
+                    <a class="navbar-brand" href=<%="index.jsp"%>>首页</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href=<%="present.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>赠送</a></li>
+                        <li><a href=<%="present.jsp"%>>赠送</a></li>
                         <li class="active"><a href="#">收养</a></li>
-                        <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>救助</a></li>
-                        <li><a href=<%="doctor.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>医生</a></li>
-                        <li><a href=<%="product.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>商品</a></li>
+                        <li><a href=<%="rescue.jsp"%>>救助</a></li>
+                        <li><a href=<%="doctor.jsp"%>>医生</a></li>
+                        <li><a href=<%="product.jsp"%>>商品</a></li>
 
-                        <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
+                        <% if (USER_ID == -1) { %>
                         <li><a href="login.jsp">登录</a></li>
                         <% } else { %>
                         <li class="dropdown">
-                            <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
+                            <a href=<%= "home.jsp"%>
                                        class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <%= USERNAME%>
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
+                                <li><a href=<%= "home.jsp"%>>个人主页</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li class="dropdown-header">离开</li>
-                                <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=&USER_ID=">退出登录</a></li>
-                                <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true" + "&USER_ID=" + USER_ID%>>注销账号</a></li>
+                                <li><a href="index.jsp?operation=exit">退出登录</a></li>
+                                <li><a onclick="return confirmDel()" href="index.jsp?operation=delete">注销账号</a></li>
                                 <script type="text/javascript">
                                     function confirmDel()
                                     {
@@ -166,7 +168,7 @@
                         String stateLabel = "初始状态";
                         if (rs != null && rs.next()) {
                             String state = rs.getString("pet_state");
-                            stateLabel = Objects.equals(state, "pre") ? "待领养" : Objects.equals(state, "left") ? "已领养" : "状态出错";
+                            stateLabel = Objects.equals(state, "pre") ? "待领养" : (Objects.equals(state, "left") ? "已领养" : "状态出错");
                         }
 
                         sql = "SELECT user_name FROM user WHERE user_id = " + postList.get(i).getPostPersonId();
@@ -184,12 +186,11 @@
                                 <h2><%= postList.get(i).getPostTitle()%></h2>
                                 <p><%= postList.get(i).getPostIntro()%></p>
                                 <p class="blog-post-meta"><%= postList.get(i).getPostDate()%> by
-                                    <a href=<%= "intro.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
-                                            + "&POST_PERSON_ID=" + postList.get(i).getPostPersonId()%>>
+                                    <a href=<%= "intro.jsp?"
+                                            + "POST_PERSON_ID=" + postList.get(i).getPostPersonId()%>>
                                         <%=publisherName%> </a>    <%= postList.get(i).getPostPlace()%></p>
                             </div>
-                            <p><a class="btn btn-lg btn-primary opacity-75" href=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
-                            "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID + "&POST_ID=" + postList.get(i).getPostId()%> role="button">查看详情</a></p>
+                            <p><a class="btn btn-lg btn-primary opacity-75" href=<%="postDetail.jsp?POST_ID=" + postList.get(i).getPostId()%> role="button">查看详情</a></p>
                             <hr>
                         </div>
                     </div><!-- /.row -->
@@ -214,8 +215,7 @@
                             <%
                                 } else {
                             %>
-                            <p><a class="btn btn-lg btn-primary" href=<%="createGroup.jsp?PHONE_NUMBER=" + PHONE_NUMBER +
-                            "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%> role="button">创建小组</a></p>
+                            <p><a class="btn btn-lg btn-primary" href=<%="createGroup.jsp"%> role="button">创建小组</a></p>
                             <%
                                 }
                             %>
@@ -228,9 +228,7 @@
                                     //第i个小组
                             %>
 
-                            <p><a href=<%="group.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                  + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
-                                  + "&GROUP_ID=" + groupList.get(i).getGroupId()%>><%= groupList.get(i).getGroupName() %>
+                            <p><a href=<%="group.jsp?GROUP_ID=" + groupList.get(i).getGroupId()%>><%= groupList.get(i).getGroupName() %>
                             </a></p>
 
                             <% } %>
