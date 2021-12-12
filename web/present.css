@@ -32,6 +32,8 @@ html,
 body {
     height: 100%;
     width: 100%;
+    color: #5a5a5a;
+    text-shadow: 5px 5px 5px #3a3f43;
     background-image: url(img/cover_bg.png);
 }
 
@@ -60,6 +62,9 @@ body {
     width: auto;
 }
 
+.cover h2 {
+    color:white;
+}
 
 /* MARKETING CONTENT
 -------------------------------------------------- */

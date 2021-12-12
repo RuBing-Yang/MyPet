@@ -2,9 +2,12 @@
  * Padding below the footer and lighter body text
 * -------------------------------------------------- */
 
+
 body {
     padding-bottom: 40px;
     color: #5a5a5a;
+    background-attachment: fixed;
+    background-image: url(img/cover_bg.png);
 }
 
 
@@ -127,3 +130,22 @@ body {
         margin-top: 120px;
     }
 }
+
+.hero {
+    background-color: rgba(180, 180, 180, 0.6);
+}
+
+.my_foot {
+    background-color: rgba(180, 180, 180, 0.6);
+}
+
+.col2 {
+    background-color: rgba(180, 180, 180, 0.6);
+}
+
+.my_foot {
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 400px;
+    margin-bottom: -50px;
+}
+

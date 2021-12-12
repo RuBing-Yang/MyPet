@@ -14,6 +14,7 @@
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
 <%! static ArrayList<Doctor> doctorList = new ArrayList<>();%>
+<%! String hint = "";%>
 
 <html>
 <head>
@@ -46,6 +47,7 @@
 <%
     String phoneNumber = request.getParameter("PHONE_NUMBER");
     String username = request.getParameter("USERNAME");
+    hint = request.getParameter("hint");
     if (phoneNumber != null) {
         int userId = Integer.parseInt(request.getParameter("USER_ID"));
         PHONE_NUMBER = phoneNumber;
@@ -123,58 +125,60 @@
 
     <div class="container marketing">
         <%
-            if (USER_ID == -1) {
+            if (hint != null && !hint.equals("")) {
         %>
-            <p>请先登录</p>
-        <%
-            } else {
-                for (int i = 0; i < doctorList.size(); i = i + 3) {
+            <div class="alert alert-danger" role="alert">
+                <strong>请先登录</strong>
+            </div>
+        <% } %>
 
-        %>
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="my_box_">
-                        <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                            <h2><%= doctorList.get(i).getDoctorName()%></h2>
-                            <p><%= doctorList.get(i).getDoctorIntroduction()%></p>
-                        </div>
-                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                + "&USERNAME=" + USERNAME
-                                + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + (i+1)%>
-                                role="button">咨询 &raquo;
-                        </a></p>
-                    </div><!-- /.col-lg-4 -->
-                    <div class="col-lg-4">
-                        <div class="my_box_">
-                        <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                            <h2><%= doctorList.get(i+1).getDoctorName()%></h2>
-                            <p><%= doctorList.get(i+1).getDoctorIntroduction()%></p>
-                        </div>
-                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                + "&USERNAME=" + USERNAME
-                                + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + (i+2)%>
-                                role="button">咨询 &raquo;
-                        </a></p>
-                    </div><!-- /.col-lg-4 -->
-                    <div class="col-lg-4">
-                        <div class="my_box_">
-                        <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                            <h2><%= doctorList.get(i+2).getDoctorName()%></h2>
-                            <p><%= doctorList.get(i+2).getDoctorIntroduction()%></p>
-                        </div>
-                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                + "&USERNAME=" + USERNAME
-                                + "&USER_ID=" + USER_ID
-                                + "&DOCTOR_ID=" + (i+3)%>
-                                role="button">咨询 &raquo;
-                        </a></p>
-                    </div><!-- /.col-lg-4 -->
-                </div><!-- /.row -->
         <%
-                }
-            }
+            if (doctorList.size()==0) {
+        %>
+            <div class="alert alert-danger" role="alert">
+                <strong>暂无医生信息</strong>
+            </div>
+        <% } %>
+
+        <%
+            for (int i = 0; i < doctorList.size(); i = i + 3) {
+        %>
+            <div class="row">
+                <%
+                    for (int j = 0; j < 3; j++) {
+                %>
+                <div class="col-lg-4">
+                    <div class="my_box_">
+                        <img class="img-circle" src="<%= doctorList.get(i + j).getDoctorPhoto()%>" alt="Generic placeholder image" width="140" height="140">
+                        <h2><%= doctorList.get(i + j).getDoctorName()%></h2>
+                        <p><%= doctorList.get(i + j).getDoctorIntroduction()%></p>
+                    </div>
+                    <%
+                        if (USER_ID != -1) {
+                    %>
+                        <p><a class="btn btn-lg btn-primary" href=<%= "doctorDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                                + "&USERNAME=" + USERNAME
+                                + "&USER_ID=" + USER_ID
+                                + "&DOCTOR_ID=" + (i + j + 1)%>
+                                role="button">咨询 &raquo;
+                        </a></p>
+                    <%
+                        } else {
+                    %>
+                        <p><a class="btn btn-lg btn-primary" href=<%= "doctor.jsp?hint=请先登录"%> role="button">咨询 &raquo;
+                        </a></p>
+                    <%
+                        }
+                    %>
+
+                </div><!-- /.col-md-4 -->
+
+                <%
+                    } // for j
+                %>
+            </div><!-- /.row -->
+        <%
+            } // for i
         %>
 
 

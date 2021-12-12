@@ -13,6 +13,7 @@
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
 <%! static ArrayList<Product> productList = new ArrayList<>();%>
+<%! String hint = "";%>
 
 <html>
 <head>
@@ -45,6 +46,7 @@
 <%
     String phoneNumber = request.getParameter("PHONE_NUMBER");
     String username = request.getParameter("USERNAME");
+    hint = request.getParameter("hint");
     if (phoneNumber != null) {
         int userId = Integer.parseInt(request.getParameter("USER_ID"));
         PHONE_NUMBER = phoneNumber;
@@ -122,58 +124,101 @@
     <div class="container marketing">
 
         <%
-            if (USER_ID == -1) {
+            if (hint != null && !hint.equals("")) {
         %>
-        <p>请先登录</p>
+        <div class="alert alert-danger" role="alert">
+            <strong>请先登录</strong>
+        </div>
+        <% } %>
+
         <%
-            } else {
+            if (productList.size()==0) {
+        %>
+        <div class="alert alert-danger" role="alert">
+            <strong>暂无商品信息</strong>
+        </div>
+        <% } %>
+        <%
                 for (int i = 0; i < productList.size(); i = i + 3) {
         %>
         <div class="row">
             <h1><%= productList.get(i).getProductType() == 1 ? "狗狗用品" : productList.get(i).getProductType() == 2 ? "猫咪用品" : "其他用品"%></h1>
             <div class="col-lg-4">
                 <div class="my_box_">
-                    <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                    <img class="img-circle" src="<%= productList.get(i).getProductPhoto()%>" alt="Generic placeholder image" width="140" height="140">
                     <h2><%= productList.get(i).getProductName()%></h2>
                     <p><%= productList.get(i).getProductIntroduction()%></p>
                 </div>
+
+                <%
+                    if (USER_ID != -1) {
+                %>
                 <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
                                 + "&USER_ID=" + USER_ID
                                 + "&PRODUCT_ID=" + (i+1)%>
                         role="button">查看详情 &raquo;
                 </a></p>
+                <%
+                } else {
+                %>
+                <p><a class="btn btn-lg btn-primary" href=<%= "doctor.jsp?hint=请先登录"%> role="button">查看详情 &raquo;
+                </a></p>
+                <%
+                    }
+                %>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <div class="my_box_">
-                    <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                    <img class="img-circle" src="<%= productList.get(i+1).getProductPhoto()%>" alt="Generic placeholder image" width="140" height="140">
                     <h2><%= productList.get(i+1).getProductName()%></h2>
                     <p><%= productList.get(i+1).getProductIntroduction()%></p>
                 </div>
+                <%
+                    if (USER_ID != -1) {
+                %>
                 <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
                                 + "&USER_ID=" + USER_ID
-                                + "&PRODUCT_ID=" + (i+2)%>
+                                + "&PRODUCT_ID=" + (i+1)%>
                         role="button">查看详情 &raquo;
                 </a></p>
+                <%
+                } else {
+                %>
+                <p><a class="btn btn-lg btn-primary" href=<%= "doctor.jsp?hint=请先登录"%> role="button">查看详情 &raquo;
+                </a></p>
+                <%
+                    }
+                %>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <div class="my_box_">
-                    <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                    <img class="img-circle" src="<%= productList.get(i+2).getProductPhoto()%>" alt="Generic placeholder image" width="140" height="140">
                     <h2><%= productList.get(i+2).getProductName()%></h2>
                     <p><%= productList.get(i+2).getProductIntroduction()%></p>
                 </div>
+                <%
+                    if (USER_ID != -1) {
+                %>
                 <p><a class="btn btn-lg btn-primary" href=<%= "productDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
                                 + "&USERNAME=" + USERNAME
                                 + "&USER_ID=" + USER_ID
-                                + "&PRODUCT_ID=" + (i+3)%>
+                                + "&PRODUCT_ID=" + (i+1)%>
                         role="button">查看详情 &raquo;
                 </a></p>
+                <%
+                } else {
+                %>
+                <p><a class="btn btn-lg btn-primary" href=<%= "doctor.jsp?hint=请先登录"%> role="button">查看详情 &raquo;
+                </a></p>
+                <%
+                    }
+                %>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
         <%
                 }
-            }
         %>
 
     </div><!-- /.container -->

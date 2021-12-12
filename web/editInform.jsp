@@ -12,10 +12,6 @@
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
-<%! static String gender = "";%>
-<%! static String address = "";%>
-<%! static String birthday = "";%>
-<%! static String petnames = "";%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -79,7 +75,33 @@
                                     <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>救助</a></li>
                                     <li><a href=<%="doctor.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>医生</a></li>
                                     <li><a href=<%="product.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>商品</a></li>
-                                    <li class="active"><a href="#">个人主页</a></li>
+
+                                    <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
+                                    <li><a href="login.jsp">登录</a></li>
+                                    <% } else { %>
+                                    <li class="dropdown">
+                                        <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
+                                                   class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                            <%= USERNAME%>
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li class="dropdown-header">离开</li>
+                                            <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=&USER_ID=">退出登录</a></li>
+                                            <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true" + "&USER_ID=" + USER_ID%>>注销账号</a></li>
+                                            <script type="text/javascript">
+                                                function confirmDel()
+                                                {
+                                                    return window.confirm("您确定要注销您的账号吗？\n注销账号后，个人数据无法恢复！");
+                                                }
+                                            </script>
+                                        </ul>
+                                    </li>
+                                    <% } %>
+
+                                    <li class="active"><a href="#">个人信息</a></li>
                                 </ul>
                             </div>
                         </div>

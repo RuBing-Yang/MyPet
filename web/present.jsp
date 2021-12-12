@@ -66,7 +66,7 @@
     function confirmLogin()
     {
         var id = getQueryVariable("USER_ID");
-        if (id == false || id == -1) {
+        if (id != false && id == -1) {
             if (window.confirm("发帖需要完善资料信息\n请先登录")) {
                 window.location.replace("login.jsp");
             } else {

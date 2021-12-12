@@ -79,7 +79,33 @@
                                     <li><a href=<%="rescue.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME+ "&USER_ID=" + USER_ID%>>救助</a></li>
                                     <li><a href=<%="doctor.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>医生</a></li>
                                     <li><a href=<%="product.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>商品</a></li>
-                                    <li class="active"><a href="#">个人主页</a></li>
+
+                                    <% if (PHONE_NUMBER==null || PHONE_NUMBER.equals("")) { %>
+                                    <li><a href="login.jsp">登录</a></li>
+                                    <% } else { %>
+                                    <li class="dropdown">
+                                        <a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
+                                                   class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                            <%= USERNAME%>
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href=<%= "home.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>个人主页</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li class="dropdown-header">离开</li>
+                                            <li><a href="index.jsp?PHONE_NUMBER=&USERNAME=&USER_ID=">退出登录</a></li>
+                                            <li><a onclick="return confirmDel()" href=<%= "index.jsp?PHONE_NUMBER=" + PHONE_NUMBER + "&USERNAME=" + USERNAME + "&delete=true" + "&USER_ID=" + USER_ID%>>注销账号</a></li>
+                                            <script type="text/javascript">
+                                                function confirmDel()
+                                                {
+                                                    return window.confirm("您确定要注销您的账号吗？\n注销账号后，个人数据无法恢复！");
+                                                }
+                                            </script>
+                                        </ul>
+                                    </li>
+                                    <% } %>
+
+                                    <li class="active"><a href="#">宠物信息</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -98,7 +124,7 @@
                     <div class="form-group has-feedback">
                         <label for="inputPetName" class="sr-only">宠物名字</label>
                         <input type="text" id="inputPetName" class="form-control" placeholder="宠物名字"
-                               name="petname" maxlength="10" required autofocus>
+                               name="petname" maxlength="25" required autofocus>
                         <div class="help-block with-errors"></div>
                         <label for="inputPetAge" class="sr-only">宠物年龄</label>
                         <input  name="petAge" type="number" id="inputPetAge"

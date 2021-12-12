@@ -69,7 +69,21 @@
     if (rs != null) {
         while (rs.next()) {
             rescuePetsList.add(new Pet(rs.getInt("pet_id"), rs.getInt("pet_variety"), rs.getString("pet_name"),
-                    rs.getInt("pet_age"), rs.getString("pet_gender"), rs.getString("pet_remarks")));
+                    rs.getInt("pet_age"), rs.getString("pet_gender"), rs.getString("pet_remarks"), rs.getInt("rescue")));
+        }
+    }
+    for (Pet pet : rescuePetsList) {
+        sql = "SELECT * FROM adopt_present WHERE pet_id = " + pet.getPetId();
+        System.out.println(sql);
+        rs = Database.retrieveDb(sql);
+        if (rs.next()) {
+            int user_id = rs.getInt("user_id");
+            sql = "SELECT * FROM user WHERE user_id = " + user_id;
+            String user_name = "";
+            System.out.println(sql);
+            rs = Database.retrieveDb(sql);
+            if (rs.next()) user_name = rs.getString("user_name");
+            pet.setOwner(user_id, user_name);
         }
     }
 %>
@@ -126,180 +140,127 @@
             </div>
         </nav>
 
-    </div>
-</div>
+    </div><%--<div class="container">--%>
 
-
-<!-- Carousel
-================================================== -->
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-<%--    <ol class="carousel-indicators">--%>
-<%--        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>--%>
-<%--        <li data-target="#myCarousel" data-slide-to="1"></li>--%>
-<%--        <li data-target="#myCarousel" data-slide-to="2"></li>--%>
-<%--    </ol>--%>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img class="first-slide" src="img/slide1.png" alt="First slide">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>领养代替购买</h1>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <img class="second-slide" src="img/slide2.png" alt="Second slide">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>让爱不再流浪</h1>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <img class="third-slide" src="img/slide3.png" alt="Third slide">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>给它们一个新家</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div><!-- /.carousel -->
-
-
-
-<div class="container features">
-    <%
-        for (int i = 0; i < rescuePetsList.size(); i++) {
-    %>
-    <%
-            if (i % 2 == 0) {
-    %>
-    <div class="row feature">
-        <div class="col-lg-7">
-            <h2 class="feature-heading">
-                <%= rescuePetsList.get(i).getPetName()%>
-            </h2>
-            <p class="feature-text">
-                <%= rescuePetsList.get(i).getPetRemarks()%>
-
-            </p>
-        </div>
-        <div class="col-lg-5">
-            <img class="feature-image img-fluid mx-auto feature-image-speed" src="img/feature-speed.png" width="500" height="300" alt="Watercolour of cat riding a rocketship">
-        </div>
-    </div>
-    <%
-            } else {
-
-    %>
-    <div class="row feature">
-        <div class="col-lg-7 push-lg-5">
-            <h2 class="feature-heading">
-                <%= rescuePetsList.get(i).getPetName()%>
-            </h2>
-            <p class="feature-text">
-                <%= rescuePetsList.get(i).getPetRemarks()%>
-
-            </p>
-        </div>
-        <div class="col-lg-5 pull-lg-7">
-            <img class="feature-image img-fluid mx-auto feature-image-secure" src="img/feature-secure.png" width="375" height="300" alt="Watercolour of cat driving a robot suit">
-        </div>
-    </div>
-    <%
-            }
-    %>
-    <hr class="feature-divider">
-    <%
-        }
-    %>
-<%--    <div class="row feature">--%>
-<%--        <div class="col-lg-7">--%>
-<%--            <h2 class="feature-heading">--%>
-<%--                速度超快。--%>
-<%--            </h2>--%>
-<%--            <p class="feature-text">--%>
-<%--                Yarn 缓存了每个下载过的包，所以再次使用时无需重复下载。 同时利用并行下载以最大化资源利用率，因此安装速度更快。--%>
-
-<%--            </p>--%>
-<%--        </div>--%>
-<%--        <div class="col-lg-5">--%>
-<%--            <img class="feature-image img-fluid mx-auto feature-image-speed" src="img/feature-speed.png" width="500" height="300" alt="Watercolour of cat riding a rocketship">--%>
-<%--        </div>--%>
-<%--    </div>--%>
-
-<%--    <hr class="feature-divider">--%>
-
-<%--    <div class="row feature">--%>
-<%--        <div class="col-lg-7 push-lg-5">--%>
-<%--            <h2 class="feature-heading">--%>
-<%--                超级安全。--%>
-<%--            </h2>--%>
-<%--            <p class="feature-text">--%>
-<%--                在执行代码之前，Yarn 会通过算法校验每个安装包的完整性。--%>
-
-<%--            </p>--%>
-<%--        </div>--%>
-<%--        <div class="col-lg-5 pull-lg-7">--%>
-<%--            <img class="feature-image img-fluid mx-auto feature-image-secure" src="img/feature-secure.png" width="375" height="300" alt="Watercolour of cat driving a robot suit">--%>
-<%--        </div>--%>
-<%--    </div>--%>
-
-<%--    <hr class="feature-divider">--%>
-
-<%--    <div class="row feature">--%>
-<%--        <div class="col-lg-7">--%>
-<%--            <h2 class="feature-heading">--%>
-<%--                超级可靠。--%>
-<%--            </h2>--%>
-<%--            <p class="feature-text">--%>
-<%--                使用详细、简洁的锁文件格式和明确的安装算法，Yarn 能够保证在不同系统上无差异的工作。--%>
-
-<%--            </p>--%>
-<%--        </div>--%>
-<%--        <div class="col-lg-5">--%>
-<%--            <img class="feature-image img-fluid mx-auto feature-image-reliable" src="img/feature-reliable.png" width="500" height="300" alt="Watercolour of cat waving from seat behind computer screens">--%>
-<%--        </div>--%>
-<%--    </div>--%>
-</div>
-
-<div class="hero">
-    <div class="container">
-        <p class="hero-prompt float-md-left">
-            你还在等什么？
-        </p>
-
-        <a href="#" class="btn hero-btn float-md-right">
-            立刻使用！
-        </a>
-    </div>
 </div>
 
 
 <div class="container">
-    <footer class="footer">
-        <div class="footer-left">
-            <span class="footer-item">递爱宠物屋</span>
-            <span class="footer-item"><a href="#">基于宠物救助协议发布</a></span>
-            <span class="footer-item"><a href="#">遵守国家规定</a></span>
+    <div class="row row1">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 col2">
+
+            <br><br><br><br>><br><br>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+
+                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item active">
+                                <img class="first-slide" src="img/slide1.png" alt="First slide">
+                                <div class="container">
+                                    <div class="carousel-caption">
+                                        <h1>领养代替购买</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="second-slide" src="img/slide2.png" alt="Second slide">
+                                <div class="container">
+                                    <div class="carousel-caption">
+                                        <h1>让爱不再流浪</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="third-slide" src="img/slide3.png" alt="Third slide">
+                                <div class="container">
+                                    <div class="carousel-caption">
+                                        <h1>给它们一个新家</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div><!-- /.carousel -->
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <%
+                for (int i = 0; i < rescuePetsList.size(); i++) {
+            %>
+            <%
+                if (i % 2 == 0) {
+            %>
+            <div class="row feature">
+                <div class="col-lg-7">
+                    <h2 class="feature-heading">
+                        <%= rescuePetsList.get(i).getPetName()%>
+                    </h2>
+                    <p class="feature-text">
+                        <%= rescuePetsList.get(i).getPetRemarks()%>
+                    </p>
+                    <p><a class="btn btn-lg btn-primary" href=<%= "petDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                                + "&USERNAME=" + USERNAME
+                                + "&USER_ID=" + USER_ID
+                                + "&PET_ID=" + rescuePetsList.get(i).getPetId()%>
+                            role="button">参考详情 &raquo;
+                    </a></p>
+                </div>
+                <div class="col-lg-5">
+                    <img class="feature-image img-fluid mx-auto feature-image-speed" src="img/feature-speed.png" width="500" height="300" alt="Watercolour of cat riding a rocketship">
+                </div>
+            </div>
+            <%
+            } else {
+
+            %>
+            <div class="row feature">
+                <div class="col-lg-7 push-lg-8">
+                    <h2 class="feature-heading">
+                        <%= rescuePetsList.get(i).getPetName()%>
+                    </h2>
+                    <p class="feature-text">
+                        <%= rescuePetsList.get(i).getPetRemarks()%>
+                    </p>
+                    <p><a class="btn btn-lg btn-primary" href=<%= "petDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                                + "&USERNAME=" + USERNAME
+                                + "&USER_ID=" + USER_ID
+                                + "&PET_ID=" + rescuePetsList.get(i).getPetId()%>
+                            role="button">参考详情 &raquo;
+                    </a></p>
+                </div>
+                <div class="col-lg-5 pull-lg-7">
+                    <img class="feature-image img-fluid mx-auto feature-image-secure" src="img/feature-secure.png" width="375" height="300" alt="Watercolour of cat driving a robot suit">
+                </div>
+            </div>
+            <%
+                } //end else
+            %>
+            <hr class="feature-divider">
+            <%
+                } //end for
+            %>
+
         </div>
-        <div class="footer-right">
-            <span class="footer-item">最终解释权归递爱宠物屋所有</span>
-        </div>
-    </footer>
+
+        <div class="col-md-1"></div>
+    </div>
+
 </div>
 
 
+<footer class="my_foot">
+</footer>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

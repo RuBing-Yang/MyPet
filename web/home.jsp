@@ -50,7 +50,9 @@
     String phoneNumber = request.getParameter("PHONE_NUMBER");
     String username = request.getParameter("USERNAME");
     if (PHONE_NUMBER!=null && !PHONE_NUMBER.equals("") && request.getParameter("address")!=null && !submit) {
-        address = request.getParameter("address");
+        if (request.getParameter("address") != null) {
+            address = new String(request.getParameter("address").getBytes("iso-8859-1"), "utf-8");
+        }
         birthday = request.getParameter("birthday");
         gender = request.getParameter("gender");
         String sql = "UPDATE user SET address='" + address + "'";
@@ -64,7 +66,9 @@
         else if (gender.equals("f")) gender = "女";
         else if (gender.equals("m")) gender = "男";
     } else if (PHONE_NUMBER!=null && !PHONE_NUMBER.equals("") && request.getParameter("petname")!=null && !submit) {
-        String sql = "INSERT INTO pet (pet_name) VALUES ('" + request.getParameter("petname") + "');";
+        String new_pet_name = new String(request.getParameter("petname").getBytes("iso-8859-1"), "utf-8");
+        System.out.println("["+ new_pet_name + "]");
+        String sql = "INSERT INTO pet (pet_name) VALUES ('" + new_pet_name + "');";
         System.out.println(sql);
         int pet_id = -1;
         if (Database.createDb(sql)) {
@@ -74,9 +78,9 @@
                     + USER_ID + ", " + pet_id + ", 'own');";
             Database.createDb(sql);
             if (petnames == null || petnames.equals("")) {
-                petnames = request.getParameter("petname");
+                petnames = new_pet_name;
             } else {
-                petnames += ", " + request.getParameter("petname");
+                petnames += ", " + new_pet_name;
             }
             submit = true;
         }
