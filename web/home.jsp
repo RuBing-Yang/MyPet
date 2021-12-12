@@ -83,7 +83,7 @@
         if (pet_gender == null) pet_gender = "";
         int rescue = 0;
         String rescue_str = request.getParameter("needHelp");
-        if (rescue_str != null && !rescue_str.equals("")) rescue = Integer.parseInt(rescue_str);
+        if (rescue_str != null && rescue_str.equals("on")) rescue = 1;
         String pet_remarks = request.getParameter("petIntro");
         if (pet_remarks == null) pet_remarks = "";
         else pet_remarks = new String(pet_remarks.replaceAll("\n", "<br>").getBytes("iso-8859-1"), "utf-8");
