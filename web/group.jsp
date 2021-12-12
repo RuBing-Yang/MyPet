@@ -59,27 +59,6 @@
     String groupName = request.getParameter("groupName");
     String groupIntro = request.getParameter("groupIntro");
     String sql;
-    if (groupName != null) {
-        groupName = new String((request.getParameter("groupName")).getBytes("ISO-8859-1"),"UTF-8");
-        groupIntro = new String((request.getParameter("groupIntro")).getBytes("ISO-8859-1"),"UTF-8");
-        sql = "INSERT INTO pet_group (group_name, group_date, group_introduction, group_leader) VALUES ('"
-                + groupName + "', curdate(), '" + groupIntro + "', " + USER_ID + ");";
-        System.out.println(sql);
-        Database.createDb(sql);
-        GROUP_ID = Database.getId();
-    }
-
-    String groupAdd = request.getParameter("GROUP_ADD");
-    if (Objects.equals(groupAdd, "1")) {
-        sql = "INSERT INTO group_join (user_id, group_id) VALUES ("
-                + USER_ID + ", " + GROUP_ID + ");";
-        System.out.println(sql);
-        Database.createDb(sql);
-    } else if (Objects.equals(groupAdd, "0")) {
-        sql = "DELETE FROM group_join WHERE user_id = " + USER_ID + " AND group_id = " + GROUP_ID;
-        System.out.println(sql);
-        Database.deleteDb(sql);
-    }
 
     if (groupIndex != null && !groupIndex.equals("")) {
         GROUP_ID = Integer.parseInt(groupIndex);
@@ -92,6 +71,34 @@
     } else {
         Database.connectDb("test", "q1w2e3r4_");
     }
+
+    if (groupName != null) {
+        groupName = new String((request.getParameter("groupName")).getBytes("ISO-8859-1"),"UTF-8");
+        groupIntro = new String((request.getParameter("groupIntro")).getBytes("ISO-8859-1"),"UTF-8");
+        sql = "INSERT INTO pet_group (group_name, group_date, group_introduction, group_leader) VALUES ('"
+                + groupName + "', curdate(), '" + groupIntro + "', " + USER_ID + ");";
+        System.out.println(sql);
+        Database.createDb(sql);
+        GROUP_ID = Database.getId();
+
+        sql = "INSERT INTO group_join (user_id, group_id, join_date) VALUES ("
+                + USER_ID + ", " + GROUP_ID + ", curdate());";
+        System.out.println(sql);
+        Database.createDb(sql);
+    }
+
+    String groupAdd = request.getParameter("GROUP_ADD");
+    if (Objects.equals(groupAdd, "1")) {
+        sql = "INSERT INTO group_join (user_id, group_id, join_date) VALUES ("
+                + USER_ID + ", " + GROUP_ID + ", curdate());";
+        System.out.println(sql);
+        Database.createDb(sql);
+    } else if (Objects.equals(groupAdd, "0")) {
+        sql = "DELETE FROM group_join WHERE user_id = " + USER_ID + " AND group_id = " + GROUP_ID;
+        System.out.println(sql);
+        Database.deleteDb(sql);
+    }
+
     sql = "SELECT * FROM pet_group WHERE group_id = " + GROUP_ID;
     System.out.println(sql);
     ResultSet rs = Database.retrieveDb(sql);
