@@ -68,7 +68,8 @@
 
     if (!has_submit && request.getParameter("postTitle")!=null) {
         String postTitle = new String((request.getParameter("postTitle")).getBytes("ISO-8859-1"),"UTF-8");
-        String postContext = new String((request.getParameter("postContext")).getBytes("ISO-8859-1"),"UTF-8");
+        String postContext = request.getParameter("postContext");
+        postContext = postContext==null ? "" : (new String(postContext.replaceAll("\n", "<br>").getBytes("ISO-8859-1"),"UTF-8"));
         String postPlace = new String((request.getParameter("postPlace")).getBytes("ISO-8859-1"),"UTF-8");
         String postIntro = new String((request.getParameter("postIntro")).getBytes("ISO-8859-1"),"UTF-8");
         String petInfo = new String((request.getParameter("postPetId")).getBytes("ISO-8859-1"),"UTF-8");
@@ -119,8 +120,7 @@
 
     String reply_context = request.getParameter("reply_context");
     if (reply_context != null) {
-        reply_context = new String((request.getParameter("reply_context")).getBytes("ISO-8859-1"),"UTF-8");
-        REPLY_CONTEXT = reply_context;
+        REPLY_CONTEXT = new String(reply_context.replaceAll("\n", "<br>").getBytes("ISO-8859-1"),"UTF-8");
         System.out.println(USER_ID + "  " + POST_ID + "  " + REPLY_CONTEXT);
         sql = "INSERT INTO reply (reply_person_id, reply_date, reply_context) VALUES ("
                 + USER_ID + ", curdate(), '" + REPLY_CONTEXT + "');";
@@ -229,7 +229,9 @@
 
         <div class="blog-header">
             <h1 class="blog-title">递爱宠物屋</h1>
-            <p class="lead blog-description">领养代替购买，让爱不再流浪</p>
+            <div class="lead blog-description">
+                <p>领养代替购买，让爱不再流浪</p>
+            </div>
         </div>
 
         <div class="row">

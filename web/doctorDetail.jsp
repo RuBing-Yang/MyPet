@@ -61,10 +61,10 @@
     }
     String sql;
 
-    String consult_context = request.getParameter("consult_context");
+    String consult_context = request.getParameter("consult_context");;
     if (consult_context != null) {
+        consult_context = new String((request.getParameter("consult_context")).replaceAll("\n", "<br>").getBytes("ISO-8859-1"),"UTF-8");
         System.out.println(consult_context);
-        consult_context = new String((request.getParameter("consult_context")).getBytes("ISO-8859-1"),"UTF-8");
         // 加入用户咨询内容
         sql = "INSERT INTO consult (user_id, doctor_id, consult_item, consult_direction) VALUES ("
                 + USER_ID + ", " + DOCTOR_ID + ", '" + consult_context + "', 1);";

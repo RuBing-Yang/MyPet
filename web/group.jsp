@@ -73,9 +73,9 @@
         Database.connectDb("test", "q1w2e3r4_");
     }
 
-    if (groupName != null) {
+    if (groupName != null && groupIntro != null) {
         groupName = new String((request.getParameter("groupName")).getBytes("ISO-8859-1"),"UTF-8");
-        groupIntro = new String((request.getParameter("groupIntro")).getBytes("ISO-8859-1"),"UTF-8");
+        groupIntro = new String((request.getParameter("groupIntro")).replaceAll("\n", "<br>").getBytes("ISO-8859-1"),"UTF-8");
         sql = "INSERT INTO pet_group (group_name, group_date, group_introduction, group_leader) VALUES ('"
                 + groupName + "', curdate(), '" + groupIntro + "', " + USER_ID + ");";
         System.out.println(sql);
@@ -213,28 +213,32 @@
 
     <div class="container">
 
-        <div class="jumbotron">
-            <h1><%= curGroup.getGroupName()%></h1>
-            <p><%= curGroup.getGroupIntroduction()%></p>
-            <p><%= curGroup.getGroupDate()%></p>
-            <p>小组成员数：<%= groupMemberNum%></p>
-            <p>小组帖子数: <%= postList.size()%></p>
-            <%
-                if (USER_ID == -1) {
-            %>
-                <p>请先登录</p>
-            <%
-                } else {
-                    sql = "SELECT * FROM group_join WHERE group_join.user_id = " + USER_ID + " AND group_join.group_id = " + GROUP_ID;
-                    System.out.println(sql);
-                    rs = Database.retrieveDb(sql);
-                    if (rs != null && rs.next()) {
-            %>
-                        <a href=<%="group.jsp?GROUP_ADD=0"%>>退出小组</a></p>
-            <%      } else {%>
-                        <a href=<%="group.jsp?GROUP_ADD=1"%>>加入小组</a></p>
-            <%      }%>
-            <% } %>
+        <div class="container">
+            <h1 class="blog-title"><%= curGroup.getGroupName()%></h1>
+            <div class="lead blog-description">
+                <p><%= curGroup.getGroupIntroduction()%></p>
+                <p><%= curGroup.getGroupDate()%></p>
+                <p>小组成员数：<%= groupMemberNum%></p>
+                <p>小组帖子数: <%= postList.size()%></p>
+
+                <%
+                    if (USER_ID == -1) {
+                %>
+                    <p><strong>请先登录</strong></p>
+                <%
+                    } else {
+                        sql = "SELECT * FROM group_join WHERE group_join.user_id = " + USER_ID + " AND group_join.group_id = " + GROUP_ID;
+                        System.out.println(sql);
+                        rs = Database.retrieveDb(sql);
+                        if (rs != null && rs.next()) {
+                %>
+                    <p><a href=<%="group.jsp?GROUP_ADD=0"%>><strong>退出小组</strong></a></p>
+                <%      } else {%>
+                    <p><a href=<%="group.jsp?GROUP_ADD=1"%>><strong>加入小组</strong></a></p>
+                <%      }%>
+                <% } %>
+
+            </div>
         </div>
 
 

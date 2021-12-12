@@ -80,7 +80,7 @@
         if (rescue_str != null && !rescue_str.equals("")) rescue = Integer.parseInt(rescue_str);
         String pet_remarks = request.getParameter("petIntro");
         if (pet_remarks == null) pet_remarks = "";
-        else pet_remarks = new String(pet_remarks.getBytes("iso-8859-1"), "utf-8");
+        else pet_remarks = new String(pet_remarks.replaceAll("\n", "<br>").getBytes("iso-8859-1"), "utf-8");
 
         String sql = "INSERT INTO pet (pet_name,pet_variety,pet_age,pet_gender,rescue,pet_remarks) VALUES ('"
                 + new_pet_name  + "','" + pet_variety + "'," + pet_age + ",'" + pet_gender + "'," + rescue + ",'" + pet_remarks + "');";

@@ -111,7 +111,9 @@
         </nav>
 
         <div class="inner cover">
-            <form class="form-signin" action="group.jsp" method="POST" role="form" data-toggle="validator" novalidate>
+            <form class="form-signin" action=<%="group.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                      + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
+                  method="POST" role="form" data-toggle="validator" novalidate>
                 <h2 class="form-signin-heading">创建一个小组</h2>
                 <div class="form-group has-feedback">
                     <label for="inputGroupName" class="sr-only">小组名称</label>
@@ -122,8 +124,8 @@
                 </div>
                 <div class="form-group has-feedback">
                     <label for="inputGroupIntro" class="sr-only">小组简介</label>
-                    <input type="text" id="inputGroupIntro" class="form-control"
-                           placeholder="简介" name="groupIntro" required autofocus>
+                    <textarea type="text" id="inputGroupIntro" class="form-control" rows="5"
+                              placeholder="简介" name="groupIntro" required autofocus></textarea>
                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     <div class="help-block with-errors">请填写小组简介</div>
                 </div>

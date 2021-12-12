@@ -196,16 +196,23 @@ h6, .h6 {
  */
 
 .blog-header {
+    color: white;
     padding-top: 20px;
     padding-bottom: 20px;
+    text-shadow: 5px 5px 5px #3a3f43;
+}
+.blog-header p {
+    font-size: large;
 }
 .blog-title {
+    color: white;
     margin-top: 30px;
     margin-bottom: 0;
     font-size: 60px;
     font-weight: 400;
 }
 .blog-description {
+    color: white;
     font-size: 20px;
     /*color: #999;*/
 }
