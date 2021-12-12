@@ -49,9 +49,15 @@
 <%
     String phoneNumber = request.getParameter("PHONE_NUMBER");
     String username = request.getParameter("USERNAME");
-    if (PHONE_NUMBER!=null && !PHONE_NUMBER.equals("") && request.getParameter("address")!=null && !submit) {
-        if (request.getParameter("address") != null) {
-            address = new String(request.getParameter("address").getBytes("iso-8859-1"), "utf-8");
+    String add_temp = request.getParameter("address");
+    if (PHONE_NUMBER !=null && !PHONE_NUMBER.equals("") && add_temp !=null && !submit) {
+        if (add_temp != null) {
+            System.out.println("before: " + add_temp);
+            //address = new String(add_temp.getBytes("iso-8859-1"), "utf-8");
+            address = add_temp;
+            System.out.println("after: " + address);
+        } else {
+            address = "";
         }
         birthday = request.getParameter("birthday");
         gender = request.getParameter("gender");
@@ -103,7 +109,7 @@
             submit = true;
         }
     } else {
-        if (request.getParameter("address")==null && request.getParameter("petname")==null)
+        if (add_temp == null && request.getParameter("petname")==null)
             submit = false;
         if (phoneNumber != null) {
             int userId = Integer.parseInt(request.getParameter("USER_ID"));
