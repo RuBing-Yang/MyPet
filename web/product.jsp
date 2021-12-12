@@ -162,7 +162,7 @@
                 <%
                 } else {
                 %>
-                <p><a class="btn btn-lg btn-primary" href=<%= "doctor.jsp?hint=请先登录"%> role="button">查看详情 &raquo;
+                <p><a class="btn btn-lg btn-primary" href=<%= "product.jsp?hint=请先登录"%> role="button">查看详情 &raquo;
                 </a></p>
                 <%
                     }
@@ -186,7 +186,7 @@
                 <%
                 } else {
                 %>
-                <p><a class="btn btn-lg btn-primary" href=<%= "doctor.jsp?hint=请先登录"%> role="button">查看详情 &raquo;
+                <p><a class="btn btn-lg btn-primary" href=<%= "product.jsp?hint=请先登录"%> role="button">查看详情 &raquo;
                 </a></p>
                 <%
                     }
@@ -210,7 +210,7 @@
                 <%
                 } else {
                 %>
-                <p><a class="btn btn-lg btn-primary" href=<%= "doctor.jsp?hint=请先登录"%> role="button">查看详情 &raquo;
+                <p><a class="btn btn-lg btn-primary" href=<%= "product.jsp?hint=请先登录"%> role="button">查看详情 &raquo;
                 </a></p>
                 <%
                     }
