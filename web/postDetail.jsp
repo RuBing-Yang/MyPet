@@ -132,8 +132,8 @@
     if (rs != null) {
         while (rs.next()) {
             System.out.println(rs.getString("reply_context"));
-            replyList.add(new Reply(rs.getInt("reply_id"), rs.getString("reply_date"), rs.getString("reply_context"),
-                    rs.getInt("reply_likes_number"), rs.getInt("reply_person_id")));
+            replyList.add(new Reply(rs.getInt("reply_id"), rs.getString("reply_date"),
+                    rs.getString("reply_context"), rs.getInt("reply_person_id")));
         }
 
     }

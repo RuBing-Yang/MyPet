@@ -4,14 +4,12 @@ public class Reply {
     int replyId;
     String replyDate;
     String replyContext;
-    int replyLikesNum;
     int replyPersonId;
 
-    public Reply(int replyId, String replyDate, String replyContext, int replyLikesNum, int replyPersonId) {
+    public Reply(int replyId, String replyDate, String replyContext, int replyPersonId) {
         this.replyId = replyId;
         this.replyDate = replyDate;
         this.replyContext = replyContext;
-        this.replyLikesNum = replyLikesNum;
         this.replyPersonId = replyPersonId;
     }
 
@@ -25,10 +23,6 @@ public class Reply {
 
     public String getReplyContext() {
         return replyContext;
-    }
-
-    public int getReplyLikesNum() {
-        return replyLikesNum;
     }
 
     public int getReplyPersonId() {
