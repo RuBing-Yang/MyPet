@@ -2,7 +2,7 @@ package Utils;
 
 public class Pet {
     int petId;
-    int petVariety;
+    String petVariety;
     String petName;
     int petAge;
     String petGender;
@@ -10,7 +10,7 @@ public class Pet {
     Person owner = null;
     int rescue;
 
-    public Pet(int petId, int petVariety, String petName, int petAge, String petGender, String petRemarks, int rescue) {
+    public Pet(int petId, String petVariety, String petName, int petAge, String petGender, String petRemarks, int rescue) {
         this.petId = petId;
         this.petVariety = petVariety;
         this.petName = petName;
@@ -38,7 +38,7 @@ public class Pet {
         return petId;
     }
 
-    public int getPetVariety() {
+    public String getPetVariety() {
         return petVariety;
     }
 
@@ -60,5 +60,23 @@ public class Pet {
 
     public boolean needRescue() {
         return (rescue==1);
+    }
+
+    public String variety2Chinese()
+    {
+        switch (petVariety) {
+            case "cat":
+                return "猫";
+            case "dog":
+                return "狗";
+            case "bird":
+                return "鸟类";
+            case "cold":
+                return  "冷血动物";
+            case "other":
+                return "其他";
+            default:
+                return "--";
+        }
     }
 }

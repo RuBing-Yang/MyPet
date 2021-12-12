@@ -67,8 +67,23 @@
         else if (gender.equals("m")) gender = "男";
     } else if (PHONE_NUMBER!=null && !PHONE_NUMBER.equals("") && request.getParameter("petname")!=null && !submit) {
         String new_pet_name = new String(request.getParameter("petname").getBytes("iso-8859-1"), "utf-8");
-        System.out.println("["+ new_pet_name + "]");
-        String sql = "INSERT INTO pet (pet_name) VALUES ('" + new_pet_name + "');";
+        String pet_variety = request.getParameter("petKind");
+        if (pet_variety == null) pet_variety = "";
+        String pet_age_str = request.getParameter("petAge");
+        int pet_age = -1;
+        if (pet_age_str != null && !pet_age_str.equals(""))
+            pet_age = Integer.parseInt(pet_age_str);
+        String pet_gender = request.getParameter("petGender");
+        if (pet_gender == null) pet_gender = "";
+        int rescue = 0;
+        String rescue_str = request.getParameter("needHelp");
+        if (rescue_str != null && !rescue_str.equals("")) rescue = Integer.parseInt(rescue_str);
+        String pet_remarks = request.getParameter("petIntro");
+        if (pet_remarks == null) pet_remarks = "";
+        else pet_remarks = new String(pet_remarks.getBytes("iso-8859-1"), "utf-8");
+
+        String sql = "INSERT INTO pet (pet_name,pet_variety,pet_age,pet_gender,rescue,pet_remarks) VALUES ('"
+                + new_pet_name  + "','" + pet_variety + "'," + pet_age + ",'" + pet_gender + "'," + rescue + ",'" + pet_remarks + "');";
         System.out.println(sql);
         int pet_id = -1;
         if (Database.createDb(sql)) {

@@ -130,15 +130,28 @@
                         <input  name="petAge" type="number" id="inputPetAge"
                                 class="form-control" placeholder="宠物年龄" autofocus>
                         <br>
+                        <label for="inputPetIntro" class="sr-only">宠物简介</label>
+                        <textarea type="text" id="inputPetIntro" class="form-control" rows="2"
+                                  placeholder="简介" name="petIntro" required autofocus></textarea>
+                        <br>
+                        <label for="inputPetKind" class="sr-only">选择宠物种类</label>
+                        <select id="inputPetKind" class="form-control" name="petKind" >
+                            <option value="cat">猫</option>
+                            <option value="dog">狗</option>
+                            <option value="bird">鸟类</option>
+                            <option value="cold">冷血动物</option>
+                            <option value="other">其他</option>
+                        </select>
+                        <br>
                         <label class="radio-inline">
-                            <input type="radio" name="petGender" value="m">公
+                            <input type="radio" name="petGender" value="m"><h4>公</h4>
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="petGender" value="f">母
+                            <input type="radio" name="petGender" value="f"><h4>母</h4>
                         </label>
                         <br><br>
                         <label class="radio-inline">
-                            <input type="checkbox" name="needHelp">&emsp;需要救济
+                            <input type="checkbox" name="needHelp"><h4>需要救济</h4>
                             <%-- request.getParameter("needHelp")选中为'on'，未选中为null --%>
                         </label>
                         <br><br>

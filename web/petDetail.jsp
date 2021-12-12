@@ -65,7 +65,7 @@
         System.out.println(sql);
         ResultSet rs = Database.retrieveDb(sql);
         if (rs.next()) {
-            Pet pet = new Pet(rs.getInt("pet_id"), rs.getInt("pet_variety"), rs.getString("pet_name"),
+            Pet pet = new Pet(rs.getInt("pet_id"), rs.getString("pet_variety"), rs.getString("pet_name"),
                     rs.getInt("pet_age"), rs.getString("pet_gender"), rs.getString("pet_remarks"), rs.getInt("rescue"));
             pet.setOwner(USER_ID, USERNAME);
             petsList.add(pet);
@@ -87,7 +87,7 @@
             System.out.println(sql);
             rs = Database.retrieveDb(sql);
             if (rs.next()) {
-                Pet pet = new Pet(rs.getInt("pet_id"), rs.getInt("pet_variety"), rs.getString("pet_name"),
+                Pet pet = new Pet(rs.getInt("pet_id"), rs.getString("pet_variety"), rs.getString("pet_name"),
                         rs.getInt("pet_age"), rs.getString("pet_gender"), rs.getString("pet_remarks"), rs.getInt("rescue"));
                 pet.setOwner(USER_ID, USERNAME);
                 petsList.add(pet);
@@ -189,9 +189,10 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="row pet_content">种类：<%= petsList.get(i).getPetVariety() %></div>
-                                        <div class="row pet_content">年龄：<%= petsList.get(i).getPetAge() %></div>
-                                        <div class="row pet_content">性别：<%= petsList.get(i).getPetGender() %></div>
+                                        <div class="row pet_content">种类：<%= petsList.get(i).variety2Chinese() %></div>
+                                        <div class="row pet_content">年龄：<%= petsList.get(i).getPetAge()==-1 ? "--" : petsList.get(i).getPetAge()%></div>
+                                        <div class="row pet_content">性别：<%= petsList.get(i).getPetGender()==""  ? "--" :
+                                                (petsList.get(i).getPetGender().equals("m") ? "公" : "母") %></div>
                                         <div class="row pet_content"><%= petsList.get(i).needRescue() ? "需要救助" : "健康" %></div>
                                     </div>
                                 </div>
@@ -229,9 +230,10 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="row pet_content">种类：<%= petsList.get(i).getPetVariety() %></div>
-                                        <div class="row pet_content">年龄：<%= petsList.get(i).getPetAge() %></div>
-                                        <div class="row pet_content">性别：<%= petsList.get(i).getPetGender() %></div>
+                                        <div class="row pet_content">种类：<%= petsList.get(i).variety2Chinese() %></div>
+                                        <div class="row pet_content">年龄：<%= petsList.get(i).getPetAge()==-1 ? "--" : petsList.get(i).getPetAge()%></div>
+                                        <div class="row pet_content">性别：<%= petsList.get(i).getPetGender()==""  ? "--" :
+                                                (petsList.get(i).getPetGender().equals("m") ? "公" : "母") %></div>
                                         <div class="row pet_content"><%= petsList.get(i).needRescue() ? "需要救助" : "健康" %></div>
                                     </div>
                                 </div>
@@ -266,9 +268,10 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="row pet_content">种类：<%= petsList.get(i).getPetVariety() %></div>
-                                        <div class="row pet_content">年龄：<%= petsList.get(i).getPetAge() %></div>
-                                        <div class="row pet_content">性别：<%= petsList.get(i).getPetGender() %></div>
+                                        <div class="row pet_content">种类：<%= petsList.get(i).variety2Chinese() %></div>
+                                        <div class="row pet_content">年龄：<%= petsList.get(i).getPetAge()==-1 ? "--" : petsList.get(i).getPetAge()%></div>
+                                        <div class="row pet_content">性别：<%= petsList.get(i).getPetGender()==""  ? "--" :
+                                                (petsList.get(i).getPetGender().equals("m") ? "公" : "母") %></div>
                                         <div class="row pet_content"><%= petsList.get(i).needRescue() ? "需要救助" : "健康" %></div>
                                     </div>
                                 </div>
@@ -317,9 +320,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="row pet_content">种类：<%= petsList.get(i).getPetVariety() %></div>
-                                                <div class="row pet_content">年龄：<%= petsList.get(i).getPetAge() %></div>
-                                                <div class="row pet_content">性别：<%= petsList.get(i).getPetGender() %></div>
+                                                <div class="row pet_content">种类：<%= petsList.get(i).variety2Chinese() %></div>
+                                                <div class="row pet_content">年龄：<%= petsList.get(i).getPetAge()==-1 ? "--" : petsList.get(i).getPetAge()%></div>
+                                                <div class="row pet_content">性别：<%= (petsList.get(i).getPetGender()==null || petsList.get(i).getPetGender().equals(""))  ? "--" :
+                                                        (petsList.get(i).getPetGender().equals("m") ? "公" : "母") %></div>
                                                 <div class="row pet_content"><%= petsList.get(i).needRescue() ? "需要救助" : "健康" %></div>
                                             </div>
                                         </div>

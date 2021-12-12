@@ -68,7 +68,7 @@
     rescuePetsList.clear();
     if (rs != null) {
         while (rs.next()) {
-            rescuePetsList.add(new Pet(rs.getInt("pet_id"), rs.getInt("pet_variety"), rs.getString("pet_name"),
+            rescuePetsList.add(new Pet(rs.getInt("pet_id"), rs.getString("pet_variety"), rs.getString("pet_name"),
                     rs.getInt("pet_age"), rs.getString("pet_gender"), rs.getString("pet_remarks"), rs.getInt("rescue")));
         }
     }
