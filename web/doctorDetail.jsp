@@ -169,7 +169,7 @@
                         <div class="form-group has-feedback">
                             <label for="inputConsultContext" class="sr-only">咨询内容</label>
                             <textarea type="text" id="inputConsultContext" class="form-control" placeholder="内容"
-                                      name="consult_context" rows="3" required autofocus></textarea>
+                                      name="consult_context" rows="5" required autofocus></textarea>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-lg btn-primary btn-block" type="submit">发送</button>

@@ -51,12 +51,19 @@
     String phoneNumber = request.getParameter("PHONE_NUMBER");
     String username = request.getParameter("USERNAME");
     String pet_id_str = request.getParameter("PET_ID");
+    String post_id_str = request.getParameter("POST_PERSON_ID");
     PET_ID = -1;
     if (phoneNumber != null) {
         int userId = Integer.parseInt(request.getParameter("USER_ID"));
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
         USER_ID = userId;
+    }
+    int search_user_id = -1;
+    if (post_id_str != null && !post_id_str.equals("")) {
+        search_user_id = Integer.parseInt(post_id_str);
+    } else {
+        search_user_id = USER_ID;
     }
     if (pet_id_str != null && !pet_id_str.equals("")) {
         PET_ID = Integer.parseInt(pet_id_str);
@@ -71,10 +78,10 @@
             petsList.add(pet);
         }
     }
-    else if (USER_ID != -1) {
+    else if (search_user_id != -1) {
         petsList.clear();
         ArrayList<Integer> petsIdList = new ArrayList<>();
-        String sql = "SELECT * FROM adopt_present WHERE user_id = " + USER_ID;
+        String sql = "SELECT * FROM adopt_present WHERE user_id = " + search_user_id;
         System.out.println(sql);
         ResultSet rs = Database.retrieveDb(sql);
         if (rs != null) {
@@ -89,7 +96,7 @@
             if (rs.next()) {
                 Pet pet = new Pet(rs.getInt("pet_id"), rs.getString("pet_variety"), rs.getString("pet_name"),
                         rs.getInt("pet_age"), rs.getString("pet_gender"), rs.getString("pet_remarks"), rs.getInt("rescue"));
-                pet.setOwner(USER_ID, USERNAME);
+                pet.setOwner(search_user_id, USERNAME);
                 petsList.add(pet);
             }
         }

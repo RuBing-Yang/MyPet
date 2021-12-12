@@ -74,7 +74,7 @@
             address = rs.getString("address");
             birthday = rs.getString("birthday");
         }
-        sql = "SELECT pet_name FROM pet, adopt_present WHERE pet.pet_id = adopt_present.pet_id AND adopt_present.user_id=" + USER_ID + ";";
+        sql = "SELECT pet_name FROM pet, adopt_present WHERE pet.pet_id = adopt_present.pet_id AND adopt_present.user_id=" + POST_PERSON_ID + ";";
         System.out.println(sql);
         rs = Database.retrieveDb(sql);
         petnames = "";
@@ -82,10 +82,13 @@
             while (rs.next()) {
                 System.out.println("petname: " + rs.getString("pet_name"));
                 if (rs.getString("pet_name").equals("")) continue;
-                if (petnames == null || petnames.equals("")) {
-                    petnames = rs.getString("pet_name");
-                } else {
-                    petnames += ", " + rs.getString("pet_name");
+                if (petnames.length() < 15) {
+                    if (petnames == null || petnames.equals("")) {
+                        petnames = rs.getString("pet_name");
+                    } else {
+                        petnames += ", " + rs.getString("pet_name");
+                    }
+                    if (petnames.length() >= 15) petnames += "等";
                 }
             }
         }
@@ -204,7 +207,8 @@
                                 <%= (petnames==null||petnames.equals("")) ? "--" : petnames %>
                                 &emsp;
                                 <a href=<%="petDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
-                                        + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>>详情&raquo;</a>
+                                        + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID
+                                        + "&POST_PERSON_ID=" + POST_PERSON_ID%>>详情&raquo;</a>
                             </div>
                         </div>
                     </div><!-- /.col-sm-4 -->

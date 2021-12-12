@@ -98,8 +98,7 @@
                 } else {
                     petnames += ", " + new_pet_name;
                 }
-                if (petnames.length() >= 15)
-                    petnames += "等";
+                if (petnames.length() >= 15) petnames += "等";
             }
             submit = true;
         }
@@ -144,8 +143,7 @@
                         } else {
                             petnames += ", " + rs.getString("pet_name");
                         }
-                        if (petnames.length() >= 15)
-                            petnames += "等";
+                        if (petnames.length() >= 15) petnames += "等";
                     }
                 }
             }
