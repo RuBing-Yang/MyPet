@@ -13,7 +13,6 @@
 <%! static String PHONE_NUMBER = "";%>
 <%! static String USERNAME = "";%>
 <%! static int USER_ID = -1;%>
-<%! static Boolean has_submit = false;%>
 <%! int postPetId = -1;%>
 <%! String postTitle = "";%>
 <%! String postContext = "";%>
@@ -66,7 +65,7 @@
     function confirmLogin()
     {
         var id = getQueryVariable("USER_ID");
-        if (id != false && id == -1) {
+        if (id == false || id == -1) {
             if (window.confirm("发帖需要完善资料信息\n请先登录")) {
                 window.location.replace("login.jsp");
             } else {
@@ -97,35 +96,6 @@
                 if (rs.getString("pet_name").equals("")) continue;
                 petIdList.add(rs.getInt("pet_id"));
                 petNameList.add(rs.getString("pet_name"));
-            }
-        }
-    }
-    System.out.println(has_submit);
-    if (!has_submit && request.getParameter("postTitle")!=null) {
-        postTitle = new String((request.getParameter("postTitle")).getBytes("ISO-8859-1"),"UTF-8");
-        postContext = new String((request.getParameter("postContext")).getBytes("ISO-8859-1"),"UTF-8");
-        postPlace = new String((request.getParameter("postPlace")).getBytes("ISO-8859-1"),"UTF-8");
-        postIntro = new String((request.getParameter("postIntro")).getBytes("ISO-8859-1"),"UTF-8");
-        String petInfo = new String((request.getParameter("postPetId")).getBytes("ISO-8859-1"),"UTF-8");
-        String[] pet_info = petInfo.split(" ");
-        System.out.println(postTitle + " " + postContext + " " + postPlace + " " + petInfo);
-        String sql = "";
-        if (postTitle != null && postContext != null && postPlace != null) {
-            if (!postTitle.equals("") && !postContext.equals("") && !postPlace.equals("") && pet_info.length == 2) {
-                postPetId = Integer.parseInt(pet_info[1]);
-
-                sql = "UPDATE adopt_present SET pet_state = 'pre' WHERE user_id = " + USER_ID + " AND pet_id = " + postPetId + ";";
-                System.out.println(sql);
-                Database.updateDb(sql);
-
-                sql = "INSERT INTO post (post_person_id, post_title, post_intro, post_context, post_date, post_place, post_pet_id) VALUES ("
-                        + USER_ID + ",'" + postTitle + "','" + postIntro + "','" + postContext + "', curdate(), '" + postPlace + "', " + postPetId + ");";
-                System.out.println(sql);
-                if (Database.createDb(sql)) {
-                    has_submit = true;
-                } else {
-                    has_submit = false;
-                }
             }
         }
     }
@@ -181,12 +151,10 @@
                 </div>
             </nav>
 
-            <%
-                if (!has_submit) {
-            %>
-
             <div class="inner cover">
-                <form class="form-signin" action="present.jsp" method="POST" role="form" data-toggle="validator" novalidate>
+                <form class="form-signin" action=<%="postDetail.jsp?PHONE_NUMBER=" + PHONE_NUMBER
+                      + "&USERNAME=" + USERNAME + "&USER_ID=" + USER_ID%>
+                        method="POST" role="form" data-toggle="validator" novalidate>
                     <h2>发一个帖子，为您的宠物找一个新家</h2>
                     <div class="form-group has-feedback">
                         <label for="inputPostTitle" class="sr-only">帖子标题</label>
@@ -243,20 +211,6 @@
 
             </div>
 
-            <%
-            }
-            else {
-            %>
-            <div class="inner cover">
-                <h1 class="cover-heading"><%= postTitle%></h1>
-                <p class="lead">
-                    <%= postContext%>
-                </p>
-            </div>
-            <%
-                    // has_submit = false;
-                }
-            %>
 
         </div>
     </div>

@@ -20,6 +20,7 @@
 <%! static ArrayList<Reply> replyList = new ArrayList<>();%>
 <%! static String REPLY_CONTEXT = "";%>
 <%! static boolean isPublisher = false;%>
+<%! static boolean has_submit = false;%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -57,11 +58,41 @@
         PHONE_NUMBER = phoneNumber;
         USERNAME = username;
         USER_ID = userId;
-        POST_ID = Integer.parseInt(post_id);
+        if (post_id != null && !post_id.equals(""))
+            POST_ID = Integer.parseInt(post_id);
     }
 
     String sql;
     ResultSet rs;
+
+
+    if (!has_submit && request.getParameter("postTitle")!=null) {
+        String postTitle = new String((request.getParameter("postTitle")).getBytes("ISO-8859-1"),"UTF-8");
+        String postContext = new String((request.getParameter("postContext")).getBytes("ISO-8859-1"),"UTF-8");
+        String postPlace = new String((request.getParameter("postPlace")).getBytes("ISO-8859-1"),"UTF-8");
+        String postIntro = new String((request.getParameter("postIntro")).getBytes("ISO-8859-1"),"UTF-8");
+        String petInfo = new String((request.getParameter("postPetId")).getBytes("ISO-8859-1"),"UTF-8");
+        String[] pet_info = petInfo.split(" ");
+        System.out.println(postTitle + " " + postContext + " " + postPlace + " " + petInfo);
+        sql = "";
+        if (postTitle != null && postContext != null && postPlace != null) {
+            if (!postTitle.equals("") && !postContext.equals("") && !postPlace.equals("") && pet_info.length == 2) {
+                int postPetId = Integer.parseInt(pet_info[1]);
+
+                sql = "UPDATE adopt_present SET pet_state = 'pre' WHERE user_id = " + USER_ID + " AND pet_id = " + postPetId + ";";
+                System.out.println(sql);
+                Database.updateDb(sql);
+
+                sql = "INSERT INTO post (post_person_id, post_title, post_intro, post_context, post_date, post_place, post_pet_id) VALUES ("
+                        + USER_ID + ",'" + postTitle + "','" + postIntro + "','" + postContext + "', curdate(), '" + postPlace + "', " + postPetId + ");";
+                System.out.println(sql);
+                if (Database.createDb(sql)) {
+                    POST_ID = Database.getId();
+                    has_submit = true;
+                }
+            }
+        }
+    }
 
     sql = "SELECT * FROM post WHERE post_id =" + POST_ID;
     System.out.println(sql);
