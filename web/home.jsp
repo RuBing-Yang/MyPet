@@ -92,10 +92,14 @@
             sql = "INSERT INTO adopt_present (user_id, pet_id, pet_state) VALUES ("
                     + USER_ID + ", " + pet_id + ", 'own');";
             Database.createDb(sql);
-            if (petnames == null || petnames.equals("")) {
-                petnames = new_pet_name;
-            } else {
-                petnames += ", " + new_pet_name;
+            if (petnames.length() < 15) {
+                if (petnames == null || petnames.equals("")) {
+                    petnames = new_pet_name;
+                } else {
+                    petnames += ", " + new_pet_name;
+                }
+                if (petnames.length() >= 15)
+                    petnames += "等";
             }
             submit = true;
         }
@@ -132,10 +136,16 @@
                 while (rs.next()) {
                     System.out.println("petname: " + rs.getString("pet_name"));
                     if (rs.getString("pet_name").equals("")) continue;
-                    if (petnames == null || petnames.equals("")) {
-                        petnames = rs.getString("pet_name");
-                    } else {
-                        petnames += ", " + rs.getString("pet_name");
+
+
+                    if (petnames.length() < 15) {
+                        if (petnames == null || petnames.equals("")) {
+                            petnames = rs.getString("pet_name");
+                        } else {
+                            petnames += ", " + rs.getString("pet_name");
+                        }
+                        if (petnames.length() >= 15)
+                            petnames += "等";
                     }
                 }
             }
